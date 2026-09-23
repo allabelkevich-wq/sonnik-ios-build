@@ -90,11 +90,18 @@
        подвисает на сети/CSP мобильного VK — из-за этого приложение не
        запускалось) и СРАЗУ шлём VKWebAppInit нативным мостам VK, чтобы клиент
        убрал свой чёрный загрузочный экран немедленно. Протокол диспетчеризации
-       сверен с исходником @vkontakte/vk-bridge (dist/index.js). Вне VK —
-       грузим Telegram SDK синхронно (document.write), чтобы window.Telegram.WebApp
+       сверен с исходником @vkontakte/vk-bridge (dist/index.js). В приложении
+       App Store (Capacitor, window.Capacitor — нативный мост, готов раньше
+       любого скрипта страницы) тоже НЕ грузим: вне настоящего Telegram SDK
+       сам выставляет window.Telegram.WebApp.colorScheme='light' заглушкой —
+       это перебивало бы системную тему устройства из шага 4 всегда светлой,
+       независимо от реальной темы айфона. Иначе (веб/Telegram) — грузим
+       Telegram SDK синхронно (document.write), чтобы window.Telegram.WebApp
        был готов до монтирования React. -->
   <script>
     (function () {
+      var isIosApp = false;
+      try { isIosApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform() && window.Capacitor.getPlatform && window.Capacitor.getPlatform() === 'ios'); } catch (e) {}
       if (window.__DW_IS_VK) {
         try {
           var m = 'VKWebAppInit', p = {};
@@ -105,7 +112,7 @@
           else if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === 'function') window.ReactNativeWebView.postMessage(JSON.stringify({ handler: m, params: p }));
           else if (window.parent && window.parent !== window) window.parent.postMessage({ handler: m, params: p, type: 'vk-connect' }, '*');
         } catch (e) {}
-      } else {
+      } else if (!isIosApp) {
         document.write('<scr' + 'ipt src="https://telegram.org/js/telegram-web-app.js"><\/scr' + 'ipt>');
       }
     })();
@@ -113,9 +120,14 @@
 
   <!-- 4. Тема (data-theme) синхронно, до бандла и до брони фона ниже.
        Приоритет: явный выбор юзера (dw_theme) → тема VK из launch-параметра
-       vk_appearance → тема Telegram → тёмная. Чтение vk_appearance убирает
-       flash «стартовал в тёмной → мигнул в светлую» на первом запуске в VK,
-       до прихода VKWebAppUpdateConfig (принимаем только 'light'/'dark'). -->
+       vk_appearance → тема Telegram → системная тема устройства
+       (prefers-color-scheme — актуально для приложения App Store, там нет ни
+       VK, ни Telegram) → тёмная (только если matchMedia недоступен). Раньше
+       вне VK/Telegram тема всегда стартовала тёмной, даже если на айфоне
+       включена светлая (отчёт Аллы: «открыла днём — активировалась тёмная»).
+       Чтение vk_appearance убирает flash «стартовал в тёмной → мигнул в
+       светлую» на первом запуске в VK, до прихода VKWebAppUpdateConfig
+       (принимаем только 'light'/'dark'). -->
   <script>
     (function () {
       try {
@@ -129,7 +141,12 @@
         }
         if (!t) {
           var tg = window.Telegram && window.Telegram.WebApp;
-          t = (tg && (tg.colorScheme === 'light' || tg.colorScheme === 'dark')) ? tg.colorScheme : 'dark';
+          if (tg && (tg.colorScheme === 'light' || tg.colorScheme === 'dark')) t = tg.colorScheme;
+        }
+        if (!t) {
+          try {
+            t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+          } catch (e) { t = 'dark'; }
         }
         document.documentElement.setAttribute('data-theme', t);
       } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }

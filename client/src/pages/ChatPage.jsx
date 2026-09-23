@@ -5,7 +5,7 @@ import {
   ArrowLeftIcon, BookOpenIcon, ChevronRightIcon, CheckCircleIcon,
   ExclamationTriangleIcon, MicrophoneIcon, PaperAirplaneIcon,
 } from '@heroicons/react/24/solid';
-import { getUserId, providerCode, getPlatform, authHeader } from '../platform.js';
+import { getUserId, providerCode, getPlatform, authHeader, ORACLE_CHAT_KEY_PREFIX } from '../platform.js';
 import Paywall from './Paywall.jsx';
 import { formatDayMonth } from '../utils/date.js';
 import RoundButton from '../components/RoundButton.jsx';
@@ -27,12 +27,13 @@ function renderRich(text) {
 // Переписка с оракулом жила только в состоянии React: выход с экрана стирал её,
 // хотя за каждое сообщение списаны Искры (отчёт 7448422). Храним по конкретному
 // сну на устройстве — возврат к тому же сну открывает диалог как оставили.
-const CHAT_KEY_PREFIX = 'dw_oracle_chat_';
+// Префикс — в platform.js (ORACLE_CHAT_KEY_PREFIX): его же чистит удаление
+// аккаунта (ProfilePage.deleteAccount), не читая эту ленивую страницу.
 const CHAT_KEEP = 60; // хвост переписки; больше в localStorage держать незачем
 
 function chatKey(dreamData) {
   const id = dreamData?.dream_id;
-  return id ? `${CHAT_KEY_PREFIX}${id}` : null;
+  return id ? `${ORACLE_CHAT_KEY_PREFIX}${id}` : null;
 }
 
 function loadChat(dreamData) {

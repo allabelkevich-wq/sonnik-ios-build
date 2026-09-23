@@ -11,6 +11,10 @@ const APPLE_SESSION_KEY = 'dw_apple_session';
 const DISPLAY_NAME_KEY = 'dw_display_name';
 // Лунный аватар из профиля (индекс фазы 0..7) — тоже только на устройстве.
 const AVATAR_MOON_KEY = 'dw_avatar_moon';
+// Переписки с оракулом (ChatPage) — по одной на сон, ключ = префикс + dream_id.
+// Экспортируем префикс, чтобы удаление аккаунта (ProfilePage) могло стереть их,
+// не подгружая саму (ленивую) страницу чата.
+export const ORACLE_CHAT_KEY_PREFIX = 'dw_oracle_chat_';
 
 function params() {
   if (typeof window === 'undefined') return new URLSearchParams();
@@ -237,4 +241,18 @@ export function signOutApple() {
   try { localStorage.removeItem(DISPLAY_NAME_KEY); } catch { /* приватный режим */ }
   try { localStorage.removeItem(AVATAR_MOON_KEY); } catch { /* приватный режим */ }
   sessionTokenPromise = null;
+}
+
+/** Стереть переписки с оракулом на устройстве (все сны сразу) — вызывается
+ * при удалении аккаунта на любой платформе: сервер их не хранит (ChatPage),
+ * поэтому без этого текст о снах пережил бы удаление. */
+export function clearAllOracleChats() {
+  try {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(ORACLE_CHAT_KEY_PREFIX)) keys.push(k);
+    }
+    keys.forEach((k) => localStorage.removeItem(k));
+  } catch { /* приватный режим */ }
 }

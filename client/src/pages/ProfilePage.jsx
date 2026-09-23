@@ -9,7 +9,7 @@ import YupSoulPromo from './YupSoulPromo.jsx';
 import Paywall from './Paywall.jsx';
 import {
   getUserId, getPlatform, providerCode, authHeader, signOutApple,
-  getDisplayName, setDisplayName, getAvatarMoon, setAvatarMoon,
+  getDisplayName, setDisplayName, getAvatarMoon, setAvatarMoon, clearAllOracleChats,
 } from '../platform.js';
 import { useTheme } from '../theme/useTheme.js';
 import { useToast } from '../components/Toast.jsx';
@@ -126,7 +126,7 @@ async function searchPlaces(q) {
   }
 }
 
-export default function ProfilePage({ onBack }) {
+export default function ProfilePage({ onBack, onAccountDeletedIos }) {
   const { t, i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const showToast = useToast();
@@ -446,6 +446,9 @@ export default function ProfilePage({ onBack }) {
       // Флаг переживает уход со страницы и перезапуск — при повторном заходе
       // в профиль личность у VK больше не запрашивается.
       try { localStorage.setItem(DELETED_KEY, '1'); } catch { /* приватный режим */ }
+      // Переписки с оракулом сервер не хранит (ChatPage) — без этого текст
+      // о снах пережил бы удаление аккаунта на любой платформе.
+      clearAllOracleChats();
       // В приложении из App Store аккаунт — это вход через Apple: после удаления
       // выходим, и следующий разбор снова попросит войти. Локальное утреннее
       // напоминание (reminders.js) живёт на устройстве отдельно от Apple-сессии —
@@ -455,7 +458,15 @@ export default function ProfilePage({ onBack }) {
       if (platform === 'ios') { signOutApple(); await disableMorningReminder(); }
       setUserData({ first_name: t('common.guest'), photo_200: null });
       setDreams([]); setDreamsCount(0); setNatalChart(null); setSubInfo(null);
-      setTimeout(() => { onBack?.(); }, 1500);
+      // На iOS «аккаунт» = вход через Apple — после удаления сон остался бы
+      // просто гостем (getUserId() снова null), а по логике продукта человек
+      // должен попасть туда же, откуда входит: на экран с кнопкой «Войти через
+      // Apple» (FormPage, гейт getPlatform()==='ios' && !userId). На остальных
+      // платформах экран не привязан к identity — ведём как раньше, «назад».
+      setTimeout(() => {
+        if (platform === 'ios' && onAccountDeletedIos) onAccountDeletedIos();
+        else onBack?.();
+      }, 1500);
     } catch (e) {
       console.error(e);
       showToast(t('profile.delete.error'));

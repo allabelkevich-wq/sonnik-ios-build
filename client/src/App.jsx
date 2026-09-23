@@ -145,11 +145,27 @@ export default function App() {
     if (getPlatform() === 'ios') ensureMorningReminder(i18n.language);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // window.scrollTo сразу после смены страницы иногда не «побеждает»: на iOS
+  // WKWebView может ещё доигрывать смещение вьюпорта под клавиатуру (человек
+  // печатал на предыдущем экране) и переносит его в уже смонтированную новую
+  // страницу — та открывается будто отмотанной вниз (отчёт Аллы, профиль).
+  // Синхронного сброса мало — повторяем после того, как браузер закончит
+  // текущий цикл layout (двойной rAF, закон о layout-зависимой логике).
+  const resetScroll = () => {
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+        document.querySelectorAll('.page-scroll').forEach((el) => { el.scrollTop = 0; });
+      });
+    });
+  };
+
   const navigateTo = (page) => {
     setPageStack((s) => (s[s.length - 1] === page ? s : [...s, page]));
     setPageKey(k => k + 1);
     hideToast?.(); // тост не должен «переезжать» между разделами (репорт Ольги)
-    window.scrollTo(0, 0);
+    resetScroll();
   };
 
   // Назад — только по своему стеку. К истории браузера не обращаемся: вызов
@@ -158,7 +174,18 @@ export default function App() {
   const goBack = () => {
     setPageStack((s) => (s.length > 1 ? s.slice(0, -1) : s));
     setPageKey(k => k + 1);
-    window.scrollTo(0, 0);
+    resetScroll();
+  };
+
+  // На iOS «аккаунт» — это вход через Apple: после удаления (ProfilePage)
+  // человек обязан попасть туда же, откуда входит, — на экран с кнопкой
+  // «Войти через Apple» (FormPage, гейт getPlatform()==='ios' && !userId),
+  // а не остаться гостем на предыдущем экране (отчёт Аллы). Тот же манёвр,
+  // что и после онбординга: сразу в форму, минуя главную.
+  const goToAppleSignIn = () => {
+    setPageStack(['home', 'form']);
+    setPageKey(k => k + 1);
+    resetScroll();
   };
 
   // Одна «страховочная» запись в истории на всё приложение. Свайп-назад
@@ -175,7 +202,7 @@ export default function App() {
       try { window.history.pushState({ dw: 1 }, ''); } catch (_) {}
       setPageStack((s) => (s.length > 1 ? s.slice(0, -1) : s));
       setPageKey(k => k + 1);
-      window.scrollTo(0, 0);
+      resetScroll();
     };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
@@ -256,7 +283,7 @@ export default function App() {
           localStorage.setItem('dw_consent_accepted', '1');
           setPageStack(['home', 'form']);
           setPageKey(k => k + 1);
-          window.scrollTo(0, 0);
+          resetScroll();
         }} />}
         {currentPage === 'home' && <HomePage onAnalyze={() => navigateTo('form')} onProfile={() => navigateTo('profile')} onJournal={() => openJournal()} onHairCalendar={() => navigateTo('hair-calendar')} onLunarDay={() => navigateTo('lunarday')} />}
         {currentPage === 'form' && (
@@ -266,7 +293,7 @@ export default function App() {
             onAnalysis={setLastAnalysis}
           />
         )}
-        {currentPage === 'profile' && <ProfilePage onBack={goBack} />}
+        {currentPage === 'profile' && <ProfilePage onBack={goBack} onAccountDeletedIos={goToAppleSignIn} />}
         {currentPage === 'journal' && (
           <JournalPage
             initialDream={journalDream}

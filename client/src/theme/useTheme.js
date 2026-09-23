@@ -5,7 +5,9 @@
 // Приоритет выбора темы при загрузке:
 //   1. Сохранённый выбор пользователя (localStorage 'dw_theme')
 //   2. Тема Telegram (WebApp.colorScheme: 'light' | 'dark')
-//   3. Тёмная по умолчанию
+//   3. Системная тема устройства (prefers-color-scheme) — актуально для
+//      приложения App Store, где нет ни VK, ни Telegram
+//   4. Тёмная — только если matchMedia недоступен
 //
 // Атрибут выставляется на <html> — так тема доступна ДО отрисовки React
 // (см. сниппет для index.html ниже, чтобы не было «мигания» тёмной темы).
@@ -36,6 +38,14 @@ export function resolveInitialTheme() {
   if (tg && (tg.colorScheme === 'light' || tg.colorScheme === 'dark')) {
     return tg.colorScheme;
   }
+  // Приложение App Store (и веб вне VK/Telegram) — сигнала темы платформы нет,
+  // следуем системной настройке устройства, а не жёстко тёмной (отчёт Аллы:
+  // открыла днём при светлой системной теме — приложение всё равно стартовало тёмным).
+  try {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+  } catch (_) { /* нет matchMedia — тёмная ниже */ }
   return 'dark';
 }
 
@@ -107,6 +117,24 @@ export function useTheme(followTelegram = true) {
       vkBridge.subscribe(onEvent);
     });
     return () => { if (vkBridge && onEvent) vkBridge.unsubscribe(onEvent); };
+  }, [followTelegram]);
+
+  // Синхронизация с системной темой устройства, пока пользователь не выбрал
+  // тему сам. У VK и Telegram свой сигнал (эффекты выше) — matchMedia там не
+  // при чём; актуально для приложения App Store и веба вне VK/Telegram,
+  // где сменить системную тему (день/ночь) можно не перезапуская приложение.
+  useEffect(() => {
+    if (!followTelegram || getPlatform() === 'vk' || window.Telegram?.WebApp) return;
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = (e) => {
+      const userChose = (() => {
+        try { return !!localStorage.getItem(STORAGE_KEY); } catch (_) { return false; }
+      })();
+      if (!userChose) setThemeState(e.matches ? 'dark' : 'light');
+    };
+    mq.addEventListener?.('change', onChange);
+    return () => mq.removeEventListener?.('change', onChange);
   }, [followTelegram]);
 
   const setTheme = useCallback((next) => {
