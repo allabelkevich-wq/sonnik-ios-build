@@ -1,0 +1,335 @@
+/* ============================================================
+   Профиль v3 — стили экрана.
+   Токены только из v3.css (--v3-*): своих переменных экрану не нужно.
+   Глобальное правило `button` в globals.css красит любую кнопку золотом
+   и вешает бегущий блик — каждый класс ниже перебивает фон, тень, ширину
+   и прячет ::after. Никаких :has() — состояния приходят из React.
+   ============================================================ */
+
+/* ---------- Список настроек ---------- */
+.pf-list {
+  border-radius: 20px;
+  border: 1px solid var(--v3-tile-br);
+  background: var(--v3-tile);
+  overflow: hidden;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.pf-sep { height: 1px; background: var(--v3-tile-br); }
+
+.pf-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 16px;
+  min-height: 66px;
+  width: 100%;
+}
+/* Строка-кнопка (часовой пояс, поддержка): сбрасываем глобальную кнопку. */
+button.pf-row {
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--v3-fg);
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+button.pf-row::after { display: none; }
+button.pf-row:active { transform: none; box-shadow: none; }
+button.pf-row:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) {
+  button.pf-row:hover { filter: none; box-shadow: none; }
+}
+
+.pf-ico {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pf-ico--purple { background: var(--v3-chip-p); border: 1px solid var(--v3-chip-p-br); color: var(--v3-purple-txt); }
+.pf-ico--gold { background: var(--v3-chip-g); border: 1px solid var(--v3-chip-g-br); color: var(--v3-gold-txt); }
+.pf-ico--neutral { background: var(--v3-inset); border: 1px solid var(--v3-tile-br); color: var(--v3-fg-3); }
+
+.pf-row__t { font-size: 13.5px; font-weight: 600; color: var(--v3-fg); }
+.pf-row__s { font-size: 11.5px; color: var(--v3-fg-4); margin-top: 2px; line-height: 1.4; }
+
+/* ---------- Сегмент «Ночь / День» ----------
+   Видимая группа — 30px, как в эталоне; кликабельная область кнопки — 44px
+   за счёт вертикальных полей. */
+.pf-seg {
+  width: auto;
+  min-height: 44px;
+  flex-shrink: 0;
+  padding: 7px 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.pf-seg::after { display: none; }
+.pf-seg:active { transform: none; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pf-seg:hover { filter: none; box-shadow: none; }
+}
+.pf-seg__in {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--v3-inset);
+}
+.pf-pill {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--v3-fg-4);
+  background: transparent;
+  transition: background .2s, color .2s;
+}
+.pf-pill--on {
+  color: #1a0800; /* бренд: тёмный текст на золоте в обеих темах */
+  background: linear-gradient(135deg, #f5a623, #c97a10);
+}
+
+/* ---------- Тумблер напоминаний ---------- */
+.pf-switch-btn {
+  width: auto;
+  min-height: 44px;
+  flex-shrink: 0;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.pf-switch-btn::after { display: none; }
+.pf-switch-btn:active { transform: none; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pf-switch-btn:hover { filter: none; box-shadow: none; }
+}
+.pf-switch {
+  width: 46px;
+  height: 28px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  box-sizing: border-box;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+  justify-content: flex-start;
+  transition: background .2s;
+}
+.pf-switch--on {
+  background: linear-gradient(135deg, #f5a623, #c97a10);
+  border-color: transparent;
+  justify-content: flex-end;
+}
+.pf-knob {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: block;
+  background: var(--v3-fg-4);
+  opacity: .7;
+}
+.pf-switch--on .pf-knob { background: #1a0800; opacity: .85; }
+
+/* ---------- Чипы часовых поясов ---------- */
+.pf-tz {
+  width: auto;
+  min-height: 44px;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.pf-tz::after { display: none; }
+.pf-tz:active { transform: none; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pf-tz:hover { filter: none; box-shadow: none; }
+}
+.pf-tz:disabled { cursor: default; opacity: .6; background: none; }
+.pf-tz__in {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: var(--v3-fg-3);
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+}
+.pf-tz__in--on {
+  color: #1a0800;
+  background: linear-gradient(135deg, #f5a623, #c97a10);
+  border-color: transparent;
+}
+
+/* ---------- Вторичная кнопка внутри плитки прогноза ---------- */
+.pf-ghost {
+  height: 44px;
+  width: 100%;
+  border-radius: 999px;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg-2);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.pf-ghost::after { display: none; }
+.pf-ghost:active { transform: translateY(1px); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pf-ghost:hover { filter: brightness(1.06); box-shadow: none; }
+}
+
+/* ---------- Форма рождения ---------- */
+.pf-input {
+  height: 46px;
+  width: 100%;
+  padding: 0 14px;
+  border-radius: 13px;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg);
+  font-size: 14px;
+  font-family: inherit;
+}
+.pf-input:disabled { color: var(--v3-fg-4); opacity: 1; }
+.pf-field__l { font-size: 11px; color: var(--v3-fg-4); margin-bottom: 5px; display: block; }
+
+/* Крестик 28px с хит-зоной 44px. */
+.pf-x {
+  width: 44px;
+  height: 44px;
+  margin: -8px -8px -8px 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+.pf-x::after { display: none; }
+.pf-x:active { transform: scale(.92); box-shadow: none; }
+.pf-x__in {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--v3-inset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--v3-fg-3);
+}
+
+/* «Не помню»: своя рамка вместо системного чекбокса, строка кликается целиком. */
+.pf-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 8px 0;
+  margin: 1px 0 -8px;
+  cursor: pointer;
+}
+.pf-check__i { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.pf-check__box {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+  color: #1a0800;
+}
+.pf-check__box--on { background: linear-gradient(135deg, #f5a623, #c97a10); border-color: transparent; }
+.pf-check__i:focus-visible + .pf-check__box { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+.pf-check__t { font-size: 12.5px; color: var(--v3-fg-3); }
+
+/* Подсказки городов рисуются поверх соседних зон (bug7438512). */
+.pf-suggest {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin-top: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 13px;
+  background: var(--surface-solid);
+  border: 1px solid var(--v3-tile-br);
+}
+.pf-suggest__i {
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--v3-fg);
+  cursor: pointer;
+  border-bottom: 1px solid var(--v3-tile-br);
+}
+
+/* ---------- Реквизиты ---------- */
+.pf-card {
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 13px;
+  border-radius: 13px;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+  box-shadow: none;
+  text-align: left;
+  color: var(--v3-fg);
+  cursor: pointer;
+}
+.pf-card::after { display: none; }
+.pf-card:active { transform: none; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pf-card:hover { filter: brightness(1.06); box-shadow: none; }
+}
+
+/* ---------- Удаление аккаунта ---------- */
+.pf-delete {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 999px;
+  background: var(--v3-danger-bg);
+  border: 1px solid var(--v3-danger-br);
+  color: var(--v3-danger);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.pf-delete::after { display: none; }
+.pf-delete:active { transform: translateY(1px); box-shadow: none; }
+.pf-delete:disabled { opacity: .6; background: var(--v3-danger-bg); color: var(--v3-danger); }
+@media (hover: hover) and (pointer: fine) {
+  .pf-delete:hover { filter: brightness(1.06); box-shadow: none; }
+}

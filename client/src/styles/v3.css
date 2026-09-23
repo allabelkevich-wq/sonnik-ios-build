@@ -1,0 +1,586 @@
+/* ============================================================
+   Лунный сонник — ДИЗАЙН v3: токены и общие элементы
+   Подключать в main.jsx ПОСЛЕ theme.css:
+       import './styles/globals.css';
+       import './styles/theme.css';
+       import './styles/v3.css';
+
+   Переключение темы — как в theme.css: `:root, html[data-theme="dark"]`
+   (тёмная по умолчанию) и `html[data-theme="light"]`. Никаких
+   @media (prefers-color-scheme) — тему ставит атрибут data-theme.
+
+   Префикс --v3-* обязателен: --fg / --success / --danger / --purple-text
+   уже есть в theme.css с другими светлыми значениями, а --card/--tile из
+   макетов пересеклись бы с --h-* главной. Ссылки без префикса в
+   референсах (--fg-3, --chip-p, --card-br…) читать как --v3-fg-3 и т.д.
+
+   Запрещено в этом файле: селектор :has, @container, color-mix() — старые
+   webview Telegram/Android и iOS < 15.4. Правил для body/.section/h1/
+   button без класса здесь нет: theme.css и globals.css не трогаем.
+   ============================================================ */
+
+/* ---------- ТОКЕНЫ: ТЁМНАЯ ТЕМА (по умолчанию) ---------- */
+:root,
+html[data-theme="dark"] {
+  /* Текст. Полупрозрачные ступени считаются от --fg-rgb темы. */
+  --v3-fg: var(--fg);
+  --v3-fg-2: rgba(var(--fg-rgb), .86);
+  --v3-fg-3: rgba(var(--fg-rgb), .58);
+  --v3-fg-4: rgba(var(--fg-rgb), .42);
+
+  /* Золото */
+  --v3-gold: #e8920a;
+  --v3-gold-rgb: 232, 146, 10;
+  --v3-gold-txt: #f0b45c;
+  --v3-gold-label: rgba(232, 146, 10, .66);
+  --v3-gold-dot: rgba(232, 146, 10, .5);
+  --v3-gold-bar: linear-gradient(180deg, rgba(232,146,10,.7), rgba(232,146,10,.15));
+  --v3-gold-wash: linear-gradient(140deg, rgba(232,146,10,.09), rgba(232,146,10,.025) 60%, transparent);
+
+  /* Аметист */
+  --v3-purple: #d8b4fe;
+  --v3-purple-rgb: 147, 51, 234;
+  --v3-purple-txt: #d8b4fe;
+  --v3-chip-p: rgba(147, 51, 234, .16);
+  --v3-chip-p-br: rgba(216, 180, 254, .2);
+
+  /* Золотые чипы */
+  --v3-chip-g: rgba(232, 146, 10, .1);
+  --v3-chip-g-br: rgba(232, 146, 10, .24);
+  --v3-chip-g-lux: linear-gradient(150deg, rgba(232,146,10,.2) 0%, rgba(232,146,10,.09) 100%);
+  --v3-chip-g-lux-br: rgba(232, 146, 10, .42);
+
+  /* Успех */
+  --v3-success: #34d399;
+  --v3-success-rgb: 52, 211, 153;
+  --v3-chip-s: rgba(52, 211, 153, .12);
+  --v3-chip-s-br: rgba(52, 211, 153, .26);
+  --v3-practice: linear-gradient(140deg, rgba(52,211,153,.1), rgba(52,211,153,.03) 65%, transparent);
+
+  /* Опасность / предупреждение */
+  --v3-danger: #f87171;
+  --v3-danger-bg: rgba(248, 113, 113, .06);
+  --v3-danger-br: rgba(248, 113, 113, .24);
+  --v3-danger-chip: rgba(248, 113, 113, .12);
+
+  /* Поверхности */
+  --v3-tile: rgba(255, 255, 255, .05);
+  --v3-tile-br: rgba(255, 255, 255, .11);
+  --v3-inset: rgba(255, 255, 255, .07);
+  --v3-card: linear-gradient(158deg, rgba(38,20,64,.72) 0%, rgba(13,28,26,.86) 52%, rgba(9,22,28,.9) 100%);
+  --v3-card-br: linear-gradient(160deg, rgba(232,146,10,.34), rgba(255,255,255,.05) 50%, rgba(147,51,234,.24));
+  --v3-card-br-violet: linear-gradient(160deg, rgba(147,51,234,.4), rgba(255,255,255,.05) 48%, rgba(232,146,10,.18));
+  --v3-quote: linear-gradient(158deg, rgba(44,22,74,.8) 0%, rgba(15,30,28,.88) 65%, rgba(9,22,28,.9) 100%);
+  --v3-quote-br: linear-gradient(160deg, rgba(147,51,234,.44), rgba(255,255,255,.05) 50%, rgba(232,146,10,.2));
+
+  /* Премиум-поверхности (онбординг v4, пейвол) */
+  --v3-lux-card: linear-gradient(158deg, rgba(18,38,30,.97) 0%, rgba(8,25,21,.98) 52%, rgba(5,17,15,.98) 100%);
+  --v3-lux-card-br: linear-gradient(158deg, #e8920a 0%, rgba(232,146,10,.2) 38%, rgba(52,211,153,.24) 64%, rgba(245,185,105,.8) 100%);
+  --v3-lux-tile: linear-gradient(150deg, rgba(232,146,10,.105) 0%, rgba(232,146,10,.032) 58%, rgba(255,255,255,.014) 100%);
+  --v3-lux-tile-br: rgba(232, 146, 10, .26);
+  --v3-lux-inset: rgba(232, 146, 10, .1);
+  --v3-lux-gold-txt: #f7c778;
+  --v3-lux-gold-label: rgba(247, 199, 120, .88);
+  --v3-lux-icon-off: rgba(247, 199, 120, .7);
+  --v3-lux-shell:
+    radial-gradient(460px 330px at 50% -10%, rgba(232,146,10,.2) 0%, transparent 72%),
+    radial-gradient(520px 400px at 50% 112%, rgba(52,211,153,.08) 0%, transparent 70%),
+    linear-gradient(168deg, #03090a 0%, #071a16 38%, #05120f 72%, #020607 100%);
+  --v3-sheen: rgba(255, 236, 200, .09);
+
+  /* Линии */
+  --v3-hair: linear-gradient(90deg, transparent, rgba(232,146,10,.42) 22%, rgba(232,146,10,.42) 78%, transparent);
+  --v3-rule: linear-gradient(90deg, rgba(232,146,10,.28), rgba(255,255,255,.05) 55%, transparent);
+  --v3-rule-c: linear-gradient(90deg, transparent, rgba(232,146,10,.2) 50%, transparent);
+  --v3-rule-s: linear-gradient(90deg, rgba(52,211,153,.26), rgba(255,255,255,.05) 55%, transparent);
+  --v3-rule-d: linear-gradient(90deg, rgba(248,113,113,.26), rgba(255,255,255,.05) 55%, transparent);
+  --v3-purple-line: linear-gradient(90deg, transparent, rgba(216,180,254,.5));
+  --v3-purple-line2: linear-gradient(90deg, rgba(216,180,254,.5), transparent);
+
+  /* Смысловые заливки блоков */
+  --v3-upsell: linear-gradient(135deg, rgba(232,146,10,.14), rgba(147,51,234,.06));
+  --v3-closing: linear-gradient(135deg, rgba(232,146,10,.12), rgba(147,51,234,.06));
+
+  /* Луна */
+  --v3-moon-dark: #141c24;
+  --v3-moon-ring: rgba(255, 214, 150, .30);
+  --v3-moon-lit: #f0b45c;
+  /* Кромка освещённого края и сила морей — разные в темах: в светлой белёсый
+     лимб растворял диск в фоне, а моря читались грязью. */
+  --v3-moon-limb: #fff1d2;
+  --v3-moon-sea: .13;
+  --v3-moon-glow: drop-shadow(0 0 26px rgba(232, 146, 10, .26));
+
+  /* Служебное */
+  --v3-skeleton: rgba(255, 255, 255, .08);
+  --v3-sheet: rgba(24, 34, 32, .97);
+  --v3-toast: rgba(24, 34, 32, .96);
+  --v3-sel: rgba(232, 146, 10, .14);
+  --v3-sel-br: rgba(232, 146, 10, .42);
+  --v3-btn-gold-shadow:
+    0 0 34px rgba(232, 146, 10, .34),
+    0 8px 22px rgba(232, 146, 10, .2),
+    inset 0 1px 0 rgba(255, 255, 255, .42);
+}
+
+/* ---------- ТОКЕНЫ: СВЕТЛАЯ ТЕМА ---------- */
+html[data-theme="light"] {
+  /* Основной текст остаётся проектным #140d20 (theme.css затемнил его с
+     #2e2440 ради WCAG AA), альфы ступеней — из макетов. */
+  --v3-fg: var(--fg);
+  --v3-fg-2: rgba(var(--fg-rgb), .9);
+  --v3-fg-3: rgba(var(--fg-rgb), .74);
+  --v3-fg-4: rgba(var(--fg-rgb), .72);
+
+  --v3-gold: #9a7220;
+  --v3-gold-rgb: 154, 114, 32;
+  --v3-gold-txt: #7a5a12;
+  --v3-gold-label: #7a5a12;
+  --v3-gold-dot: rgba(154, 114, 32, .55);
+  --v3-gold-bar: linear-gradient(180deg, rgba(154,114,32,.75), rgba(154,114,32,.2));
+  --v3-gold-wash: linear-gradient(140deg, rgba(255,253,247,.96), rgba(252,246,234,.86));
+
+  --v3-purple: #7c3aed;
+  --v3-purple-rgb: 124, 58, 237;
+  --v3-purple-txt: #6d28d9;
+  --v3-chip-p: rgba(124, 58, 237, .09);
+  --v3-chip-p-br: rgba(124, 58, 237, .22);
+
+  --v3-chip-g: rgba(184, 121, 26, .1);
+  --v3-chip-g-br: rgba(154, 114, 32, .26);
+  --v3-chip-g-lux: linear-gradient(150deg, rgba(232,146,10,.22) 0%, rgba(232,146,10,.1) 100%);
+  --v3-chip-g-lux-br: rgba(154, 114, 32, .46);
+
+  --v3-success: #177f46;
+  --v3-success-rgb: 23, 127, 70;
+  --v3-chip-s: rgba(23, 127, 70, .09);
+  --v3-chip-s-br: rgba(23, 127, 70, .26);
+  --v3-practice: linear-gradient(140deg, rgba(23,127,70,.1), rgba(23,127,70,.03) 65%, transparent);
+
+  --v3-danger: #b3283e;
+  --v3-danger-bg: rgba(179, 40, 62, .05);
+  --v3-danger-br: rgba(179, 40, 62, .24);
+  --v3-danger-chip: rgba(179, 40, 62, .1);
+
+  --v3-tile: rgba(255, 253, 247, .9);
+  --v3-tile-br: rgba(154, 114, 32, .18);
+  --v3-inset: rgba(46, 36, 64, .07);
+  --v3-card: linear-gradient(158deg, rgba(255,251,240,.97) 0%, rgba(255,253,247,.98) 55%, rgba(250,244,232,.98) 100%);
+  --v3-card-br: linear-gradient(160deg, rgba(154,114,32,.32), rgba(46,36,64,.06) 50%, rgba(124,58,237,.24));
+  --v3-card-br-violet: linear-gradient(160deg, rgba(124,58,237,.28), rgba(46,36,64,.06) 48%, rgba(154,114,32,.2));
+  --v3-quote: linear-gradient(158deg, rgba(248,244,255,.97) 0%, rgba(255,253,247,.98) 65%, rgba(252,248,238,.98) 100%);
+  --v3-quote-br: linear-gradient(160deg, rgba(124,58,237,.3), rgba(46,36,64,.06) 50%, rgba(154,114,32,.22));
+
+  --v3-lux-card: linear-gradient(158deg, #fffdf6 0%, #fdf8ea 55%, #f7f0dd 100%);
+  --v3-lux-card-br: linear-gradient(158deg, #c9911d 0%, rgba(154,114,32,.28) 38%, rgba(23,127,70,.22) 64%, #b8891e 100%);
+  --v3-lux-tile: linear-gradient(150deg, #fffdf5 0%, #faf3e2 100%);
+  --v3-lux-tile-br: rgba(154, 114, 32, .34);
+  --v3-lux-inset: rgba(154, 114, 32, .11);
+  --v3-lux-gold-txt: #7a5a12;
+  --v3-lux-gold-label: #7a5a12;
+  --v3-lux-icon-off: rgba(122, 90, 18, .75);
+  --v3-lux-shell:
+    radial-gradient(460px 330px at 50% -10%, rgba(232,146,10,.2) 0%, transparent 72%),
+    linear-gradient(163deg, #fbf7ec 0%, #f2e9d6 46%, #e9dec6 100%);
+  --v3-sheen: rgba(255, 255, 255, .75);
+
+  --v3-hair: linear-gradient(90deg, transparent, rgba(154,114,32,.5) 22%, rgba(154,114,32,.5) 78%, transparent);
+  --v3-rule: linear-gradient(90deg, rgba(154,114,32,.3), rgba(46,36,64,.08) 55%, transparent);
+  --v3-rule-c: linear-gradient(90deg, transparent, rgba(154,114,32,.26) 50%, transparent);
+  --v3-rule-s: linear-gradient(90deg, rgba(23,127,70,.3), rgba(46,36,64,.08) 55%, transparent);
+  --v3-rule-d: linear-gradient(90deg, rgba(179,40,62,.28), rgba(46,36,64,.08) 55%, transparent);
+  --v3-purple-line: linear-gradient(90deg, transparent, rgba(124,58,237,.4));
+  --v3-purple-line2: linear-gradient(90deg, rgba(124,58,237,.4), transparent);
+
+  --v3-upsell: linear-gradient(135deg, rgba(184,121,26,.14), rgba(124,58,237,.06));
+  --v3-closing: linear-gradient(135deg, rgba(184,121,26,.13), rgba(124,58,237,.06));
+
+  --v3-moon-dark: #d9c9a8;
+  --v3-moon-ring: rgba(122, 88, 24, .50);
+  --v3-moon-lit: #e09a12;
+  --v3-moon-limb: #f2b02a;
+  --v3-moon-sea: .07;
+  --v3-moon-glow: drop-shadow(0 8px 20px rgba(154, 114, 32, .24));
+
+  --v3-skeleton: rgba(46, 36, 64, .09);
+  --v3-sheet: rgba(255, 253, 247, .98);
+  --v3-toast: rgba(255, 253, 247, .98);
+  --v3-sel: rgba(184, 121, 26, .14);
+  --v3-sel-br: rgba(154, 114, 32, .4);
+  --v3-btn-gold-shadow:
+    0 10px 28px rgba(201, 122, 16, .34),
+    0 2px 8px rgba(120, 64, 0, .18),
+    inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+
+/* ============================================================
+   ОБЩИЕ ЭЛЕМЕНТЫ
+   Держим в классах, а не инлайном: :active/:hover/:focus-visible/
+   :disabled и ::after инлайном не выразить, а глобальное правило
+   `button` из globals.css иначе протекает золотым градиентом во
+   все кнопки — каждый не-золотой класс перебивает его явно.
+   ============================================================ */
+
+/* ---------- Золотая кнопка (одна на экран) ---------- */
+.v3-btn-gold {
+  height: 56px;
+  padding: 0 22px;
+  border-radius: 999px;
+  width: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  color: #1a0800; /* бренд: тёмный текст на золоте в обеих темах */
+  background: linear-gradient(135deg, #ffc76b 0%, #f5a623 32%, #e8920a 62%, #c97a10 100%);
+  box-shadow: var(--v3-btn-gold-shadow);
+}
+.v3-btn-gold::after {
+  width: 48%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .34), transparent);
+  transform: skewX(-18deg);
+  animation: v3Sweep 4.2s ease-in-out infinite;
+}
+.v3-btn-gold__icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(26, 8, 0, .13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+/* :hover/:active/:disabled наследуются от globals.css button — там же
+   у disabled уже перекрашен фон и спрятан ::after. */
+
+/* ---------- Вторичная пилюля ---------- */
+.v3-pill {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: none;
+  cursor: pointer;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.v3-pill::after { display: none; }
+.v3-pill--sm { height: 44px; font-size: 13px; }
+.v3-pill--lg { height: 50px; font-size: 14px; }
+.v3-pill--neutral {
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg-2);
+}
+.v3-pill--violet {
+  background: var(--v3-chip-p);
+  border: 1px solid var(--v3-chip-p-br);
+  color: var(--v3-purple-txt);
+}
+.v3-pill--gold {
+  background: var(--v3-chip-g);
+  border: 1px solid var(--v3-chip-g-br);
+  color: var(--v3-gold-txt);
+}
+.v3-pill:active { transform: translateY(1px); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .v3-pill:hover { filter: brightness(1.06); box-shadow: none; }
+}
+.v3-pill:disabled {
+  opacity: .45;
+  background: var(--v3-tile);
+  color: var(--v3-fg-3);
+}
+
+/* ---------- Карточка с градиентной кромкой ---------- */
+.v3-card {
+  padding: 1px;
+  border-radius: 22px;
+  background: var(--v3-card-br);
+}
+.v3-card > .v3-card__in {
+  border-radius: 21px;
+  background: var(--v3-card);
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.v3-card--violet { background: var(--v3-card-br-violet); }
+.v3-card--quote { background: var(--v3-quote-br); }
+.v3-card--quote > .v3-card__in { background: var(--v3-quote); }
+.v3-card--lux { background: var(--v3-lux-card-br); }
+.v3-card--lux > .v3-card__in { background: var(--v3-lux-card); }
+.v3-card--sheen > .v3-card__in { box-shadow: inset 0 1px 0 var(--v3-sheen); }
+
+/* ---------- Плитка (плоская поверхность без кромки) ---------- */
+.v3-tile {
+  border-radius: 20px;
+  border: 1px solid var(--v3-tile-br);
+  background: var(--v3-tile);
+  color: inherit;
+  text-align: left;
+  box-shadow: none;
+  width: 100%;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+button.v3-tile::after { display: none; }
+button.v3-tile:active { transform: none; filter: brightness(1.08); }
+/* Вставка внутри карточки: рядом с ней страницы ставят padding 11px 13px и radius 12 */
+.v3-tile--inset { background: var(--v3-inset); border-color: transparent; }
+
+/* ---------- Подпись зоны ---------- */
+.v3-label { display: flex; align-items: center; gap: 9px; }
+.v3-label__t {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--v3-gold-label);
+}
+.v3-label__line { flex: 1; height: 1px; background: var(--v3-rule); }
+.v3-label__r { font-size: 10.5px; color: var(--v3-fg-4); }
+.v3-label--success .v3-label__t { color: var(--v3-success); }
+.v3-label--success .v3-label__line { background: var(--v3-rule-s); }
+.v3-label--danger .v3-label__t { color: var(--v3-danger); }
+.v3-label--danger .v3-label__line { background: var(--v3-rule-d); }
+
+/* ---------- Чип ---------- */
+.v3-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.v3-chip--icon { padding-left: 8px; }
+.v3-chip--sm { padding: 3px 9px; font-weight: 500; }
+.v3-chip--violet {
+  background: var(--v3-chip-p);
+  border-color: var(--v3-chip-p-br);
+  color: var(--v3-purple-txt);
+}
+.v3-chip--gold {
+  background: var(--v3-chip-g);
+  border-color: var(--v3-chip-g-br);
+  color: var(--v3-gold-txt);
+}
+.v3-chip--success {
+  background: var(--v3-chip-s);
+  border-color: var(--v3-chip-s-br);
+  color: var(--v3-success);
+}
+.v3-chip--danger {
+  background: var(--v3-danger-chip);
+  border-color: var(--v3-danger-br);
+  color: var(--v3-danger);
+}
+.v3-chip--neutral {
+  background: var(--v3-inset);
+  border-color: var(--v3-tile-br);
+  color: var(--v3-fg-3);
+}
+
+/* ---------- Луна ---------- */
+.v3-moon { display: block; overflow: visible; flex-shrink: 0; }
+.v3-moon--glow { filter: var(--v3-moon-glow); }
+
+/* ---------- Разделитель-созвездие ---------- */
+.v3-const { display: flex; align-items: center; gap: 9px; }
+.v3-const__line { flex: 1; height: 1px; background: var(--v3-rule-c); }
+.v3-const__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--v3-gold-dot); }
+.v3-const__dot--c { width: 4px; height: 4px; background: var(--v3-gold-txt); }
+.v3-const--twinkle .v3-const__dot:first-of-type { animation: v3Twinkle 3.4s ease-in-out infinite; }
+.v3-const--twinkle .v3-const__dot:last-of-type { animation: v3Twinkle 3.4s ease-in-out 1.2s infinite; }
+
+/* ---------- Скелетон ---------- */
+/* Не путать с globals .skeleton (шиммер) — тот не трогаем. */
+.v3-skel {
+  display: block;
+  background: var(--v3-skeleton);
+  border-radius: 6px;
+  animation: v3Pulse 1.4s ease-in-out infinite;
+}
+
+/* ---------- Раскрывающаяся секция ---------- */
+.v3-disc {
+  border-radius: 18px;
+  border: 1px solid var(--v3-tile-br);
+  background: var(--v3-tile);
+  overflow: hidden;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.v3-disc--danger { border-color: var(--v3-danger-br); background: var(--v3-danger-bg); }
+.v3-disc__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 15px;
+  min-height: 44px;
+  width: 100%;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: inherit;
+  text-align: left;
+  border-radius: 0;
+  cursor: pointer;
+}
+.v3-disc__head::after { display: none; }
+.v3-disc__head:active { transform: none; }
+.v3-disc__ico {
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--v3-chip-g);
+  border: 1px solid var(--v3-chip-g-br);
+  color: var(--v3-gold-txt);
+}
+.v3-disc--violet .v3-disc__ico {
+  background: var(--v3-chip-p);
+  border-color: var(--v3-chip-p-br);
+  color: var(--v3-purple-txt);
+}
+.v3-disc--danger .v3-disc__ico {
+  background: var(--v3-danger-chip);
+  border-color: var(--v3-danger-br);
+  color: var(--v3-danger);
+}
+.v3-disc--success .v3-disc__ico {
+  background: var(--v3-chip-s);
+  border-color: var(--v3-chip-s-br);
+  color: var(--v3-success);
+}
+.v3-disc__t { font-size: 13.5px; font-weight: 600; color: var(--v3-fg-2); }
+.v3-disc__s { font-size: 11.5px; color: var(--v3-fg-4); margin-top: 2px; }
+.v3-disc__chev {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--v3-fg-4);
+  transition: transform .22s cubic-bezier(.4, 0, .2, 1);
+}
+.v3-disc--open .v3-disc__chev { transform: rotate(180deg); }
+/* Тело монтируется только при open — никаких max-height-анимаций. */
+.v3-disc__body { padding: 0 15px 15px; display: flex; flex-direction: column; gap: 9px; }
+
+/* ---------- Круглая иконка-кнопка 44px ---------- */
+.v3-round {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg-2);
+  box-shadow: none;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.v3-round::after { display: none; }
+.v3-round:active { transform: scale(.9); box-shadow: none; }
+.v3-round:disabled {
+  opacity: .35;
+  background: var(--v3-tile);
+  color: var(--v3-fg-2);
+  cursor: not-allowed;
+}
+.v3-round:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .v3-round:hover { filter: brightness(1.1); box-shadow: none; }
+}
+
+/* ============================================================
+   УТИЛИТЫ ЭКРАНА
+   ============================================================ */
+
+.v3-screen {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 18px calc(env(safe-area-inset-bottom, 0px) + 30px);
+}
+
+/* Обязателен любому экрану БЕЗ <header>/PageHeader: плавающие кнопки VK
+   («ещё» и «закрыть») на iPhone 390×844 кончаются на 78pt, инсет 47 + 40 даёт 9pt
+   воздуха (грабли 01.09). Экраны с шапкой отступ получают от правила
+   `header` в globals.css. */
+/* Запас сверху. В VK поверх контента висят плавающие кнопки клиента («⋯ ✕») и
+   заканчиваются на 78-й точке — под них нужен воздух. В Telegram и в вебе нет ни
+   их, ни чёлки, и те же 40px читались как пустая полоса над шапкой (скриншот
+   Аллы, десктопный Telegram, 04.09). Класс is-vk ставит index.html до бандла. */
+:root { --v3-top: calc(env(safe-area-inset-top, 0px) + 12px); }
+html.is-vk { --v3-top: calc(env(safe-area-inset-top, 0px) + 40px); }
+
+.v3-safe-top { padding-top: var(--v3-top); }
+
+.v3-h1 {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  background: linear-gradient(94deg, var(--v3-fg) 14%, var(--v3-gold-txt) 118%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--v3-fg);
+}
+.v3-h1--lux { font-size: 33px; letter-spacing: -.035em; }
+
+.v3-num {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--v3-gold-txt);
+}
+
+.v3-rise { animation: v3Rise .5s cubic-bezier(.16, 1, .3, 1) both; }
+
+/* ============================================================
+   АНИМАЦИИ (префикс v3 — чтобы не пересекаться с globals/theme)
+   ============================================================ */
+@keyframes v3Sweep { 0% { left: -60%; } 45% { left: 130%; } 100% { left: 130%; } }
+@keyframes v3Twinkle { 0%, 100% { opacity: .25; } 50% { opacity: .85; } }
+@keyframes v3Pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+@keyframes v3Rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes v3Pop { 0% { transform: scale(.8); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes v3Spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-rise { animation: none; }
+  .v3-btn-gold::after { display: none; }
+  .v3-const__dot { animation: none !important; }
+  .v3-skel { animation: none; }
+}

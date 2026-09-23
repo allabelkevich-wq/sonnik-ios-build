@@ -1,0 +1,145 @@
+/* Дневник снов v3 — стили, которые инлайном не выразить:
+   :active/:focus-visible, ::placeholder, скрытый скроллбар строки фильтров
+   и подавление глобального золотого блика `button::after` (globals.css:128).
+   Цвета — только токены v3.css, своих переменных экрану не понадобилось. */
+
+/* ---------- Строка фильтров ---------- */
+/* padding 5px сверху/снизу: чип 34px, полоса ряда — 44px. Сама кнопка при этом
+   оставалась 34px под пальцем, поэтому зону касания растягивает ::before —
+   вид эталонный, попадание 44px. */
+.j-filters {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 5px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.j-filters::-webkit-scrollbar { display: none; }
+
+.j-filter {
+  flex-shrink: 0;
+  height: 34px;
+  padding: 0 14px;
+  width: auto;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: none;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg-3);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.j-filter { position: relative; }
+.j-filter::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -5px;
+  bottom: -5px;
+}
+.j-filter::after { display: none; }
+.j-filter:active { transform: none; box-shadow: none; filter: brightness(1.08); }
+.j-filter--on {
+  color: #1a0800; /* бренд: тёмный текст на золоте в обеих темах */
+  background: linear-gradient(135deg, #f5a623, #c97a10);
+  border-color: transparent;
+}
+
+/* ---------- Поле поиска ---------- */
+.j-search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 14px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+}
+.j-search__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--v3-fg);
+}
+.j-search__input::placeholder { color: rgba(var(--fg-rgb), .5); }
+
+/* Крестик: видимый круг 22px, хит-таргет 44px (отрицательный margin гасит
+   лишнюю ширину, чтобы пилюля не растягивалась). */
+.j-clear {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  margin-right: -11px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.j-clear::after { display: none; }
+.j-clear:active { transform: none; box-shadow: none; }
+.j-clear__in {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--v3-inset);
+  color: var(--v3-fg-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Шторка детали ---------- */
+.j-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--overlay);
+  display: flex;
+  align-items: flex-end;
+}
+.j-sheet {
+  width: 100%;
+  max-height: 78%;
+  overflow-y: auto;
+  border-radius: 26px 26px 0 0;
+  background: var(--v3-sheet);
+  border-top: 1px solid var(--v3-tile-br);
+  padding: 18px 20px calc(env(safe-area-inset-bottom, 0px) + 26px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.j-sheet__handle {
+  width: 38px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--v3-tile-br);
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+.j-sheet__label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--v3-fg-4);
+  margin-bottom: 6px;
+}
+.j-sheet__label--gold { color: var(--v3-gold-label); }

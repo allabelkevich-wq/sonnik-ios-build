@@ -1,0 +1,82 @@
+/* ============================================================
+   Экран «Лунный день» — только то, чего не выражает инлайн-стиль:
+   сброс глобального `button` (золотой фон + бегущий блик ::after),
+   :active и hover под мышью. Цвета — токены --v3-* из v3.css,
+   своих переменных экрану не понадобилось.
+   ============================================================ */
+
+.ld-root {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  /* Экран без <header>: safe-area + 40px, иначе кнопка календаря справа
+     уходит под плавающие «⋯ ✕» VK на iPhone (замер 01.09). */
+  padding: var(--v3-top) 0 26px;
+}
+
+/* ---------- Общий сброс кнопок экрана ---------- */
+.ld-btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  width: auto;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ld-btn::after { display: none; }
+.ld-btn:active { transform: none; box-shadow: none; }
+.ld-btn:disabled { background: none; cursor: not-allowed; }
+.ld-btn:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+
+/* ---------- Стрелки месяца в пикере ---------- */
+/* Хит-таргет 44×44, видимый круг 32 — отрицательные поля не дают ряду вырасти. */
+.ld-mbtn {
+  width: 44px;
+  height: 44px;
+  margin: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  flex-shrink: 0;
+  color: var(--v3-fg-3);
+}
+.ld-mbtn:disabled { opacity: .3; color: var(--v3-fg-3); }
+
+/* ---------- Ячейка месячной сетки ---------- */
+.ld-cell {
+  height: 34px;
+  width: 100%;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  border: 1px solid transparent;
+}
+.ld-cell:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ---------- Ячейка ленты недели ---------- */
+.ld-day {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 2px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Базовое правило button:hover в globals вешает золотое свечение — снимаем. */
+  .ld-btn:hover { box-shadow: none; filter: none; }
+  .ld-cell:not(:disabled):hover,
+  .ld-day:hover,
+  .ld-mbtn:not(:disabled):hover { filter: brightness(1.12); }
+}

@@ -1,0 +1,1088 @@
+{
+  "consent": {
+    "byStarting": "By tapping “Start decoding” you accept the",
+    "termsLink": "offer",
+    "termsLinkIos": "terms of use",
+    "and": "and",
+    "privacyLink": "privacy policy",
+    "ageShort": "16+"
+  },
+  "paywall": {
+    "titles": {
+      "dreams": "Read every dream in full",
+      "change": "See the work through",
+      "beauty": "A calendar for your chart",
+      "sleep": "Mornings where dreams aren't lost"
+    },
+    "subs": {
+      "dreams": "You chose to understand your dreams. Premium removes the limit and adds the journal, monthly summary and the Oracle.",
+      "change": "You chose to break out of repeating patterns. Premium unlocks full rituals and pattern tracking.",
+      "beauty": "You chose to live in rhythm with the Moon. Premium recalculates the beauty calendar for your natal Moon.",
+      "sleep": "You chose to fix your sleep and mornings. Premium adds reminders, the journal and unlimited readings."
+    },
+    "perks": {
+      "dreams": [
+        {
+          "title": "Unlimited readings",
+          "text": "Three are free now. With Premium — as many as you dream."
+        },
+        {
+          "title": "Journal and monthly summary",
+          "text": "Recurring symbols and themes of the lunar month in one reading."
+        },
+        {
+          "title": "Dream Oracle",
+          "text": "Ask follow-up questions — it remembers both the dream and the context."
+        },
+        {
+          "title": "Personal calculation",
+          "text": "Every reading through your natal chart, not a generic template."
+        }
+      ],
+      "change": [
+        {
+          "title": "Rewiring rituals",
+          "text": "The full version: acknowledge, accept, transform — for every dream."
+        },
+        {
+          "title": "Pattern tracking",
+          "text": "See which patterns repeat and when they start to fade."
+        },
+        {
+          "title": "Monthly summary",
+          "text": "The lunar month's key transformation and what to do next month."
+        },
+        {
+          "title": "Dream Oracle",
+          "text": "Explore a pattern deeper in conversation."
+        }
+      ],
+      "beauty": [
+        {
+          "title": "A calendar for your chart",
+          "text": "Cutting and coloring by your natal Moon, not a generic calendar."
+        },
+        {
+          "title": "Personal calculation",
+          "text": "Dream readings through your natal chart."
+        },
+        {
+          "title": "Monthly summary",
+          "text": "Recurring symbols and themes of the lunar month in one reading."
+        },
+        {
+          "title": "Unlimited readings",
+          "text": "And the full dream journal on top."
+        }
+      ],
+      "sleep": [
+        {
+          "title": "Morning reminders",
+          "text": "At 8:00 your time — while the dream is still fresh."
+        },
+        {
+          "title": "Unlimited readings",
+          "text": "Three are free now — with Premium, as many as you dream."
+        },
+        {
+          "title": "Journal and summary",
+          "text": "See how your dreams change with the lunar day and your routine."
+        },
+        {
+          "title": "Personal calculation",
+          "text": "Readings through your natal chart."
+        }
+      ]
+    },
+    "outcomesTitle": "One lunar month from now",
+    "outcomes": {
+      "dreams": [
+        {
+          "from": "You wake up and forget",
+          "to": "A journal of 10–15 dreams"
+        },
+        {
+          "from": "Dreams seem random",
+          "to": "You see recurring symbols"
+        },
+        {
+          "from": "No one to discuss with",
+          "to": "The Oracle remembers every dream"
+        }
+      ],
+      "change": [
+        {
+          "from": "The same scenario again",
+          "to": "2–3 patterns named"
+        },
+        {
+          "from": "“What does it mean?”",
+          "to": "A ritual for every dream"
+        },
+        {
+          "from": "Nothing changes",
+          "to": "The monthly summary shows the shift"
+        }
+      ],
+      "beauty": [
+        {
+          "from": "Haircuts at random",
+          "to": "Your own windows 14 days ahead"
+        },
+        {
+          "from": "Coloring “whenever”",
+          "to": "The best day for color — in advance"
+        },
+        {
+          "from": "Generic tips from the internet",
+          "to": "A calculation by your natal Moon"
+        }
+      ],
+      "sleep": [
+        {
+          "from": "The dream melts in 10 minutes",
+          "to": "Written down right after the alarm"
+        },
+        {
+          "from": "Chaotic mornings",
+          "to": "A three-step ritual"
+        },
+        {
+          "from": "I can't recall what I dreamed",
+          "to": "A journal of 10–15 dreams"
+        }
+      ]
+    },
+    "plans": {
+      "yearSub": "{{stars}} ⭐ once · save 45%",
+      "yearBadge": "Most popular",
+      "monthSub": "No auto-charges — renews manually",
+      "perMonth": "per month",
+      "stars": "{{n}} ⭐"
+    },
+    "ctaOpen": "Unlock Premium",
+    "continueFree": "Continue for free",
+    "terms": "Terms of Use",
+    "plansError": "Couldn't load plans. Check your connection.",
+    "reasonAnalyses": "Your free analyses have run out. Unlock this dream once, or upgrade to Premium for unlimited access.",
+    "reasonOracle": "Your free Oracle messages for this month have run out. Upgrade to Premium for unlimited access.",
+    "reasonMonthly": "Monthly Summary is available with full access. Get access to receive the full month's analysis.",
+    "reasonAnalysesVk": "Your free analyses have run out. Continue with Sparks.",
+    "reasonOracleVk": "Your free Oracle messages have run out. Continue with Sparks.",
+    "reasonMonthlyVk": "Your free Monthly Summary trial is used. Continue with Sparks.",
+    "defaultReason": "Unlock all features of the dream oracle without limits",
+    "defaultReasonVk": "Sparks unlock dream analyses, the Oracle and Monthly Summary",
+    "errorNoIdentity": "Couldn't identify your profile. Please reopen the app.",
+    "errorIskryOrder": "Couldn't open the payment window. Please try again.",
+    "catalogLoading": "Loading Spark packs…",
+    "catalogError": "Couldn't load Spark packs. Check your connection.",
+    "retry": "Retry",
+    "title": "Premium access",
+    "benefits": [
+      "Unlimited dream analyses",
+      "Unlimited dream oracle",
+      "Personal forecast by birth date",
+      "Lunar month summary",
+      "Haircut & color calendar"
+    ],
+    "planMonth": "Month",
+    "planMonthPeriod": "/mo",
+    "planYear": "Year",
+    "planYearPeriod": "/yr",
+    "planYearBadge": "−45%",
+    "errorPayTelegramOnly": "Payment is only available in Telegram",
+    "errorGeneric": "Error",
+    "errorPaymentFailed": "Payment failed. Please try again.",
+    "errorCreateInvoice": "Could not create invoice",
+    "errorPayCardUnavailable": "Card payment unavailable — reopen the dream oracle",
+    "errorCreatePayment": "Could not create payment",
+    "payByStars": "Get for {{price}} ⭐",
+    "openingPayment": "Opening payment…",
+    "awaitingPayment": "Awaiting payment…",
+    "payByCard": "Pay by card · {{price}} ₽",
+    "planOneTime": "One dream",
+    "planOneTimeNote": "single dream",
+    "payOneTimeStars": "Unlock dream for {{price}} ⭐",
+    "payOneTimeCard": "Unlock dream · {{price}} ₽",
+    "later": "Later",
+    "disclaimerOther": "Payment via Telegram Stars or card.",
+    "disclaimerSuffix": "One-time access, renews manually — no auto-charges.",
+    "disclaimerIos": "Payment via the App Store.",
+    "periodMonthIos": "30 days of access",
+    "periodYearIos": "365 days of access",
+    "payAppStore": "Get for {{price}}",
+    "payOneTimeAppStore": "Unlock dream for {{price}}",
+    "restorePurchases": "Restore purchases",
+    "restoreNone": "No purchases found for this account",
+    "errorStore": "App Store purchases are unavailable right now. Please try again later.",
+    "privacy": "Privacy Policy",
+    "iskryTitle": "Top up Sparks",
+    "iskryBalance": "Balance: {{n}} Sparks",
+    "iskryCostHint": "Dream analysis — {{analysis}} · Oracle — {{oracle}} · monthly summary — {{monthly}} Sparks",
+    "iskryPackName": "{{n}} Sparks",
+    "iskryBest": "Best value",
+    "iskryApproxAnalyses_one": "≈ {{count}} dream analysis",
+    "iskryApproxAnalyses_other": "≈ {{count}} dream analyses",
+    "iskryPackVotes": "{{votes}} votes",
+    "iskryPending": "Payment is processing — Sparks will appear shortly",
+    "iskryDisclaimer": "Paid with VK Votes. Sparks are spent inside the app.",
+    "promoToggle": "Have a promo code?",
+    "promoLabel": "Promo code",
+    "promoPlaceholder": "LUNA100",
+    "promoApply": "Apply",
+    "promoApplying": "Checking…",
+    "promoOk": "{{n}} Sparks added",
+    "promoError": "Could not apply the promo code. Please try again later.",
+    "votesHint": "VK itself closed the payment window. This usually means your votes balance is empty: inside the app the packs sometimes fail to open. Top up on the VK page and come back — the order will go through.",
+    "votesTopUp": "Top up VK votes",
+    "sessionStale": "The app has been open for too long and Telegram no longer confirms your sign-in. Close it and reopen from the bot chat — the plans will load.",
+    "sessionStaleCta": "Close and reopen"
+  },
+  "common": {
+    "back": "Back",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "guest": "Guest",
+    "cityPlaceholder": "Start typing a city...",
+    "citySelectAlert": "Please select a city from the suggestions",
+    "cityTypeMore": "Type at least one more letter",
+    "noTime": "Don't remember",
+    "tabletStub": "Open the dream oracle from your phone or computer — tablets aren't optimized yet.",
+    "clearTime": "Clear time",
+    "underMinAge": "The service is for users aged 16 and older — check the birth date",
+    "futureBirthMoment": "Birth time can't be later than the current moment",
+    "offline": "Can't reach the server. Check your connection — we'll keep retrying.",
+    "offlineRetry": "Retry"
+  },
+  "onboarding": {
+    "cta": "Begin decoding",
+    "next": "Next",
+    "continue": "Continue",
+    "firstCta": "Record my first dream",
+    "stepOf": "Step {{n}} of {{total}}",
+    "progress": "{{n}} of {{total}}",
+    "promise": {
+      "eyebrow": "Every night",
+      "title": "You receive messages",
+      "text": "Dreams are your depth talking to you. Tell one, and in a minute you will know what it means and what to do with it."
+    },
+    "pillars": {
+      "layers": {
+        "title": "Seven-layer dream analysis",
+        "text": "Symbols, feelings, body, psychosomatics, lineage, patterns, message — in 40 seconds."
+      },
+      "tracker": {
+        "title": "Dream tracker and evolution diary",
+        "text": "Every analysis goes into the diary. After a lunar month you see which symbols returned, which patterns surfaced and what shifted."
+      },
+      "ritual": {
+        "title": "Reprogramming ritual",
+        "text": "Not «what does it mean» but what to do with it: recognition, acceptance, transformation."
+      }
+    },
+    "goalTitle": "Where shall we start?",
+    "goalSub": "Choose everything that resonates. It shapes what we show you next.",
+    "goals": {
+      "dreams": {
+        "title": "Understand my dreams",
+        "sub": "Symbols, repeats, what the body says"
+      },
+      "track": {
+        "title": "Keep an evolution diary",
+        "sub": "See how consciousness changes month to month"
+      },
+      "change": {
+        "title": "Break repeating scenarios",
+        "sub": "Rituals and practices for your dream"
+      },
+      "beauty": {
+        "title": "Live in the moon's rhythm",
+        "sub": "Beauty calendar by your Moon"
+      }
+    },
+    "birthTitle": "Your date of birth",
+    "birthSub": "Once — and both dream readings and the beauty calendar are recalculated for your natal chart.",
+    "birthTime": "Time",
+    "birthCity": "City",
+    "birthHint": "You may not know the time — the reading will be a bit broader, but it will work. The city is needed to turn the time into the Moon's position.",
+    "birthCalc": "Already calculated",
+    "birthMoon": "Natal Moon",
+    "birthNakshatra": "Dream signature",
+    "birthPayoff": "Moon in {{sign}} — your dreams carry this sign's signature. Readings and the beauty calendar are now calculated for your chart.",
+    "birthError": "Couldn't calculate. Check the date and city — or fill it in later in your profile.",
+    "birthLater": "Fill in later",
+    "rhythmTitle": "Dreams live for 10 minutes",
+    "rhythmSub": "Ten minutes after waking, a third remains. After an hour — almost nothing. One morning reminder solves this.",
+    "times": {
+      "mid": {
+        "title": "In the morning at 8:00",
+        "sub": "Your local time — the dream is still fresh"
+      },
+      "off": {
+        "title": "Don't remind me",
+        "sub": "I'll write it down when I remember"
+      }
+    },
+    "rhythmNote": "One message a day, no ads. You can turn it off in your profile anytime.",
+    "firstFree": "First three readings are free",
+    "firstSub": "A full seven-layer reading, a ritual and a practice. No payment, no length limit.",
+    "previewTitle": "This is what a reading looks like",
+    "previewExample": "example",
+    "previewDream": "“I was late for a train, ran along the platform, and it left without me”",
+    "previewLayers": {
+      "symbol": {
+        "layer": "Symbol",
+        "text": "The train isn't about transport — it's about someone else's schedule you keep forcing yourself into."
+      },
+      "body": {
+        "layer": "Body",
+        "text": "The tight chest while running — the same feeling as before a talk with your boss."
+      },
+      "lineage": {
+        "layer": "Family pattern",
+        "text": "“Being late means letting everyone down” — a belief you never chose."
+      }
+    },
+    "previewRitualLabel": "Today's ritual",
+    "previewRitual": "Write down where you're afraid of being late. Tear it up and say aloud: “My train runs on my schedule.”",
+    "layersTitle": "Your reading will include",
+    "layers": {
+      "symbols": "Dream symbols and images",
+      "body": "Psychosomatics: what the body says",
+      "lineage": "Family context and patterns",
+      "ritual": "Today's ritual and practice"
+    },
+    "doneLabel": "All set",
+    "doneTitle": "Your dream book is set up",
+    "doneText": "Your first three readings are full and free. Tell the dream the way you remember it: in words, in fragments, out loud.",
+    "doneReady": {
+      "natal": "Natal calculation: Moon in {{sign}}",
+      "journal": "The dream journal is ready for its first entry",
+      "rituals": "Rituals tuned to your chart",
+      "calendar": "The beauty calendar is open",
+      "reminder": "Morning reminder is on",
+      "free": "Three full readings — free",
+      "premium": "Premium access unlocked"
+    },
+    "promiseFree": "First three readings are free · about a minute each"
+  },
+  "home": {
+    "tagline": "Your dreams are speaking.\nAre you listening?",
+    "subtitle": "Every image is a message. We help you decode it.",
+    "lunarDay": "Day {{n}}",
+    "lunarDreamsTitle": "Lunar day {{n}} & dreams",
+    "moonIn": "Moon in {{sign}}",
+    "yourDreamsToday": "✦ Your dreams today",
+    "enablePersonal": "Enable personal dream forecast",
+    "analyzeDream": "Decode a dream",
+    "journal": "Dream journal",
+    "profile": "My profile",
+    "hairCalendar": "Haircut calendar",
+    "features": [
+      {
+        "icon": "🔮",
+        "title": "Symbols & images",
+        "text": "Every element of your dream is a sign. We read them all."
+      },
+      {
+        "icon": "🌳",
+        "title": "Ancestral patterns",
+        "text": "What you carry from your lineage — and how to release it."
+      },
+      {
+        "icon": "✨",
+        "title": "Practice for today",
+        "text": "Ritual, affirmation, and action tailored to your dream."
+      }
+    ],
+    "birthModal": {
+      "title": "✦ Personal forecast",
+      "desc": "Enter your birth date — and every day you'll receive a forecast calibrated specifically for your dreams.",
+      "birthDate": "Date of birth",
+      "birthTime": "Time of birth (if known)",
+      "birthCity": "City of birth",
+      "calculating": "Calculating...",
+      "enable": "Enable forecast",
+      "done": "✓ Personal forecast enabled!",
+      "error": "Could not save data"
+    },
+    "sectionToday": "Today",
+    "sectionPersonal": "More precise for you",
+    "sectionNav": "Sections",
+    "subtitleShort": "Every image is a message",
+    "lunarDayLabel": "lunar day",
+    "analyzeHint": "By text or voice",
+    "analyzeHintTime": "about a minute",
+    "stepsLeft": "1 step",
+    "enableShort": "Enable",
+    "personalCardTitle": "Personal dream forecast",
+    "personalCardHint": "Add your date of birth",
+    "journalShort": "Dream\njournal",
+    "hairCalendarShort": "Lunar\ncalendar",
+    "profileShort": "My\nprofile",
+    "journalCount_one": "{{count}} entry",
+    "journalCount_other": "{{count}} entries",
+    "hairTileHint": "Hair",
+    "planFree": "Free",
+    "planPaid": "Access",
+    "howItWorks": "How it works",
+    "appName": "Lunar Dream Journal",
+    "lunarError": "Couldn't load the lunar day — the server connection dropped",
+    "iskryTile_one": "{{count}} Spark",
+    "iskryTile_other": "{{count}} Sparks",
+    "phases": {
+      "new": "New Moon",
+      "waxing": "Waxing",
+      "firstQuarter": "First quarter",
+      "full": "Full Moon",
+      "waning": "Waning",
+      "lastQuarter": "Last quarter"
+    }
+  },
+  "form": {
+    "title": "Dream Analysis",
+    "subtitle": "Tell or write down your dream",
+    "analysisSteps": [
+      "Reading lunar context...",
+      "Analyzing dream symbols...",
+      "Searching ancestral patterns...",
+      "Forming recommendations...",
+      "Finalizing the decode..."
+    ],
+    "tabText": "Text",
+    "tabVoice": "Voice",
+    "placeholder": "Tell what you remember. Two or three sentences are enough: who was there, what happened, what you felt.",
+    "analyze": "Decode dream",
+    "analyzing": "Analyzing...",
+    "back": "Back",
+    "record": "Record voice",
+    "stopRecord": "Stop",
+    "transcribing": "Transcribing...",
+    "voiceHint": "Tell your dream in your own words.",
+    "voiceEditHint": "We'll turn the recording into text — you'll be able to edit it.",
+    "voiceIdleLabel": "Voice input",
+    "recording": "Recording",
+    "voiceKeepHint": "You can switch to text",
+    "voiceKeepHint2": "the recording is kept",
+    "pasteFromClipboard": "Paste from clipboard",
+    "errorClipboard": "Couldn't read the clipboard. Paste manually — long-press the input field.",
+    "errorClipboardEmpty": "Clipboard is empty",
+    "recordingHint": "● Speak your dream — tap stop when you're done",
+    "doneHint": "✓ Transcribed! Go to the \"Text\" tab to check it",
+    "idleHint": "Press the button and tell your dream out loud — it will be transcribed to text automatically",
+    "doneTextHint": "Voice transcribed — you can edit the text",
+    "minChars": "min. 10",
+    "stepOf": "Step {{n}} of {{total}}",
+    "stepTell": "tell your dream",
+    "enoughText": "Enough for analysis",
+    "needMoreChars": "{{n}} more characters needed",
+    "analyzeHint": "Deep analysis",
+    "analyzeHintTime": "20–40 seconds",
+    "analyzingDuration": "Deep analysis takes 20–40 seconds",
+    "costHintVk": "{{n}} free left · then {{cost}} Sparks",
+    "costHintFree": "Free decodes left: {{n}}",
+    "webGate": {
+      "title": "Open in the VK app",
+      "desc": "Dream decoding and the oracle run inside “Lunar Dream Journal” on VK — that's where your history, settings and balance live. Open the app to continue.",
+      "button": "Open in VK"
+    },
+    "appleGate": {
+      "title": "Your dream journal, just for you",
+      "desc": "Sign in to keep your readings in your journal on any iPhone.",
+      "button": "Sign in with Apple",
+      "error": "Couldn't sign in. Please try again."
+    },
+    "errorEmpty": "Tell us about your dream",
+    "errorShort": "Describe the dream in more detail (minimum 20 characters)",
+    "errorLong": "Dream description is too long",
+    "errorVoice": "Could not record voice",
+    "errorTranscribe": "Could not transcribe speech. Please try again.",
+    "errorAnalysis": "Analysis error. Please try again.",
+    "anyDreamHint": "Don’t remember last night’s? Any dream works: recurring, from childhood, the most vivid one.",
+    "seedsHint": "Or start from an image:",
+    "seeds": {
+      "exPartner": {
+        "label": "An ex",
+        "text": "I dreamed about my ex"
+      },
+      "deceased": {
+        "label": "A late relative",
+        "text": "I dreamed about a relative who has passed away"
+      },
+      "child": {
+        "label": "A child",
+        "text": "I dreamed about a child"
+      },
+      "home": {
+        "label": "A house",
+        "text": "I dreamed about a house"
+      },
+      "cat": {
+        "label": "A cat",
+        "text": "I dreamed about a cat"
+      },
+      "water": {
+        "label": "Water",
+        "text": "I dreamed about water"
+      },
+      "teeth": {
+        "label": "Teeth",
+        "text": "I dreamed my teeth fell out"
+      },
+      "chase": {
+        "label": "Being chased",
+        "text": "I dreamed someone was chasing me"
+      }
+    }
+  },
+  "journal": {
+    "title": "Dream journal",
+    "summary": "Summary",
+    "back": "Back",
+    "records_one": "{{count}} entry",
+    "records_other": "{{count}} entries",
+    "history": "Analysis history",
+    "onlyTelegram": "Journal is unavailable: couldn't identify your profile. Please reopen the app.",
+    "empty": "Your journal is empty",
+    "emptyHint": "Decode your first dream — it will appear here with its lunar day, symbols and the patterns we found.",
+    "loadMore": "Show more",
+    "dreamText": "Dream text",
+    "noAnalysis": "no analysis",
+    "patterns_one": "{{count}} pattern",
+    "patterns_other": "{{count}} patterns",
+    "askOracle": "Ask the oracle",
+    "dreamAnalysis": "Dream analysis",
+    "search": "Search",
+    "searchPlaceholder": "A symbol, a word from the dream…",
+    "clearSearch": "Clear",
+    "filterAll": "All",
+    "filterPatterns": "With patterns",
+    "filterNoAnalysis": "No analysis",
+    "found_one": "{{count}} entry found",
+    "found_other": "{{count}} entries found",
+    "noRecords": "No entries yet",
+    "loadFailed": "Couldn't load",
+    "nothingFound": "Nothing found",
+    "noMatchQuery": "No entries match “{{q}}”. Try another symbol or remove the filter.",
+    "noMatchFilter": "No entries in this filter yet.",
+    "resetFilters": "Reset filters",
+    "shownOf": "{{shown}} of {{total}}",
+    "errorTitle": "The journal didn't load",
+    "errorHint": "Your entries are stored on the server and haven't gone anywhere. Check your connection and try again.",
+    "noAnalysisBrief": "The analysis wasn't saved — you can run it again.",
+    "noAnalysisDetail": "The analysis of this dream wasn't saved. You can run it again — the dream text is still here.",
+    "lunarDayShort": "lunar day {{n}}",
+    "lunarDayLong": "Lunar day {{n}}",
+    "untitled": "Untitled dream",
+    "summaryTitle": "Lunar month summary",
+    "summaryProgress_one": "{{n}} of {{goal}} recorded · {{count}} more dream",
+    "summaryProgress_other": "{{n}} of {{goal}} recorded · {{count}} more dreams",
+    "summaryReady": "Ready — the summary can be compiled",
+    "openFull": "Open full analysis",
+    "retryAnalysis": "Run analysis again",
+    "close": "Close"
+  },
+  "profile": {
+    "title": "Profile",
+    "dreams_one": "{{count}} dream decoded",
+    "dreams_other": "{{count}} dreams decoded",
+    "headerFree": "Free plan",
+    "headerPremium": "Premium",
+    "streak_one": "{{count}}-night streak",
+    "streak_other": "{{count}}-night streak",
+    "freeLeft": "{{remaining}} of {{limit}} free analyses left",
+    "forecastLabel": "Personal forecast",
+    "forecastOn": "on",
+    "forecastOff": "not set",
+    "natalMoon": "Natal Moon",
+    "birthFormTitle": "Birth details",
+    "cityHint": "The city is needed to convert your birth time into the Moon's position. Pick one from the suggestions — otherwise there are no coordinates.",
+    "settings": "Settings",
+    "theme": "Theme",
+    "themeHint": "Follows Telegram, or set manually",
+    "themeHintVk": "Follows VK, or set manually",
+    "themeHintWeb": "Follows your system, or set manually",
+    "themeNight": "Night",
+    "themeDay": "Day",
+    "supportProject": "Support the dreambook",
+    "supportProjectDesc": "The project runs on contributions — they go into deeper decodes.",
+    "cardDetails": "Bank details",
+    "cardHint": "Tap the number to copy it. Any amount from the heart.",
+    "copied": "Copied",
+    "premium": {
+      "active": "Premium active",
+      "planYearly": "Yearly plan",
+      "planMonthly": "Monthly plan",
+      "renewUntil": " · until {{date}}",
+      "title": "Premium access",
+      "titleVk": "Sparks",
+      "freeRemaining": "Free analyses remaining: {{remaining}} of {{limit}}",
+      "unlimitedDesc": "Unlimited analyses, oracle, and forecast",
+      "upgradeButton": "Get Premium",
+      "topUpIskry": "Top up Sparks"
+    },
+    "personalForecast": {
+      "title": "✦ Personal dream forecast",
+      "active": "Forecast enabled. Every day we calibrate your dream analysis to your birth date.",
+      "activeDesc": "Each day we factor in the Moon's position and your birth date to make dream analysis more accurate.",
+      "change": "Change birth date",
+      "inactive": "Enter your birth date — and dream analysis becomes personal. We'll account for the Moon's position at the moment of your birth.",
+      "enable": "Enable personal forecast"
+    },
+    "birthForm": {
+      "date": "Date of birth",
+      "time": "Time of birth (if known)",
+      "city": "City of birth",
+      "calculating": "Calculating...",
+      "enable": "Enable personal forecast"
+    },
+    "stats": {
+      "title": "Your dynamics",
+      "symbols": "Recurring symbols",
+      "patterns": "Recurring patterns",
+      "byDreams_one": "from {{count}} dream",
+      "byDreams_other": "from {{count}} dreams",
+      "pattern": "Recurring pattern",
+      "inDreams_one": "in {{count}} dream",
+      "inDreams_other": "in {{count}} dreams"
+    },
+    "notifications": {
+      "title": "Morning reminders",
+      "desc": "At 8:00 your time — while the dream is still fresh",
+      "offHint": "Off — dreams are easily forgotten by noon",
+      "on": "Enabled — tap to disable",
+      "off": "Enable notifications"
+    },
+    "support": {
+      "title": "Support",
+      "desc": "Questions and issues — reach us here.",
+      "button": "Contact support",
+      "copied": "Support link copied"
+    },
+    "timezone": {
+      "title": "Timezone",
+      "desc": "Needed for accurate lunar day and notifications.",
+      "hint": "Needed for an accurate lunar day",
+      "autoHint": "Detected from your device. Saved instantly — there is no separate Save button.",
+      "saved": "Time zone saved",
+      "saveFail": "Couldn't save the time zone",
+      "none": "Not selected",
+      "detect": "Detect automatically",
+      "detected": "Time zone detected: {{tz}}",
+      "detectFail": "Couldn't detect time zone",
+      "save": "Save"
+    },
+    "delete": {
+      "title": "Delete account",
+      "desc": "Dreams and analyses will be permanently deleted, profile anonymized.",
+      "button": "Delete account",
+      "confirm": "Delete account? Dreams and analyses will be permanently deleted. This cannot be undone.",
+      "done": "Account deleted.",
+      "error": "Couldn't delete account. Please try again."
+    },
+    "dreamSignature": "Dream signature"
+  },
+  "success": {
+    "title": "Analysis result",
+    "stepDone": "Step 2 of 2 · dream decoded",
+    "savedToJournal": "Dream saved to your journal",
+    "recordNumber": "Entry #{{count}}",
+    "untilSummary_one": "{{count}} more dream — and we'll compile your lunar month summary.",
+    "untilSummary_other": "{{count}} more dreams — and we'll compile your lunar month summary.",
+    "breakdown": "Breakdown",
+    "openedOf": "{{n}} of {{total}} open",
+    "bodyAndLineage": "Body and lineage",
+    "bodyAndLineageHint": "Psychosomatics and ancestral context",
+    "patternsFound": "{{count}} found",
+    "hasRitual": "reprogramming ritual included",
+    "upsellTitle": "Decode dreams without limits",
+    "upsellDesc": "Premium: unlimited, oracle and forecast",
+    "upsellDescVk": "Sparks: analyses, oracle and monthly summary",
+    "nextSteps": "What's next",
+    "journalShort": "Journal",
+    "moreDream": "Another dream",
+    "notFoundTitle": "Analysis not found",
+    "notFoundHint": "The analysis may not have been saved because the connection dropped. Your dream text is still here — you can send it again.",
+    "retryAnalysis": "Retry the analysis",
+    "share": "Share result",
+    "oracle": "Ask the oracle",
+    "journal": "Open dream journal",
+    "home": "Home",
+    "shareText": "🌙 My dream was decoded in Dream Analyzer\n\n{{brief}}{{lunar}}{{patterns}}\n\n✨ Get your analysis: https://t.me/tot_sonnic_bot",
+    "shareLunarDay": "Lunar day {{n}}",
+    "shareTextVk": "🌙 My dream was decoded in Lunar Dream Book. {{brief}}{{lunar}}{{patterns}}",
+    "sharePatterns": "\n⚠️ Patterns detected: {{count}}",
+    "copied": "Copied to clipboard!",
+    "shareFailed": "Couldn't share. Please try again.",
+    "story": "Share to VK story",
+    "storyEyebrow": "Lunar Dream Book",
+    "storyDay": "Lunar day {{n}}",
+    "storyDayless": "My dream",
+    "storyFooter": "Decode your dream · Lunar Dream Book on VK"
+  },
+  "analysis": {
+    "whatSays": "What this dream says",
+    "lunarDay": "Lunar day",
+    "lunarDaySuffix": "",
+    "symbols": "Dream symbols",
+    "patterns": "Destructive patterns",
+    "transformations": "Transformations",
+    "recommendations": "Recommendations",
+    "symbol": "Symbol",
+    "meaning": "Meaning",
+    "bodyLevel": "Body level",
+    "ancestralLevel": "Ancestral level",
+    "bodyEmotionsTitle": "Body and emotions",
+    "ancestralContextTitle": "Ancestral context",
+    "todayPracticeTitle": "Today's practice",
+    "practiceLabel": "Practice",
+    "affirmationLabel": "Affirmation",
+    "ritualLabel": "Ritual",
+    "ritualInstruction": "Say out loud, slowly, with intention:",
+    "ritualProgram": "Program: {{pattern}}",
+    "ritualRecognition": "Recognition",
+    "ritualAcceptance": "Acceptance",
+    "supportHeading": "Enjoyed the decode?",
+    "supportText": "Support the dream oracle's development — every contribution helps make decodes deeper and more accurate.",
+    "supportCardHint": "Tap the card number to copy it. Any amount from the heart.",
+    "askOracle": "Ask the oracle about this dream"
+  },
+  "chat": {
+    "back": "Back",
+    "title": "Dream oracle",
+    "dreamFrom": "Dream from {{date}}",
+    "placeholder": "Ask the oracle...",
+    "send": "Send",
+    "voiceInput": "Voice input",
+    "yourDream": "your dream",
+    "oracleWelcome": "I've read your dream and its analysis.\n\nAsk about any symbol, add forgotten details, or ask me to go deeper into a pattern.",
+    "stopButton": "Stop",
+    "errorTranscribeRetryText": "Could not transcribe. Try typing instead.",
+    "errorMicDenied": "No access to the microphone",
+    "errorMicUnavailable": "Microphone unavailable",
+    "errorVoice": "Could not record voice",
+    "errorOracle": "Error communicating with the oracle.",
+    "suggested": "You could ask",
+    "contextTitle": "What the oracle already knows",
+    "contextBody": "{{parts}}. All from the analysis of {{date}}.",
+    "ctxDream": "the dream text",
+    "ctxBrief": "the brief analysis",
+    "ctxPsy": "psychosomatics",
+    "ctxFamily": "the ancestral context",
+    "ctxPatterns_one": "{{count}} destructive pattern",
+    "ctxPatterns_other": "{{count}} destructive patterns",
+    "ctxMessage": "the message",
+    "notDelivered": "Didn't reach the oracle",
+    "transcribing_one": "Transcribing voice — {{count}} second",
+    "transcribing_other": "Transcribing voice — {{count}} seconds",
+    "micAppBrowser": "browser",
+    "micDeniedHint": "Allow it in {{app}} settings — or just type your question.",
+    "micUnavailableHint": "Just type your question instead.",
+    "saved": "Conversation saved to your journal",
+    "savedHint": "You can return to it from the dream card of {{date}}.",
+    "finish": "End conversation",
+    "hintDefault": "The oracle remembers this dream and its analysis",
+    "hintRecording": "Speak — I'll transcribe and send it",
+    "qSymbol": "What does “{{symbol}}” mean in my dream?",
+    "qPattern": "How do I work through the “{{pattern}}” pattern?",
+    "qDetail": "I remembered another detail of the dream",
+    "qFamily": "Is this connected to my family line?",
+    "qPractice": "What practice should I do today?"
+  },
+  "monthly": {
+    "title": "Monthly summary",
+    "back": "Back",
+    "loadingSteps": [
+      "Gathering dreams from the lunar month...",
+      "Analyzing symbols and patterns...",
+      "Finding recurring themes...",
+      "Creating the final analysis..."
+    ],
+    "loadingHint": "Usually takes 20–30 seconds",
+    "errorNoTelegram": "Couldn't identify your profile. Please reopen the app.",
+    "errorTitle": "The summary didn't come together",
+    "errorHint": "Your dreams are safe — we just couldn't reach the server. Try again, nothing will be lost.",
+    "backToJournal": "Back to journal",
+    "confirmTitle": "This month's summary is ready to compile",
+    "confirmText": "It costs {{cost}} Sparks, you have {{balance}}. The summary stays in your journal; reopening it is free.",
+    "confirmCta": "Compile for {{cost}} Sparks",
+    "notEnoughTitle": "Nothing to summarize yet",
+    "notEnoughHint_one": "Only {{count}} dream has been recorded this lunar month. A summary needs at least three — that's when recurring symbols and themes show up.",
+    "notEnoughHint_other": "{{count}} dreams have been recorded this lunar month. A summary needs at least three — that's when recurring symbols and themes show up.",
+    "recorded_one": "{{count}} recorded",
+    "recorded_other": "{{count}} recorded",
+    "needDreams": "need 3",
+    "nextFullMoon": "Next full moon in {{days}}",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "dreams_one": "{{count}} dream this lunar month",
+    "dreams_other": "{{count}} dreams this lunar month",
+    "streak_one": "{{count}}-night streak",
+    "streak_other": "{{count}}-night streak",
+    "delta": "+{{n}} vs last month",
+    "monthlyInsight": "Message of the month",
+    "quoted": "“{{text}}”",
+    "keySymbols": "Symbols of the month",
+    "symbolsCount": "{{shown}} of {{total}}",
+    "recurringPatterns": "Recurring patterns",
+    "patternMeta_one": "in {{count}} dream of {{total}}",
+    "patternMeta_other": "in {{count}} dreams of {{total}}",
+    "dynamics": "Dynamics",
+    "week": "wk {{n}}",
+    "keyTransformation": "Key transformation",
+    "recommendations": "For next month",
+    "share": "Share summary",
+    "nextSummary": "Next summary — {{date}}, in {{days}}",
+    "shareText": "🌙 Lunar month summary\n\n{{insight}}\n\n✨ Key transformation:\n{{transformation}}\n\n🔮 Get your analysis: https://t.me/tot_sonnic_bot",
+    "shareTextVk": "🌙 My lunar month summary from Lunar Dream Book\n\n{{insight}}\n\n✨ Key transformation:\n{{transformation}}"
+  },
+  "calendar": {
+    "title": "Lunar calendar",
+    "tabBeauty": "Beauty",
+    "tabFood": "Nutrition",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "lunarDay": "Lunar day {{n}}",
+    "moonIn": "Moon in {{sign}}",
+    "verdict": {
+      "hairGood": "A good day for hair",
+      "hairGoodText": "Haircut and care work at full strength",
+      "colorPostpone": ", better postpone coloring",
+      "calm": "A quiet day",
+      "calmText": "Better not to start drastic changes — care and nails are fine",
+      "bodyGains": "The body takes in",
+      "bodyGainsText": "The waxing moon absorbs — time for nourishing food and vitamins",
+      "bodyReleases": "The body lets go",
+      "bodyReleasesText": "The waning moon flushes out — good for fasting and light food"
+    },
+    "score": {
+      "1": "Skip it",
+      "2": "Weak",
+      "3": "Okay",
+      "4": "Good",
+      "5": "Excellent"
+    },
+    "groups": {
+      "hair": "Hair",
+      "skin": "Skin",
+      "body": "Body",
+      "nails": "Nails"
+    },
+    "categories": {
+      "cut": {
+        "name": "Haircut",
+        "hint": "Waxing moon — thicker hair",
+        "about": "Hair cut on a waxing moon grows back faster and thicker. On a waning moon a haircut keeps its shape longer — choose by goal: volume or a clean outline."
+      },
+      "color": {
+        "name": "Coloring",
+        "hint": "Color lasts longer",
+        "about": "Pigment sets better while the moon is waxing. On days around the new moon color washes out faster, and bleaching gives an unpredictable shade."
+      },
+      "skin": {
+        "name": "Care & masks",
+        "hint": "Absorbs deeper",
+        "about": "Skin absorbs more actively on a waxing moon — masks and serums work at full strength. On a waning moon cleansing and peels are more effective."
+      },
+      "cosm": {
+        "name": "Cosmetologist",
+        "hint": "Faster recovery",
+        "about": "Injections and device treatments are best planned for a waning moon: swelling goes down faster, bruises fade sooner."
+      },
+      "epil": {
+        "name": "Hair removal",
+        "hint": "Waning — slower regrowth",
+        "about": "On a waning moon hair grows back slower and the result lasts longer. A waxing moon is the worst time for hair removal."
+      },
+      "mass": {
+        "name": "Massage",
+        "hint": "The body lets go easier",
+        "about": "Lymphatic drainage and deep bodywork are more effective on a waning moon: the body releases excess fluid more easily."
+      },
+      "bath": {
+        "name": "Bath & sauna",
+        "hint": "Flushes out excess",
+        "about": "A waning moon boosts elimination — the bath works as a detox. Around the full moon the heart may react strongly."
+      },
+      "nails": {
+        "name": "Manicure & pedicure",
+        "hint": "Stronger nails",
+        "about": "Nails grow faster on a waxing moon. A waning moon is for strengthening and treatment, not extensions."
+      }
+    },
+    "eat": "Good today",
+    "eatItems": [
+      "Buckwheat",
+      "Pumpkin",
+      "Greens",
+      "Cottage cheese",
+      "Nuts",
+      "Baked apples"
+    ],
+    "eatWhyWaxing": "The waxing moon boosts absorption: the body takes more from food — both the good and the excess.",
+    "eatWhyWaning": "The waning moon works on release: the body parts with fluid and heavy food more easily.",
+    "avoid": "Better postpone",
+    "avoidItems": [
+      "Red meat",
+      "Sugar",
+      "Alcohol",
+      "Fried food"
+    ],
+    "water": "Water",
+    "waterWaxing": "2.2 l",
+    "waterWaxingHint": "More than usual — there is puffiness",
+    "waterWaning": "1.8 l",
+    "waterWaningHint": "Warm, in small portions",
+    "vitamins": "Vitamins",
+    "vitaminsYes": "Yes",
+    "vitaminsYesHint": "Absorbed best",
+    "vitaminsNo": "Not now",
+    "vitaminsNoHint": "The effect will be weaker",
+    "fasting": "Fasting & diet start",
+    "fastDay": "Fasting day",
+    "fastDaySub": "Waning moon, light food",
+    "dietStart": "Diet start",
+    "dietStartSub": "After the full moon — weight comes off easier",
+    "twoWeeks": "Next two weeks",
+    "legendBest": "Best days",
+    "legendNeutral": "Neutral",
+    "legendSkip": "Skip",
+    "needBirthTitle": "Personal calendar",
+    "needBirthText": "Enter your birth date — the calendar will be recalculated for your natal chart.",
+    "needBirthCta": "Enter birth date",
+    "forYou": "For you · Moon in {{sign}}",
+    "forYouShort": "For you",
+    "nextGood": "Next good day",
+    "noGoodDay": "No good day in the next two weeks",
+    "close": "Close",
+    "footer": "Calculated for your time zone.",
+    "errorTitle": "The calendar didn't load",
+    "errorHint": "The Moon is where it should be — only the server connection is missing."
+  },
+  "lunar": {
+    "phases": {
+      "0": "New moon",
+      "1": "Waxing crescent",
+      "2": "First quarter",
+      "3": "Waxing gibbous",
+      "4": "Full moon",
+      "5": "Waning gibbous",
+      "6": "Last quarter",
+      "7": "Waning crescent"
+    },
+    "title": "Lunar day",
+    "subtitle": "Phase, meaning and influence on dreams",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "daysAgo_one": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago",
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month",
+    "dow": [
+      "mo",
+      "tu",
+      "we",
+      "th",
+      "fr",
+      "sa",
+      "su"
+    ],
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "illuminated": "{{pct}}% illuminated",
+    "week": "Week",
+    "dreamsThisDay": "Dreams on this day",
+    "yourRecords": "Your entries",
+    "noRecords": "no entries",
+    "emptyDay": "No entries for this date.",
+    "emptyDayToday": "The button above will add a dream for today.",
+    "symbols_one": "{{count}} symbol",
+    "symbols_other": "{{count}} symbols",
+    "programs_one": "{{count}} program",
+    "programs_other": "{{count}} programs",
+    "loading": "Calculating the lunar day…",
+    "errorTitle": "Couldn't load the day",
+    "errorHint": "Only the connection to the server is missing. Tap “Retry” — the phase, sign and meaning of the day will load.",
+    "monthTitle_one": "Lunar month: {{count}} dream",
+    "monthTitle_other": "Lunar month: {{count}} dreams",
+    "toFullMoon_one": "{{count}} day to the full moon",
+    "toFullMoon_other": "{{count}} days to the full moon",
+    "toNewMoon_one": "{{count}} day to the new moon",
+    "toNewMoon_other": "{{count}} days to the new moon",
+    "monthSub": "{{countdown}} · the month's summary comes together on the 30th lunar day"
+  },
+  "theme": {
+    "toDark": "Dark theme",
+    "toLight": "Light theme",
+    "night": "🌙 Night",
+    "day": "☀ Day"
+  },
+  "yupsoul": {
+    "eyebrow": "Music oracle",
+    "openButton": "Open the music oracle",
+    "close": "Hide promo",
+    "partner": "partner",
+    "disclaimer": "Opens a separate app in Telegram. Your dreams are not shared with it.",
+    "disclaimerVk": "Opens a separate app in VK. Your dreams are not shared with it.",
+    "disclaimerWeb": "Opens the partner's website. Your dreams are not shared with it.",
+    "hidden": "Hidden. We won't show this for three days.",
+    "restore": "Bring back",
+    "oracle": {
+      "eyebrow": "YupSoul Oracle",
+      "openButton": "Open the YupSoul oracle",
+      "default": {
+        "title": "Ask the oracle what lies ahead",
+        "subtitle": "Answers by your birth date: character, path, relationships. Readings of your chart and a 21-day practice."
+      },
+      "monthly": {
+        "title": "The month is read. Ask the oracle about the next one",
+        "subtitle": "By your birth date: what is ahead, chart readings, a 21-day practice."
+      },
+      "birth": {
+        "title": "The oracle will read the same data",
+        "subtitle": "Chart readings, answers to your questions and a 21-day practice at our partner."
+      }
+    },
+    "default": {
+      "title": "Want to hear what your soul sounds like?",
+      "subtitle": "Discover your personal song from your birth date"
+    },
+    "monthly": {
+      "title": "Personal music for your lunar cycle",
+      "subtitle": "Created from your natal chart — listen right now"
+    },
+    "birth": {
+      "title": "This same data reveals what your soul sounds like",
+      "subtitle": "A personal song from your birth date — by the music oracle"
+    }
+  },
+  "vkGroup": {
+    "title": "Morning lunar-day post",
+    "desc": "Every morning the Lunar Dream Journal community posts which lunar day it is, which dreams to trust and what they hint at.",
+    "join": "Follow the community",
+    "joined": "You're in. The morning post will show up in your feed"
+  },
+  "vkNotify": {
+    "heading": "Wake you in the morning?",
+    "body": "A dream fades within minutes of waking. We'll send one short reminder at 8am — to write it down before it melts away.",
+    "allow": "Remind me",
+    "decline": "No thanks",
+    "thanks": "Done — we'll remind you in the morning ✨"
+  }
+}

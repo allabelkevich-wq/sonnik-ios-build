@@ -1,0 +1,256 @@
+/* ============================================================
+   Оракул снов (чат) — стили экрана. Импортируется из ChatPage.jsx.
+
+   Общие токены берём из v3.css (--v3-tile, --v3-chip-p, --v3-rule-c…);
+   здесь только то, чего в фундаменте нет: заливки пузырей и панели
+   контекста. Тёмная тема — значение по умолчанию, светлая перебивает
+   по data-theme (как в v3.css). Никаких :has и @media prefers-color-scheme.
+   ============================================================ */
+
+:root,
+html[data-theme="dark"] {
+  --o-oracle: rgba(147, 51, 234, .13);
+  --o-mine: linear-gradient(135deg, rgba(232, 146, 10, .2), rgba(201, 122, 16, .14));
+  --o-mine-br: rgba(232, 146, 10, .3);
+  --o-ctx: linear-gradient(135deg, rgba(147, 51, 234, .12), rgba(147, 51, 234, .04));
+}
+
+html[data-theme="light"] {
+  --o-oracle: rgba(124, 58, 237, .08);
+  --o-mine: linear-gradient(135deg, rgba(245, 166, 35, .2), rgba(201, 122, 16, .12));
+  --o-mine-br: rgba(154, 114, 32, .32);
+  --o-ctx: linear-gradient(135deg, rgba(124, 58, 237, .08), rgba(124, 58, 237, .03));
+}
+
+/* ---------- Кнопка-иконка в шапке: хит-зона 44, видимый круг 38 ---------- */
+.o-iconbtn {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.o-iconbtn::after { display: none; }
+.o-iconbtn:active { transform: none; box-shadow: none; }
+.o-iconbtn:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+.o-iconbtn__in {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--v3-chip-p);
+  border: 1px solid var(--v3-chip-p-br);
+  color: var(--v3-purple-txt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+
+/* ---------- Плитка вопроса-подсказки (div role=button: глобальный
+     `button` из globals.css красит любую кнопку золотом и вешает
+     ::after-блик, которые инлайном не убрать) ---------- */
+.o-ask {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 11px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--v3-fg-2);
+  text-align: left;
+  overflow-wrap: anywhere;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.o-ask:active { filter: brightness(1.08); }
+.o-ask:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .o-ask:hover { filter: brightness(1.08); }
+}
+
+/* ---------- Кнопка «Закончить разговор» ---------- */
+.o-finish {
+  height: 44px;
+  border-radius: 999px;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg-2);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.o-finish:active { filter: brightness(1.08); }
+.o-finish:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+
+/* ---------- Пилюля в прозрачной обёртке 44px («Повторить», «Стоп»):
+     видимый размер маленький, хит-таргет полноценный ---------- */
+.o-tap {
+  width: auto;
+  min-height: 44px;
+  padding: 10px 0;
+  margin: -10px 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.o-tap::after { display: none; }
+.o-tap:active { transform: none; box-shadow: none; }
+.o-tap:disabled { background: none; box-shadow: none; opacity: .5; }
+.o-tap:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+.o-tap__retry {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--v3-gold-txt);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--v3-chip-g);
+}
+.o-tap__stop {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff; /* бренд: белый на красной пилюле в обеих темах */
+  background: #dc2626;
+  padding: 7px 14px;
+  border-radius: 999px;
+}
+
+/* ---------- Микрофон и отправка ---------- */
+.o-mic,
+.o-send {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  flex-shrink: 0;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.o-mic {
+  background: var(--v3-chip-p);
+  border: 1px solid var(--v3-chip-p-br);
+  color: var(--v3-purple-txt);
+}
+.o-mic:disabled {
+  opacity: .4;
+  background: var(--v3-chip-p);
+  color: var(--v3-purple-txt);
+}
+.o-send { border: none; }
+.o-send--on {
+  background: linear-gradient(135deg, #f5a623, #c97a10); /* бренд */
+  box-shadow: 0 6px 16px rgba(201, 122, 16, .3);
+  color: #1a0800;
+}
+.o-send--off,
+.o-send--off:disabled {
+  background: rgba(128, 128, 128, .14);
+  box-shadow: none;
+  color: var(--v3-fg-4);
+  cursor: default;
+}
+.o-send--off::after { display: none; }
+
+/* ---------- Поле ввода ---------- */
+.o-field {
+  /* minWidth:0 обязателен: у input своя минимальная ширина (~20 знаков),
+     при крупном системном шрифте на Android кнопку «отправить»
+     выдавливало за край экрана (отчёт 7443384). */
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 12px 15px;
+  border-radius: 15px;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+  color: var(--v3-fg);
+  font-size: 14px;
+  font-family: inherit;
+}
+.o-field::placeholder { color: var(--v3-fg-4); }
+
+/* ---------- Пузырь ---------- */
+.o-row { animation: fadeIn .25s ease; }
+
+/* ---------- Индикаторы состояния ---------- */
+.o-dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--v3-purple-txt);
+  animation: oDot 1.2s ease-in-out infinite;
+}
+.o-recdot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #dc2626; /* бренд: красный «запись» в обеих темах */
+  flex-shrink: 0;
+  animation: oRec 1.2s infinite;
+}
+.o-wave {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 2.5px;
+  height: 18px;
+}
+.o-wave span {
+  display: block;
+  flex: 1;
+  border-radius: 999px;
+  background: var(--v3-danger);
+  opacity: .75;
+  height: 4px;
+  animation: oWave 1.1s ease-in-out infinite;
+}
+
+@keyframes oDot {
+  0%, 60%, 100% { opacity: .3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+@keyframes oRec {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .25; }
+}
+@keyframes oWave {
+  0%, 100% { height: 4px; }
+  50% { height: 17px; }
+}
+
+/* Волну и точки не гасим — это индикаторы состояния, без них непонятно,
+   идёт ли запись. Появление пузыря — украшение, его убираем. */
+@media (prefers-reduced-motion: reduce) {
+  .o-row { animation: none; }
+}

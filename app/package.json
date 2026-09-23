@@ -1,0 +1,20 @@
+{
+  "name": "sonnik-app",
+  "version": "1.0.0",
+  "description": "Нативное приложение «Лунный сонник» (Capacitor) для App Store. Фронт собирается из dist/ — того же, что отдаёт сервер.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../scripts/build-app-www.mjs",
+    "cap:sync": "npm run build && npx cap sync",
+    "cap:open:ios": "npx cap open ios"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/cli": "^8.1.0",
+    "@capacitor/core": "^8.1.0",
+    "@capacitor/ios": "^8.1.0",
+    "@capgo/capacitor-social-login": "^8.5.7",
+    "@revenuecat/purchases-capacitor": "^13.5.0"
+  }
+}

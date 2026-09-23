@@ -1,0 +1,355 @@
+:root {
+  --primary-color: #e8920a;
+  --primary-light: #f5a623;
+  --secondary-color: #c97a10;
+  --primary-rgb: 232, 146, 10;
+  --secondary-rgb: 201, 122, 16;
+  --purple-rgb: 147, 51, 234;
+  --subtitle-readable: rgba(var(--fg-rgb), 0.92);
+  --fluid-xs: clamp(0.7rem, 1.8vw, 0.8rem);
+  --fluid-sm: clamp(0.8rem, 2.2vw, 0.95rem);
+  --fluid-base: clamp(0.9rem, 2.8vw, 1.05rem);
+  --fluid-md: clamp(1rem, 3.2vw, 1.2rem);
+  --fluid-lg: clamp(1.1rem, 3.8vw, 1.4rem);
+  --fluid-xl: clamp(1.2rem, 4.5vw, 1.6rem);
+  --fluid-2xl: clamp(1.4rem, 5.5vw, 2.4rem);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"],
+textarea,
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  max-width: 100%;
+}
+
+body {
+  background: linear-gradient(160deg, #060d0d 0%, #0d1c18 35%, #0a1820 65%, #080d10 100%);
+  color: var(--tg-theme-text-color, var(--fg));
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Starfield overlay — subtle CSS-only particles */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(var(--fg-rgb),0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 8%,  rgba(var(--fg-rgb),0.12) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 38% 55%, rgba(232,146,10,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 42%, rgba(var(--fg-rgb),0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 78%, rgba(var(--fg-rgb),0.13) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 6%  65%, rgba(147,51,234,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 82%, rgba(var(--fg-rgb),0.1) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 90%, rgba(var(--fg-rgb),0.08) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 32%, rgba(var(--fg-rgb),0.11) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 48% 15%, rgba(232,146,10,0.15) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Анимация появления экрана сдвигает его на 14px вниз, и на эти 14px
+   вылезала полоса прокрутки документа — на пустом экране (дневник без
+   записей) она успевала мигнуть и пропасть (отчёт 7449883). Обрезаем
+   вылет анимации: сам контент высоту .App не превышает, так что режется
+   ровно хвост трансформации. `clip` не создаёт скролл-контейнер;
+   строкой выше — запасной вариант для старых движков. */
+.App {
+  overflow: hidden;
+  overflow: clip;
+}
+
+/* VK: официальный чек-лист модерации — текст нельзя выделить курсором,
+   кроме полей ввода (иначе нельзя скопировать введённый текст сна). */
+html.is-vk * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+html.is-vk input,
+html.is-vk textarea,
+html.is-vk [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.container {
+  max-width: min(600px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: #1a0800;
+  border: none;
+  padding: 11px 20px;
+  font-size: 0.9rem;
+  border-radius: 9999px;
+  width: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 28px rgba(var(--primary-rgb), 0.35), 0 4px 16px rgba(var(--primary-rgb), 0.25), inset 0 1px 0 rgba(var(--fg-rgb),0.2);
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  /* Windows Forced Color Mode / Samsung Night Mode иначе перекрашивают
+     полупрозрачный фон в системный цвет независимо от !important. */
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+
+/* Shimmer sweep on primary buttons */
+button::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(var(--fg-rgb),0.18), transparent);
+  transform: skewX(-20deg);
+  animation: shimmerSweep 3.5s ease-in-out infinite;
+}
+
+/* Ховер — только для мыши: на тач-экранах :hover залипает после тапа.
+   Кнопка больше не подпрыгивает: у кнопок во всю ширину сдвиг на 1px
+   двигал вместе с ней свечение, и под кнопкой мигала полоса, стоило
+   провести курсором по профилю (отчёт 7449887). Отклик даём яркостью. */
+@media (hover: hover) and (pointer: fine) {
+  button:hover {
+    filter: brightness(1.07);
+    box-shadow: 0 0 36px rgba(var(--primary-rgb), 0.50), 0 6px 20px rgba(var(--primary-rgb), 0.35), inset 0 1px 0 rgba(var(--fg-rgb),0.2);
+  }
+  button:disabled:hover {
+    filter: none;
+    box-shadow: none;
+  }
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.2);
+}
+
+button:disabled {
+  background: rgba(var(--fg-rgb), 0.10);
+  /* Базовая кнопка красит текст в тёмный (#1a0800) под золотой градиент. У
+     неактивной фон меняется на прозрачный, а тёмный текст оставался — плюс
+     opacity: 0.5 добивала его окончательно: в тёмной теме подпись сливалась с
+     фоном (отчёты 7444159, 7442985). Берём цвет из темы и держим контраст. */
+  color: rgba(var(--fg-rgb), 0.62);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+button:disabled::after {
+  display: none;
+}
+
+.section {
+  background: rgba(15, 35, 30, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: var(--spacing-lg);
+  border: 1px solid rgba(212, 165, 116, 0.13);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(var(--fg-rgb),0.04);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* dvh учитывает сворачивающиеся панели мобильных браузеров — без него высота
+     скачет при первом скролле. Старые движки просто берут 100vh выше. */
+  min-height: 100dvh;
+}
+
+.page-scroll {
+  flex: 1;
+  overflow-y: auto;
+  /* Место под полосу прокрутки резервируем заранее: она появлялась после
+     загрузки контента и сдвигала вёрстку — при запуске страница дёргалась
+     (отчёт 7443308). Движки без поддержки свойства просто игнорируют строку. */
+  scrollbar-gutter: stable;
+  padding: 0 20px calc(env(safe-area-inset-bottom, 0) + 24px);
+}
+
+header {
+  text-align: center;
+  /* Верхний отступ учитывает safe-area (чёлка / Dynamic Island на iOS),
+     иначе остров перекрывает заголовок раздела (bug7438681). */
+  margin: var(--v3-top) 0 24px;
+  position: relative;
+}
+
+/* Кнопка «Назад» в единой шапке (PageHeader) — по эталону Оракула:
+   круг 40×40, иконка по центру. Базовый вид + интерактивные состояния
+   (отклик на нажатие, ховер, видимое кольцо фокуса) держим в CSS, чтобы
+   состояния корректно перекрывали базу (инлайн-стиль их бы перебил). */
+.page-back-btn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--fg-rgb), 0.06);
+  border: 1px solid rgba(var(--fg-rgb), 0.15);
+  color: rgba(var(--fg-rgb), 0.85);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .page-back-btn:hover {
+    background: rgba(var(--fg-rgb), 0.12);
+    border-color: rgba(var(--fg-rgb), 0.28);
+    filter: none; /* круглая кнопка «назад» яркость не меняет */
+  }
+}
+.page-back-btn:active {
+  transform: scale(0.9);
+}
+.page-back-btn:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+h1 {
+  font-size: var(--fluid-2xl);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  color: var(--subtitle-readable);
+  font-size: var(--fluid-base);
+  margin: 0;
+  font-weight: 400;
+}
+
+.tagline {
+  color: var(--primary-color);
+  font-size: var(--fluid-sm);
+  opacity: 0.85;
+  margin: 6px 0 0;
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes pulse-record {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  50% { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Тост центрируется через translateX(-50%); fadeIn анимирует translateY и затирал
+   бы центрирование (тост появлялся сбоку и уезжал в центр, bug7438730). Здесь
+   -50% сохраняется на всех кадрах. */
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, -8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(14px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shimmerSweep {
+  0%   { left: -100%; }
+  35%  { left: 150%; }
+  100% { left: 150%; }
+}
+
+@keyframes moonPulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(232,146,10,0.35), 0 0 80px rgba(232,146,10,0.15); }
+  50%       { box-shadow: 0 0 55px rgba(232,146,10,0.50), 0 0 100px rgba(232,146,10,0.22); }
+}
+
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Page-level enter transition */
+.page-transition {
+  animation: pageEnter 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Moon hero glow */
+.moon-hero {
+  animation: moonPulse 3s ease-in-out infinite;
+}
+
+/* Staggered card animation for lists */
+.card-enter {
+  animation: cardEnter 0.3s ease both;
+}
+
+/* Loading skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(var(--fg-rgb),0.05) 25%,
+    rgba(var(--fg-rgb),0.1) 50%,
+    rgba(var(--fg-rgb),0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.5s ease infinite;
+  border-radius: var(--radius-sm);
+}

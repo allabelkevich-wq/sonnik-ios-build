@@ -1,0 +1,661 @@
+/* ============================================================
+   ОНБОРДИНГ v4 ПРЕМИУМ + ПЕЙВОЛ-ШАГ
+   Стили и токены только этого экрана (импорт из OnboardingPage.jsx).
+   Значения — из референса design_handoff_v3 / OnboardPhoneLux.
+   Тёмная тема — значения по умолчанию, светлая — переопределением.
+   ============================================================ */
+
+:root {
+  --ob-shell:
+    radial-gradient(460px 330px at 50% -10%, rgba(232, 146, 10, .2) 0%, transparent 72%),
+    radial-gradient(520px 400px at 50% 112%, rgba(52, 211, 153, .08) 0%, transparent 70%),
+    linear-gradient(168deg, #03090a 0%, #071a16 38%, #05120f 72%, #020607 100%);
+  --ob-stars-op: .9;
+  --ob-stars:
+    radial-gradient(1px 1px at 18% 9%, rgba(255, 255, 255, .5) 0, transparent 100%),
+    radial-gradient(1.2px 1.2px at 74% 6%, rgba(232, 146, 10, .6) 0, transparent 100%),
+    radial-gradient(1px 1px at 41% 27%, rgba(255, 255, 255, .3) 0, transparent 100%),
+    radial-gradient(1px 1px at 89% 38%, rgba(216, 180, 254, .42) 0, transparent 100%),
+    radial-gradient(1px 1px at 9% 52%, rgba(255, 255, 255, .24) 0, transparent 100%),
+    radial-gradient(1.2px 1.2px at 62% 71%, rgba(232, 146, 10, .42) 0, transparent 100%),
+    radial-gradient(1px 1px at 31% 88%, rgba(255, 255, 255, .2) 0, transparent 100%);
+  --ob-glow: radial-gradient(closest-side, rgba(232, 146, 10, .2) 0%, rgba(232, 146, 10, .06) 55%, transparent 100%);
+  --ob-glow-top: -190px;
+  --ob-glow-blur: blur(6px);
+
+  --ob-fg-2: rgba(var(--fg-rgb), .86);
+  --ob-fg-3: rgba(var(--fg-rgb), .58);
+  --ob-fg-4: rgba(var(--fg-rgb), .42);
+
+  --ob-card: linear-gradient(158deg, rgba(18, 38, 30, .97) 0%, rgba(8, 25, 21, .98) 52%, rgba(5, 17, 15, .98) 100%);
+  --ob-card-br: linear-gradient(158deg, #e8920a 0%, rgba(232, 146, 10, .2) 38%, rgba(52, 211, 153, .24) 64%, rgba(245, 185, 105, .8) 100%);
+  --ob-sheen: rgba(255, 236, 200, .09);
+  --ob-hair: linear-gradient(90deg, transparent, rgba(232, 146, 10, .42) 22%, rgba(232, 146, 10, .42) 78%, transparent);
+  --ob-quote: linear-gradient(158deg, rgba(44, 22, 74, .8) 0%, rgba(15, 30, 28, .88) 65%, rgba(9, 22, 28, .9) 100%);
+  --ob-quote-br: linear-gradient(160deg, rgba(147, 51, 234, .44), rgba(255, 255, 255, .05) 50%, rgba(232, 146, 10, .2));
+  --ob-tile: linear-gradient(150deg, rgba(232, 146, 10, .105) 0%, rgba(232, 146, 10, .032) 58%, rgba(255, 255, 255, .014) 100%);
+  --ob-tile-br: rgba(232, 146, 10, .26);
+  --ob-inset: rgba(232, 146, 10, .1);
+  --ob-icon-off: rgba(247, 199, 120, .7);
+
+  --ob-gold-txt: #f7c778;
+  --ob-gold-label: rgba(247, 199, 120, .88);
+  --ob-purple-txt: #d8b4fe;
+  --ob-chip-p: rgba(147, 51, 234, .16);
+  --ob-chip-p-br: rgba(216, 180, 254, .2);
+  --ob-chip-g: linear-gradient(150deg, rgba(232, 146, 10, .2) 0%, rgba(232, 146, 10, .09) 100%);
+  --ob-chip-g-br: rgba(232, 146, 10, .42);
+  --ob-success: #34d399;
+  --ob-chip-s: rgba(52, 211, 153, .12);
+  --ob-chip-s-br: rgba(52, 211, 153, .26);
+  --ob-practice: linear-gradient(140deg, rgba(52, 211, 153, .1), rgba(52, 211, 153, .03) 65%, transparent);
+
+  --ob-moon-dark: #141c24;
+  --ob-moon-ring: rgba(255, 255, 255, .12);
+  --ob-lit: #f0b45c;
+}
+
+html[data-theme="light"] {
+  --ob-shell:
+    radial-gradient(460px 330px at 50% -10%, rgba(232, 146, 10, .2) 0%, transparent 72%),
+    linear-gradient(163deg, #fbf7ec 0%, #f2e9d6 46%, #e9dec6 100%);
+  --ob-stars-op: .55;
+  --ob-stars:
+    radial-gradient(1.2px 1.2px at 74% 6%, rgba(154, 114, 32, .5) 0, transparent 100%),
+    radial-gradient(1px 1px at 89% 38%, rgba(124, 58, 237, .32) 0, transparent 100%),
+    radial-gradient(1.2px 1.2px at 62% 71%, rgba(154, 114, 32, .38) 0, transparent 100%),
+    radial-gradient(1px 1px at 18% 9%, rgba(154, 114, 32, .26) 0, transparent 100%);
+  --ob-glow: radial-gradient(closest-side, rgba(232, 146, 10, .16) 0%, rgba(232, 146, 10, .05) 55%, transparent 100%);
+  --ob-glow-top: -200px;
+  --ob-glow-blur: none;
+
+  /* Референсный #2e2440 в приложении осознанно затемнён до #140d20 (WCAG AA
+     на пергаменте), поэтому ступени считаем от --fg-rgb проекта. */
+  --ob-fg-2: rgba(var(--fg-rgb), .9);
+  --ob-fg-3: rgba(var(--fg-rgb), .74);
+  --ob-fg-4: rgba(var(--fg-rgb), .72);
+
+  --ob-card: linear-gradient(158deg, #fffdf6 0%, #fdf8ea 55%, #f7f0dd 100%);
+  --ob-card-br: linear-gradient(158deg, #c9911d 0%, rgba(154, 114, 32, .28) 38%, rgba(23, 127, 70, .22) 64%, #b8891e 100%);
+  --ob-sheen: rgba(255, 255, 255, .75);
+  --ob-hair: linear-gradient(90deg, transparent, rgba(154, 114, 32, .5) 22%, rgba(154, 114, 32, .5) 78%, transparent);
+  --ob-quote: linear-gradient(158deg, rgba(248, 244, 255, .97) 0%, rgba(255, 253, 247, .98) 65%, rgba(252, 248, 238, .98) 100%);
+  --ob-quote-br: linear-gradient(160deg, rgba(124, 58, 237, .3), rgba(46, 36, 64, .06) 50%, rgba(154, 114, 32, .22));
+  --ob-tile: linear-gradient(150deg, #fffdf5 0%, #faf3e2 100%);
+  --ob-tile-br: rgba(154, 114, 32, .34);
+  --ob-inset: rgba(154, 114, 32, .11);
+  --ob-icon-off: rgba(122, 90, 18, .75);
+
+  --ob-gold-txt: #7a5a12;
+  --ob-gold-label: #7a5a12;
+  --ob-purple-txt: #6d28d9;
+  --ob-chip-p: rgba(124, 58, 237, .09);
+  --ob-chip-p-br: rgba(124, 58, 237, .22);
+  --ob-chip-g: linear-gradient(150deg, rgba(232, 146, 10, .22) 0%, rgba(232, 146, 10, .1) 100%);
+  --ob-chip-g-br: rgba(154, 114, 32, .46);
+  --ob-success: #177f46;
+  --ob-chip-s: rgba(23, 127, 70, .09);
+  --ob-chip-s-br: rgba(23, 127, 70, .26);
+  --ob-practice: linear-gradient(140deg, rgba(23, 127, 70, .1), rgba(23, 127, 70, .03) 65%, transparent);
+
+  --ob-moon-dark: #e2d6bd;
+  --ob-moon-ring: rgba(154, 114, 32, .35);
+  --ob-lit: #e09a12;
+}
+
+/* ---------- Каркас ---------- */
+.ob-page {
+  position: relative;
+  overflow: hidden;
+  background: var(--ob-shell);
+  height: 100vh;
+  height: 100dvh;
+}
+.ob-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--ob-stars-op);
+  background-image: var(--ob-stars);
+}
+.ob-glow {
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  top: var(--ob-glow-top);
+  height: 340px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--ob-glow);
+  filter: var(--ob-glow-blur);
+}
+
+/* Экран без <header> — верхний отступ отдаём сами: кнопки VK «⋯ ✕» на
+   iPhone 390×844 кончаются на 78pt, а справа в полосе стоит счётчик. */
+.ob-progress {
+  flex-shrink: 0;
+  padding: var(--v3-top) 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.ob-back {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ob-tile);
+  border: 1px solid var(--ob-tile-br);
+  box-shadow: none;
+  color: var(--ob-fg-2);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-back::after { display: none; }
+.ob-segs { flex: 1; display: flex; gap: 5px; }
+.ob-seg {
+  display: block;
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--ob-inset);
+}
+.ob-seg--on { background: linear-gradient(90deg, #f5a623, #c97a10); }
+.ob-count {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ob-fg-4);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ob-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  padding: 18px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+/* Шаги без полосы прогресса (обещание, тариф, готово) держат safe-area сами. */
+.ob-scroll--top { padding-top: calc(var(--v3-top) + 18px); }
+.ob-step { flex: 1; display: flex; flex-direction: column; }
+
+/* ---------- Типографика ---------- */
+.ob-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--ob-gold-label);
+  white-space: nowrap;
+}
+.ob-gold-title {
+  font-weight: 800;
+  background: linear-gradient(94deg, var(--fg) 14%, var(--ob-gold-txt) 118%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--fg);
+  margin: 0;
+}
+.ob-h1 { font-size: 33px; letter-spacing: -.035em; line-height: 1.08; }
+.ob-h1--done { font-size: 29px; letter-spacing: -.035em; line-height: 1.14; }
+.ob-h1--paywall { font-size: 26px; letter-spacing: -.03em; line-height: 1.16; }
+.ob-hair { width: 74px; height: 1px; background: var(--ob-hair); }
+.ob-lead {
+  font-size: 14.5px;
+  line-height: 1.64;
+  color: var(--ob-fg-3);
+  text-wrap: pretty;
+  margin: 0;
+}
+.ob-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ob-gold-label);
+}
+.ob-label--success { color: var(--ob-success); }
+.ob-h2 {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.18;
+  color: var(--fg);
+  margin: 0;
+}
+.ob-sub { font-size: 14px; line-height: 1.6; color: var(--ob-fg-3); margin: 0; }
+.ob-head { display: flex; flex-direction: column; gap: 10px; }
+
+/* ---------- Квадраты иконок ---------- */
+.ob-sq {
+  border-radius: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ob-sq--gold { background: var(--ob-chip-g); border: 1px solid var(--ob-chip-g-br); color: var(--ob-gold-txt); }
+.ob-sq--purple { background: var(--ob-chip-p); border: 1px solid var(--ob-chip-p-br); color: var(--ob-purple-txt); }
+.ob-sq--green { background: var(--ob-chip-s); border: 1px solid var(--ob-chip-s-br); color: var(--ob-success); }
+.ob-sq--off { background: var(--ob-inset); border: 1px solid var(--ob-tile-br); color: var(--ob-icon-off); }
+
+/* ---------- Опора (шаг «Обещание») ---------- */
+.ob-pillar {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  padding: 14px 15px;
+  border-radius: 18px;
+  background: var(--ob-tile);
+  border: 1px solid var(--ob-tile-br);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-pillar-t { font-size: 14px; font-weight: 700; color: var(--fg); }
+.ob-pillar-s { font-size: 12.5px; line-height: 1.5; color: var(--ob-fg-3); margin-top: 3px; }
+
+/* ---------- Строка выбора ---------- */
+.ob-row {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 62px;
+  padding: 12px 14px;
+  border-radius: 17px;
+  cursor: pointer;
+  box-shadow: none;
+  color: inherit;
+  background: var(--ob-tile);
+  border: 1px solid var(--ob-tile-br);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-row::after { display: none; }
+.ob-row--on { background: var(--ob-chip-g); border-color: var(--ob-chip-g-br); }
+.ob-row-t { font-size: 14px; font-weight: 600; color: var(--fg); }
+.ob-row-s { font-size: 12px; color: var(--ob-fg-4); margin-top: 2px; }
+.ob-tick {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--ob-tile-br);
+}
+.ob-tick--on { background: linear-gradient(135deg, #f5a623, #c97a10); border-color: transparent; }
+
+/* ---------- Форма даты рождения ---------- */
+.ob-field-label { font-size: 11px; color: var(--ob-fg-4); margin-bottom: 6px; display: block; }
+.ob-input {
+  height: 52px;
+  width: 100%;
+  padding: 0 16px;
+  border-radius: 15px;
+  background: var(--ob-inset);
+  border: 1px solid var(--ob-tile-br);
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--fg);
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+}
+.ob-input:focus { border-color: var(--ob-chip-g-br); }
+.ob-input--date { padding-right: 44px; }
+.ob-input--time { font-weight: 400; }
+.ob-input--city { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ob-input::placeholder { color: var(--ob-fg-4); font-weight: 400; }
+.ob-cal-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--ob-fg-4);
+  pointer-events: none;
+}
+.ob-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.ob-hint { font-size: 11.5px; line-height: 1.5; color: var(--ob-fg-4); margin: 0; }
+.ob-consent { font-size: 10.5px; line-height: 1.5; color: var(--ob-fg-4); margin: 0; text-align: center; opacity: .85; }
+.ob-consent a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.ob-sugg {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  margin-top: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--surface-solid);
+  border: 1px solid var(--ob-tile-br);
+  border-radius: 13px;
+}
+.ob-sugg-item {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--fg);
+  border-bottom: 1px solid rgba(var(--fg-rgb), .06);
+  cursor: pointer;
+}
+.ob-sugg-item:last-child { border-bottom: none; }
+
+/* ---------- Карточки с градиентной кромкой ---------- */
+.ob-edge { border-radius: 20px; padding: 1px; }
+.ob-edge--quote { background: var(--ob-quote-br); }
+.ob-edge--card { background: var(--ob-card-br); }
+.ob-edge--big { border-radius: 22px; }
+.ob-edge-in {
+  border-radius: 19px;
+  padding: 17px 16px;
+  box-shadow: inset 0 1px 0 var(--ob-sheen);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-edge-in--quote { background: var(--ob-quote); }
+.ob-edge-in--card { background: var(--ob-card); padding: 16px; gap: 12px; }
+.ob-edge-in--big { border-radius: 21px; padding: 17px 16px; gap: 13px; background: var(--ob-card); }
+.ob-quote-head { display: flex; align-items: center; gap: 8px; }
+.ob-quote-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ob-purple-txt);
+}
+.ob-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ob-mini-cell { padding: 11px 13px; border-radius: 13px; background: var(--ob-inset); }
+.ob-mini-l {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ob-fg-4);
+}
+.ob-mini-v { font-size: 14px; font-weight: 700; margin-top: 4px; }
+.ob-mini-v--purple { color: var(--ob-purple-txt); }
+.ob-mini-v--gold { color: var(--ob-gold-txt); }
+.ob-payoff { font-size: 13px; line-height: 1.58; color: var(--ob-fg-2); margin: 0; }
+.ob-card-err { font-size: 13px; line-height: 1.5; color: var(--danger); margin: 0; }
+
+/* ---------- Врезка-практика ---------- */
+.ob-note {
+  border-radius: 18px;
+  border: 1px solid var(--ob-chip-s-br);
+  background: var(--ob-practice);
+  padding: 15px 16px;
+  display: flex;
+  gap: 11px;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-note--in { border-radius: 14px; padding: 13px 14px; gap: 10px; }
+.ob-note-t { font-size: 12.5px; line-height: 1.55; color: var(--ob-fg-2); }
+.ob-note-l {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ob-success);
+}
+.ob-note-b { font-size: 13px; line-height: 1.55; color: var(--ob-fg-2); margin-top: 3px; }
+
+/* ---------- Превью разбора ---------- */
+.ob-prev-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ob-prev-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ob-gold-label);
+  white-space: nowrap;
+}
+.ob-prev-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--ob-inset);
+  color: var(--ob-fg-4);
+}
+.ob-prev-dream {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--ob-inset);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--ob-fg-3);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.ob-layer { display: flex; gap: 11px; }
+.ob-layer-bar { width: 2px; flex-shrink: 0; border-radius: 2px; background: var(--ob-gold-txt); align-self: stretch; }
+.ob-layer-l {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ob-gold-label);
+}
+.ob-layer-t { font-size: 13px; line-height: 1.55; color: var(--ob-fg-2); margin-top: 3px; }
+.ob-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.ob-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 11px;
+  border-radius: 13px;
+  background: var(--ob-tile);
+  border: 1px solid var(--ob-tile-br);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background: var(--ob-chip-s);
+  border: 1px solid var(--ob-chip-s-br);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ob-check-t { font-size: 11.5px; line-height: 1.35; color: var(--ob-fg-2); flex: 1; }
+
+/* ---------- Пейвол-шаг ---------- */
+.ob-pw-head { display: flex; flex-direction: column; gap: 10px; text-align: center; padding-top: 4px; }
+.ob-pw-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #f5a623, #c97a10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 26px rgba(232, 146, 10, .3);
+  margin: 0 auto;
+  color: #1a0800; /* бренд: тёмный знак на золоте в обеих темах */
+}
+.ob-perk { display: flex; gap: 11px; align-items: flex-start; }
+.ob-perk-t { font-size: 13.5px; font-weight: 700; color: var(--fg); }
+.ob-perk-s { font-size: 12.5px; line-height: 1.5; color: var(--ob-fg-3); margin-top: 2px; }
+.ob-outcome { display: flex; align-items: center; gap: 10px; }
+.ob-outcome-f { font-size: 12.5px; line-height: 1.4; color: var(--ob-fg-4); flex: 1; text-align: left; }
+.ob-outcome-t { font-size: 12.5px; font-weight: 600; line-height: 1.4; color: var(--fg); flex: 1.15; text-align: left; }
+.ob-plan {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  min-height: 68px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  cursor: pointer;
+  color: inherit;
+  background: var(--ob-tile);
+  border: 1px solid var(--ob-tile-br);
+  box-shadow: none;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-plan::after { display: none; }
+.ob-plan--on {
+  background: var(--ob-chip-g);
+  border-color: var(--ob-chip-g-br);
+  box-shadow: 0 0 0 1px var(--ob-chip-g-br);
+}
+.ob-radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ob-tile-br);
+}
+.ob-radio--on { border-color: #e8920a; }
+.ob-radio-dot { width: 11px; height: 11px; border-radius: 999px; background: linear-gradient(135deg, #f5a623, #c97a10); }
+.ob-plan-name { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.ob-plan-n { font-size: 14.5px; font-weight: 700; color: var(--fg); }
+.ob-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--ob-chip-s);
+  border: 1px solid var(--ob-chip-s-br);
+  color: var(--ob-success);
+  white-space: nowrap;
+}
+.ob-plan-s { font-size: 12px; color: var(--ob-fg-4); margin-top: 2px; }
+.ob-price { font-size: 15.5px; font-weight: 800; color: var(--fg); font-variant-numeric: tabular-nums; }
+.ob-per { font-size: 11px; color: var(--ob-fg-4); margin-top: 1px; }
+
+/* ---------- Готово ---------- */
+.ob-done {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.ob-ready {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 15px;
+  border-radius: 15px;
+  background: var(--ob-tile);
+  border: 1px solid var(--ob-tile-br);
+  text-align: left;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.ob-ready-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background: var(--ob-chip-s);
+  border: 1px solid var(--ob-chip-s-br);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ob-ready-t { font-size: 13px; color: var(--ob-fg-2); flex: 1; }
+
+/* ---------- Футер ---------- */
+.ob-footer {
+  flex-shrink: 0;
+  padding: 0 22px calc(env(safe-area-inset-bottom, 0px) + 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  position: relative;
+  z-index: 1;
+}
+.ob-skip {
+  min-height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ob-fg-3);
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.ob-skip::after { display: none; }
+.ob-foot { text-align: center; font-size: 11px; line-height: 1.5; color: var(--ob-fg-4); margin: 0; }
+.ob-error { font-size: 13px; color: var(--danger); text-align: center; margin: 0; }
+.ob-retry {
+  min-height: 44px;
+  width: auto;
+  align-self: flex-start;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--ob-gold-txt);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ob-retry::after { display: none; }
+
+/* ---------- Луна ---------- */
+.ob-moon { display: block; overflow: visible; flex-shrink: 0; }
+.ob-moon--promise { filter: drop-shadow(0 0 34px rgba(232, 146, 10, .26)); }
+.ob-moon--done { filter: drop-shadow(0 0 32px rgba(52, 211, 153, .22)); }
+
+/* ---------- Скелетоны ---------- */
+.ob-skel { display: block; border-radius: 6px; background: rgba(var(--fg-rgb), .09); }
+
+/* На 320–359px имя тарифа, бейдж и цена в строку не помещаются. */
+@media (max-width: 359px) {
+  .ob-badge { display: none; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ob-back:hover, .ob-row:hover, .ob-plan:hover, .ob-skip:hover { filter: brightness(1.06); box-shadow: none; }
+  .ob-plan--on:hover { box-shadow: 0 0 0 1px var(--ob-chip-g-br); }
+}

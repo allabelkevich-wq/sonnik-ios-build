@@ -1,0 +1,14 @@
+{
+  "appId": "com.yupsoul.sonnik",
+  "appName": "Лунный сонник",
+  "webDir": "www",
+  "backgroundColor": "#08071aff",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#08071aff",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "android": {
+    "backgroundColor": "#08071aff"
+  }
+}

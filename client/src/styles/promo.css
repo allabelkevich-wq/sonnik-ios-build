@@ -1,0 +1,51 @@
+/* ============================================================
+   Промо музыкального оракула (YupSoulPromo) — дизайн v3.
+   Токены объявляются здесь, а не в theme.css: карточка партнёра —
+   единственный их потребитель. Тёмная тема — значение по умолчанию.
+   ============================================================ */
+
+:root,
+html[data-theme="dark"] {
+  --promo-fg-3: rgba(var(--fg-rgb), 0.58);
+  --promo-fg-4: rgba(var(--fg-rgb), 0.44);
+  --promo-bg: linear-gradient(152deg, rgba(44, 24, 74, 0.86) 0%, rgba(18, 32, 30, 0.9) 60%, rgba(11, 24, 28, 0.92) 100%);
+  --promo-edge: linear-gradient(158deg, rgba(147, 51, 234, 0.5), rgba(255, 255, 255, 0.05) 52%, rgba(232, 146, 10, 0.24));
+  --promo-sheen: rgba(255, 236, 200, 0.07);
+  --promo-tile: rgba(255, 255, 255, 0.04);
+  --promo-tile-br: rgba(255, 255, 255, 0.13);
+  --promo-inset: rgba(255, 255, 255, 0.08);
+  --promo-violet: #d8b4fe;
+  --promo-chip: rgba(147, 51, 234, 0.18);
+  --promo-chip-br: rgba(216, 180, 254, 0.24);
+}
+
+html[data-theme="light"] {
+  /* Альфы берём от проектного --fg-rgb (#140d20) — он темнее референсного
+     #2e2440, поэтому те же .74/.72 дают запас по контрасту. */
+  --promo-fg-3: rgba(var(--fg-rgb), 0.74);
+  --promo-fg-4: rgba(var(--fg-rgb), 0.72);
+  --promo-bg: linear-gradient(152deg, #f9f4ff 0%, #fffdf6 62%, #faf4e6 100%);
+  --promo-edge: linear-gradient(158deg, rgba(124, 58, 237, 0.42), rgba(46, 36, 64, 0.06) 52%, rgba(154, 114, 32, 0.26));
+  --promo-sheen: rgba(255, 255, 255, 0.8);
+  --promo-tile: rgba(255, 253, 247, 0.92);
+  --promo-tile-br: rgba(154, 114, 32, 0.26);
+  --promo-inset: rgba(46, 36, 64, 0.07);
+  --promo-violet: #6d28d9;
+  --promo-chip: rgba(124, 58, 237, 0.1);
+  --promo-chip-br: rgba(124, 58, 237, 0.24);
+}
+
+/* Глобальный <button> в globals.css — золотая пилюля с shimmer-псевдоэлементом
+   и тенью. Инлайн-стили ::after не гасят, поэтому вторичным кнопкам промо
+   нужен класс. Специфичность класса перебивает button::after независимо от
+   порядка подключения файлов. */
+.promo-plain::after {
+  display: none;
+}
+
+/* Крестик не «нажимается»: глобальный button:active сдвигает на 1px, и кружок
+   26px в углу карточки от этого дёргается. У кнопки «Открыть» сдвиг остаётся. */
+.promo-x:active {
+  transform: none;
+  box-shadow: none;
+}

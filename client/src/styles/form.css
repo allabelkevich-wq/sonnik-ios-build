@@ -1,0 +1,381 @@
+/* ============================================================
+   Ввод сна (FormPage) — дизайн v3
+   Импортируется из client/src/pages/FormPage.jsx.
+
+   Общие токены берём из v3.css (--v3-*), здесь только то, чего в
+   фундаменте нет: цвета шага/табов/поля и красный записи (он не
+   совпадает с --v3-danger: макет просит #ef4444 / #b3283e).
+   Тёмная тема — значение по умолчанию, светлая — html[data-theme="light"].
+   ============================================================ */
+:root,
+html[data-theme="dark"] {
+  --f-fg-2: rgba(var(--fg-rgb), .5);
+  --f-fg-3: rgba(var(--fg-rgb), .34);
+  --f-hint: rgba(var(--fg-rgb), .38);
+  --f-text: rgba(var(--fg-rgb), .86);
+  --f-progress-on: linear-gradient(90deg, #f5a623, #e8920a);
+  --f-progress-off: rgba(var(--fg-rgb), .12);
+  --f-tabs-bg: rgba(var(--fg-rgb), .05);
+  --f-tabs-br: rgba(var(--fg-rgb), .07);
+  --f-tab-on: linear-gradient(135deg, rgba(124,58,237,.95), rgba(109,40,217,.9));
+  --f-tab-on-shadow: 0 3px 12px rgba(109, 40, 217, .32);
+  --f-tab-ic-off: rgba(var(--fg-rgb), .5);
+  --f-line: rgba(var(--fg-rgb), .07);
+  --f-rec: #ef4444;
+  --f-rec-rgb: 239, 68, 68;
+  --f-rec-card: linear-gradient(158deg, rgba(46,16,22,.55) 0%, rgba(11,24,22,.85) 60%, rgba(9,20,26,.88) 100%);
+  --f-rec-shadow: none;
+}
+html[data-theme="light"] {
+  --f-fg-2: rgba(var(--fg-rgb), .74);
+  --f-fg-3: rgba(var(--fg-rgb), .72);
+  --f-hint: rgba(var(--fg-rgb), .72);
+  --f-text: var(--fg);
+  --f-progress-on: linear-gradient(90deg, #f5a623, #c97a10);
+  --f-progress-off: rgba(var(--fg-rgb), .14);
+  --f-tabs-bg: rgba(var(--fg-rgb), .05);
+  --f-tabs-br: rgba(154, 114, 32, .14);
+  --f-tab-on: linear-gradient(135deg, #7c3aed, #6d28d9);
+  --f-tab-on-shadow: 0 3px 12px rgba(109, 40, 217, .28);
+  --f-tab-ic-off: rgba(var(--fg-rgb), .5);
+  --f-line: rgba(var(--fg-rgb), .08);
+  --f-rec: #b3283e;
+  --f-rec-rgb: 179, 40, 62;
+  --f-rec-card: linear-gradient(158deg, rgba(255,253,247,.96), rgba(252,242,240,.92));
+  --f-rec-shadow: 0 2px 14px rgba(46, 36, 64, .05);
+}
+
+/* ---------- Шапка ---------- */
+.f-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  color: var(--v3-fg);
+  overflow-wrap: anywhere;
+}
+.f-step { font-size: 12px; margin-top: 2px; color: var(--f-fg-2); }
+.f-seg { width: 22px; height: 3px; border-radius: 2px; flex-shrink: 0; background: var(--f-progress-off); }
+.f-seg--on { background: var(--f-progress-on); }
+
+/* ---------- Табы ---------- */
+.f-tabs {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--f-tabs-bg);
+  border: 1px solid var(--f-tabs-br);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+/* Глобальный `button` из globals.css красит любую кнопку золотом и вешает
+   бегущий блик ::after — перебиваем явно. */
+.f-tab {
+  flex: 1;
+  width: auto;
+  min-height: 44px;
+  padding: 9px 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--f-fg-2);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background .2s, color .2s;
+}
+.f-tab::after { display: none; }
+.f-tab:active { transform: none; box-shadow: none; }
+.f-tab__ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--f-tab-ic-off); }
+.f-tab--on { background: var(--f-tab-on); box-shadow: var(--f-tab-on-shadow); color: #fff; }
+.f-tab--on .f-tab__ico { color: #fff; }
+.f-tab:disabled { background: transparent; color: var(--f-fg-2); box-shadow: none; }
+.f-tab--on:disabled { background: var(--f-tab-on); color: #fff; }
+
+/* ---------- Поле ввода ---------- */
+.f-ta {
+  display: block;
+  width: 100%;
+  height: 172px;
+  min-height: 172px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--f-text);
+  box-sizing: border-box;
+}
+.f-ta::placeholder { color: rgba(var(--fg-rgb), .4); }
+.f-ta:disabled { opacity: .5; }
+
+.f-paste {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: auto;
+  min-height: 44px;
+  margin: 4px auto 0;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--v3-fg-2);
+}
+.f-paste::after { display: none; }
+
+/* Подсказки-образы под пустым полем: снимают «чистый лист». Строка-подпись
+   и пилюли живут в одном потоке — подпись занимает всю ширину, пилюли
+   переносятся по мере надобности. */
+.f-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  margin: 10px 0 0;
+}
+.f-chips__cap {
+  flex: 0 0 100%;
+  text-align: center;
+  font-size: 11.5px;
+  color: rgba(var(--fg-rgb), 0.45);
+}
+.f-chip {
+  width: auto;
+  min-height: 44px;
+  padding: 11px 15px;
+  border-radius: 999px;
+  background: var(--v3-tile);
+  border: 1px solid var(--v3-tile-br);
+  box-shadow: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(var(--fg-rgb), 0.8);
+}
+.f-chip::after { display: none; }
+.f-chip:active { transform: none; box-shadow: none; opacity: 0.7; }
+
+.f-paste:active { transform: none; box-shadow: none; }
+
+.f-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--f-line);
+  font-size: 11.5px;
+}
+.f-status__l {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-weight: 600;
+  color: var(--f-fg-3);
+}
+.f-status__l--ok { color: var(--v3-success); }
+.f-status__ico { width: 14px; height: 14px; flex-shrink: 0; }
+.f-status__c { flex-shrink: 0; color: var(--f-fg-3); font-variant-numeric: tabular-nums; }
+.f-status__c--max { color: var(--v3-danger); }
+
+/* ---------- Карточка записи ---------- */
+.f-rec-card {
+  border-radius: 22px;
+  padding: 22px 18px 18px;
+  border: 1px solid rgba(var(--f-rec-rgb), .28);
+  background: var(--f-rec-card);
+  box-shadow: var(--f-rec-shadow);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.f-rec-body { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.f-rec-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--f-fg-2);
+}
+.f-rec-label--live { color: var(--f-rec); }
+.f-rec-label--busy { color: var(--v3-purple-txt); }
+.f-rec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--f-rec);
+  box-shadow: 0 0 0 4px rgba(var(--f-rec-rgb), .16);
+}
+.f-bars { display: flex; align-items: center; gap: 4px; height: 44px; }
+.f-bar { width: 3px; border-radius: 2px; transform-origin: center; }
+.f-bars--live .f-bar { animation: fBar 1s ease-in-out infinite; }
+.f-timer {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--v3-fg);
+}
+.f-timer--idle { color: var(--f-fg-3); }
+.f-rec-hint {
+  max-width: 250px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--f-fg-2);
+}
+.f-rec-hint--err { color: var(--f-rec); font-weight: 600; }
+
+.f-btn {
+  width: 100%;
+  height: 52px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-shadow: none;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.f-btn::after { display: none; }
+.f-btn--stop { background: var(--f-rec); animation: fRecPulse 1.4s ease-in-out infinite; }
+.f-btn--rec { background: var(--f-tab-on); box-shadow: var(--f-tab-on-shadow); }
+.f-btn:disabled { opacity: .7; background: var(--f-tab-on); color: #fff; }
+
+.f-keep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11.5px;
+  text-align: center;
+  color: var(--f-fg-3);
+}
+
+/* ---------- Главное действие и подсказки ---------- */
+.f-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--f-hint);
+}
+.f-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: rgba(var(--v3-gold-rgb), .45);
+}
+.f-loading {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: 56px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--v3-gold-rgb), .3);
+  background: rgba(var(--v3-gold-rgb), .1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--v3-gold-txt);
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.f-loading__sweep {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 48%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .18), transparent);
+  transform: skewX(-18deg);
+  animation: v3Sweep 4.2s ease-in-out infinite;
+}
+
+/* ---------- Остаток бесплатных ---------- */
+.f-free { display: flex; align-items: center; gap: 9px; padding-top: 2px; }
+.f-free__line { flex: 1; min-width: 12px; height: 1px; background: var(--v3-rule-c); }
+.f-free__dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--v3-gold-dot);
+  animation: v3Twinkle 3.4s ease-in-out infinite;
+}
+.f-free__dot--b { animation-delay: 1.2s; }
+.f-free__t { font-size: 11px; text-align: center; color: var(--f-fg-3); }
+
+/* Вход через Apple — по правилам Apple: знак и надпись одного цвета, кнопка
+   контрастна фону (на тёмной теме белая, на светлой чёрная), системный шрифт. */
+.f-apple-btn {
+  --apple-bg: #fff;
+  --apple-fg: #000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  min-width: 240px;
+  min-height: 48px;
+  padding: 0 28px;
+  border: none;
+  border-radius: 9999px;
+  background: var(--apple-bg);
+  color: var(--apple-fg);
+  box-shadow: none;
+  font: 600 16px/1 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  letter-spacing: normal;
+  cursor: pointer;
+}
+html[data-theme="light"] .f-apple-btn { --apple-bg: #000; --apple-fg: #fff; }
+/* Глобальный button (globals.css) вешает золотое свечение, бегущий блик и серый
+   фон неактивной кнопки — у кнопки Apple своего оформления быть не должно. */
+.f-apple-btn::after { display: none; }
+.f-apple-btn:hover,
+.f-apple-btn:active { box-shadow: none; filter: none; }
+.f-apple-btn:disabled { background: var(--apple-bg); color: var(--apple-fg); opacity: .6; cursor: default; }
+
+@keyframes fBar { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+@keyframes fRecPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--f-rec-rgb), .42); }
+  50%      { box-shadow: 0 0 0 13px rgba(var(--f-rec-rgb), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .f-bars--live .f-bar { animation: none; }
+  .f-btn--stop { animation: none; }
+  .f-loading__sweep { display: none; }
+  .f-free__dot { animation: none; }
+}

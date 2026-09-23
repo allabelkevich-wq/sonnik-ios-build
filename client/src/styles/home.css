@@ -1,0 +1,196 @@
+/* ============================================================
+   ГЛАВНАЯ v3 — токены экрана и правки поверх globals.css
+   Значения сняты с эталона «HomeScreen v3.dc.html» (обе темы).
+   Тёмная — значения по умолчанию, светлая — переопределения.
+   Семейство --h-* из theme.css переиспользовать нельзя: там
+   светлые значения собраны до эталона и отличаются альфами,
+   а theme.css правится отдельно от экранов.
+   ============================================================ */
+:root {
+  --home-muted: rgba(255,255,255,.52);
+  --home-body: rgba(255,255,255,.82);
+  --home-date: rgba(255,255,255,.3);
+
+  --home-label: rgba(232,146,10,.66);
+  --home-label-line: linear-gradient(90deg,rgba(232,146,10,.28),rgba(255,255,255,.05) 55%,transparent);
+
+  --home-daynum-bg: linear-gradient(160deg,#ffd58a,#e8920a 70%,#c97a10);
+  --home-daynum-clip: text;
+  --home-daynum-color: transparent;
+  --home-daynum-label: rgba(232,146,10,.62);
+  --home-daynum-line: rgba(232,146,10,.16);
+
+  --home-moon-anim: hMoonBreathe 4s ease-in-out infinite;
+  --home-moon-filter: drop-shadow(0 0 18px rgba(232, 146, 10, .24));
+  --home-moon-terminator: rgba(6,13,13,.5);
+  --home-moon-ring: rgba(255,232,190,.4);
+
+  --home-card: linear-gradient(158deg,rgba(38,20,64,.72) 0%,rgba(13,28,26,.86) 52%,rgba(9,22,28,.9) 100%);
+  --home-card-edge: linear-gradient(160deg,rgba(147,51,234,.4),rgba(255,255,255,.05) 48%,rgba(232,146,10,.18));
+  --home-card-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+  --home-card-title: rgba(216,180,254,.8);
+
+  --home-chip-violet-bg: rgba(147,51,234,.16);
+  --home-chip-violet-br: rgba(216,180,254,.18);
+  --home-chip-violet-txt: #e2c9fe;
+  --home-chip-violet-ico: #d8b4fe;
+  --home-chip-gold-bg: rgba(232,146,10,.13);
+  --home-chip-gold-br: rgba(232,146,10,.24);
+  --home-gold-soft: #f0b45c;
+
+  --home-rule: linear-gradient(90deg,transparent,rgba(232,146,10,.2) 50%,transparent);
+  --home-dot: rgba(232,146,10,.5);
+  --home-dot-mid: rgba(232,146,10,.7);
+
+  --home-inset-bg: linear-gradient(120deg,rgba(232,146,10,.09),rgba(232,146,10,.03));
+  --home-inset-bar: linear-gradient(180deg,rgba(232,146,10,.75),rgba(232,146,10,.15));
+  --home-inset-txt: rgba(240,180,92,.92);
+
+  --home-btn-shadow: 0 0 34px rgba(232,146,10,.36), 0 10px 26px rgba(232,146,10,.22), inset 0 1px 0 rgba(255,255,255,.42), inset 0 -1px 0 rgba(120,64,0,.28);
+  --home-btn-sweep: linear-gradient(90deg,transparent,rgba(255,255,255,.34),transparent);
+  --home-btn-hint: rgba(255,255,255,.38);
+  --home-btn-dot: rgba(232,146,10,.45);
+
+  --home-steps-bg: rgba(232,146,10,.12);
+  --home-steps-br: rgba(232,146,10,.26);
+  --home-personal-br: rgba(232,146,10,.26);
+  --home-personal-bg: linear-gradient(140deg,rgba(232,146,10,.09),rgba(232,146,10,.025) 60%,transparent);
+  --home-personal-shadow: 0 0 26px rgba(232,146,10,.08), inset 0 1px 0 rgba(255,255,255,.05);
+  --home-personal-ico-bg: radial-gradient(circle at 32% 26%, rgba(255,213,138,.3), rgba(232,146,10,.12));
+  --home-personal-ico-br: rgba(232,146,10,.3);
+  --home-personal-ico: #f0b45c;
+  --home-personal-hint: rgba(255,255,255,.48);
+
+  --home-tile: linear-gradient(170deg,rgba(255,255,255,.07),rgba(255,255,255,.025));
+  --home-tile-br: rgba(255,255,255,.085);
+  --home-tile-shadow: inset 0 1px 0 rgba(255,255,255,.07);
+  --home-tile-label: rgba(255,255,255,.88);
+  --home-tile-hint: rgba(255,255,255,.36);
+
+  --home-ico-gold-bg: rgba(232,146,10,.13);
+  --home-ico-gold-br: rgba(232,146,10,.24);
+  --home-ico-gold: #e8920a;
+  --home-ico-lilac-bg: rgba(192,132,252,.13);
+  --home-ico-lilac-br: rgba(192,132,252,.26);
+  --home-ico-lilac: #c084fc;
+  --home-ico-green-bg: rgba(52,211,153,.13);
+  --home-ico-green-br: rgba(52,211,153,.26);
+  --home-ico-green: #34d399;
+
+  --home-how: rgba(255,255,255,.4);
+  --home-how-chev: rgba(255,255,255,.35);
+  --home-how-line: rgba(232,146,10,.28);
+}
+
+html[data-theme="light"] {
+  --home-muted: rgba(46,36,64,.6);
+  --home-body: rgba(46,36,64,.88);
+  --home-date: rgba(46,36,64,.45);
+
+  --home-label: rgba(154,114,32,.9);
+  --home-label-line: linear-gradient(90deg,rgba(154,114,32,.3),rgba(46,36,64,.08) 55%,transparent);
+
+  /* Числу лунного дня в светлой теме градиент не идёт: тонкие штрихи
+     Inter 800 на пергаменте выцветают. Эталон даёт сплошной #9a7220. */
+  --home-daynum-bg: none;
+  --home-daynum-clip: border-box;
+  --home-daynum-color: #9a7220;
+  --home-daynum-label: rgba(154,114,32,.72);
+  --home-daynum-line: rgba(154,114,32,.22);
+
+  /* Луна днём не «дышит» — свечение по светлому фону читается грязью. */
+  --home-moon-anim: none;
+  --home-moon-filter: drop-shadow(0 6px 14px rgba(184, 121, 26, .30));
+  --home-moon-terminator: rgba(80,44,4,.34);
+  --home-moon-ring: rgba(255,232,190,.5);
+
+  --home-card: linear-gradient(158deg,rgba(248,244,255,.96) 0%,rgba(255,253,247,.97) 55%,rgba(252,248,238,.97) 100%);
+  --home-card-edge: linear-gradient(160deg,rgba(124,58,237,.28),rgba(46,36,64,.06) 48%,rgba(154,114,32,.2));
+  --home-card-shadow: 0 2px 14px rgba(46,36,64,.05);
+  --home-card-title: #7c3aed;
+
+  --home-chip-violet-bg: rgba(124,58,237,.09);
+  --home-chip-violet-br: rgba(124,58,237,.2);
+  --home-chip-violet-txt: #6d28d9;
+  --home-chip-violet-ico: #7c3aed;
+  --home-chip-gold-bg: rgba(184,121,26,.1);
+  --home-chip-gold-br: rgba(154,114,32,.26);
+  --home-gold-soft: #8a6416;
+
+  --home-rule: linear-gradient(90deg,transparent,rgba(154,114,32,.24) 50%,transparent);
+  --home-dot: rgba(154,114,32,.5);
+  --home-dot-mid: rgba(154,114,32,.75);
+
+  --home-inset-bg: linear-gradient(120deg,rgba(184,121,26,.1),rgba(184,121,26,.04));
+  --home-inset-bar: linear-gradient(180deg,rgba(154,114,32,.75),rgba(154,114,32,.2));
+  --home-inset-txt: rgba(94,68,16,.95);
+
+  --home-btn-shadow: 0 10px 28px rgba(201,122,16,.34), 0 2px 8px rgba(120,64,0,.18), inset 0 1px 0 rgba(255,255,255,.45), inset 0 -1px 0 rgba(120,64,0,.28);
+  --home-btn-sweep: linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);
+  --home-btn-hint: rgba(46,36,64,.48);
+  --home-btn-dot: rgba(154,114,32,.5);
+
+  --home-steps-bg: rgba(184,121,26,.1);
+  --home-steps-br: rgba(154,114,32,.28);
+  --home-personal-br: rgba(154,114,32,.28);
+  --home-personal-bg: linear-gradient(140deg,rgba(255,253,247,.96),rgba(252,246,234,.86));
+  --home-personal-shadow: 0 2px 12px rgba(46,36,64,.05);
+  --home-personal-ico-bg: radial-gradient(circle at 32% 26%, rgba(255,213,138,.55), rgba(232,146,10,.14));
+  --home-personal-ico-br: rgba(154,114,32,.3);
+  --home-personal-ico: #9a7220;
+  --home-personal-hint: rgba(46,36,64,.55);
+
+  --home-tile: linear-gradient(170deg,rgba(255,253,247,.96),rgba(250,244,232,.82));
+  --home-tile-br: rgba(154,114,32,.16);
+  --home-tile-shadow: 0 2px 10px rgba(46,36,64,.04);
+  --home-tile-label: rgba(46,36,64,.92);
+  --home-tile-hint: rgba(46,36,64,.48);
+
+  --home-ico-gold-bg: rgba(184,121,26,.1);
+  --home-ico-gold-br: rgba(154,114,32,.24);
+  --home-ico-gold: #9a7220;
+  --home-ico-lilac-bg: rgba(124,58,237,.09);
+  --home-ico-lilac-br: rgba(124,58,237,.22);
+  --home-ico-lilac: #7c3aed;
+  --home-ico-green-bg: rgba(31,157,87,.1);
+  --home-ico-green-br: rgba(31,157,87,.24);
+  --home-ico-green: #1f9d57;
+
+  --home-how: rgba(46,36,64,.5);
+  --home-how-chev: rgba(46,36,64,.45);
+  --home-how-line: rgba(154,114,32,.3);
+}
+
+/* Глобальный `button::after` (globals.css) кладёт бегущий блик на ЛЮБУЮ
+   кнопку: по плиткам и по «Как это работает» ехала белая полоса, а по
+   золотой кнопке — второй блик поверх собственного. На главной он не нужен:
+   свой блик есть только у золотой кнопки, и он свой. */
+.home-btn::after { content: none; }
+
+/* Луна: свечение задаётся темой, а не инлайном — правило reduced-motion
+   в theme.css гасит анимацию по классу .h-moon. */
+.home-moon {
+  animation: var(--home-moon-anim);
+  filter: var(--home-moon-filter);
+}
+
+/* Особая ночь (кровавая, голубая, суперлуние) несёт свой цвет свечения из
+   компонента инлайном. Анимация перебивает инлайновый стиль, поэтому для таких
+   ночей дыхание выключаем — иначе медный диск светился бы золотом. */
+.home-moon.v3-moon--event { animation: none; }
+
+/* Число лунного дня: в тёмной — градиент по тексту, в светлой — сплошной цвет. */
+.home-daynum {
+  background: var(--home-daynum-bg);
+  -webkit-background-clip: var(--home-daynum-clip);
+  background-clip: var(--home-daynum-clip);
+  color: var(--home-daynum-color);
+}
+
+/* Полупрозрачные поверхности иначе перекрашивает Windows Forced Colors
+   и ночной режим Samsung. */
+.home-card,
+.home-tile {
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}

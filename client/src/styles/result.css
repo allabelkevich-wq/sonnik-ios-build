@@ -1,0 +1,52 @@
+/* Экран «Разбор сна» (SuccessPage + AnalysisView), дизайн v3.
+   Токены берём из v3.css; здесь только то, чего в фундаменте нет,
+   и правила, которые инлайном не выразить (сброс глобального `button`,
+   поля у старых .section-карточек). Тёмная тема — значение по умолчанию. */
+
+:root,
+html[data-theme="dark"] {
+  /* Вторая ступень вставки: шапка карточки программы и текст шага ритуала. */
+  --r-inset2: rgba(255, 255, 255, .06);
+  /* Сплошная полоса слева у аффирмации (в отличие от градиентной --v3-gold-bar). */
+  --r-gold-bar-solid: rgba(232, 146, 10, .5);
+}
+
+html[data-theme="light"] {
+  --r-inset2: rgba(46, 36, 64, .06);
+  --r-gold-bar-solid: rgba(154, 114, 32, .6);
+}
+
+/* Карточка премиум-апселла: глобальный `button` красит любую кнопку золотой
+   пилюлей во всю ширину с бегущим бликом — перебиваем целиком. */
+.r-upsell {
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--v3-chip-g-br);
+  background: var(--v3-upsell);
+  box-shadow: none;
+  color: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  cursor: pointer;
+  forced-color-adjust: none;
+  -webkit-forced-color-adjust: none;
+}
+.r-upsell::after { display: none; }
+.r-upsell:active { transform: translateY(1px); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .r-upsell:hover { filter: brightness(1.06); box-shadow: none; }
+}
+
+/* В дневнике разбор — прямой ребёнок .page-scroll и стоит между
+   .section-карточками (у них только margin-bottom). На экране результата
+   он лежит внутри колонки с gap 18 и поля не получает. */
+.page-scroll > .r-analysis { margin-bottom: 20px; }
+
+/* Карточки старого вида (VkNotifyAsk, VkGroupInvite) внутри колонки с gap 18:
+   их собственный margin-bottom дал бы 38px. Компоненты сами решают, показываться
+   ли им, — пустая обёртка иначе оставила бы в колонке лишний пробел. */
+.r-legacy > .section { margin-bottom: 0; }
+.r-legacy:empty { display: none; }

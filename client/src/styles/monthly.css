@@ -1,0 +1,9 @@
+/* Итоги месяца v3 — единственное, чего не выразить инлайном: внутренний слой
+   карточки (.v3-card__in) принадлежит EdgeCard, а герой и цитата на этом
+   экране центрированы. Селектор с двумя классами карточки обязателен: у
+   правила `.v3-card > .v3-card__in` из v3.css та же специфичность, и порядок
+   импорта решал бы спор за gap. Остальное — инлайн в MonthlySummaryModal. */
+
+.v3-card.m-hero > .v3-card__in { align-items: center; }
+
+.v3-card.m-quote > .v3-card__in { align-items: center; gap: 11px; text-align: center; }

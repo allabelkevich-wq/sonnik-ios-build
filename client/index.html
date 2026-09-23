@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- 1. Boot self-heal (перенято у Музыкального оракула). Большой JS-бандл
+       может оборваться на флапающей мобильной сети → парсится неполным →
+       ничего не выполняется → чёрный экран (частая причина отказа на VK-мобильных).
+       Два триггера восстановления, оба перезагружают страницу максимум ОДИН раз
+       (счётчик в sessionStorage, чтобы не зациклиться):
+       (а) сторож на 12с: если main.jsx не выставил window.__DW_BOOT_OK, а документ
+           уже ДОзагрузился (бандл скачался, но не выполнился = обрыв);
+       (б) быстрый перехват early-ошибок: JS-ошибка / unhandledrejection ДО того как
+           приложение загрузилось (типично при обрыве бандла — SyntaxError) —
+           перезагружаем сразу, не ждём 12с. Ресурс-ошибки (битые img/css) и любые
+           ошибки ПОСЛЕ успешной загрузки игнорируем (их ловит React ErrorBoundary). -->
+  <script>
+    (function () {
+      try {
+        window.__DW_BOOT_OK = false;
+        var KEY = 'dw_boot_retry';
+        function bailReload() {
+          if (window.__DW_BOOT_OK === true) return;
+          var n = 0; try { n = parseInt(sessionStorage.getItem(KEY) || '0', 10) || 0; } catch (e) {}
+          if (n < 1) { try { sessionStorage.setItem(KEY, String(n + 1)); } catch (e) {} location.reload(); }
+        }
+        setTimeout(function check() {
+          if (window.__DW_BOOT_OK === true) { try { sessionStorage.removeItem(KEY); } catch (e) {} return; }
+          if (document.readyState === 'loading') { setTimeout(check, 3000); return; }
+          bailReload();
+        }, 12000);
+        window.addEventListener('error', function (e) {
+          if (window.__DW_BOOT_OK === true) return;
+          // ресурс-ошибка (img/link/script src) — у неё есть target-элемент, не трогаем
+          if (e && e.target && e.target !== window && e.target.tagName) return;
+          bailReload();
+        }, true);
+        window.addEventListener('unhandledrejection', function () {
+          if (window.__DW_BOOT_OK !== true) bailReload();
+        });
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#08071a" />
+  <title>Dream Analyzer</title>
+
+  <!-- 2. Раннее определение VK (ДО бандла) + персист контекста. Нативный
+       VK-WebView может перезагрузить страницу БЕЗ launch-параметров → детект
+       упал бы в 'web' и мы снова подгрузили бы блокирующий Telegram SDK
+       (= снова чёрный экран). Персистим факт VK и восстанавливаем его по
+       VK-UA нативного клиента (Telegram так не определяется — безопасно для
+       не-VK). Класс is-vk ставим сразу, чтобы CSS-правила применились без FOUC. -->
+  <script>
+    (function () {
+      var isVk = false;
+      try {
+        var sp = new URLSearchParams(window.location.search);
+        isVk = !!sp.get('vk_app_id');
+        if (isVk) {
+          try { localStorage.setItem('dw_vk_ctx', String(Date.now())); } catch (e) {}
+          // Персистим vk_platform: при перезагрузке нативного VK-WebView без
+          // launch-параметров он теряется, а без него isVkMobileNative() не
+          // распознает нативный мобильный клиент → §5.4.1 платёжный UI мог бы
+          // показаться. Восстанавливаем из localStorage (см. platform.js).
+          try { var vp = sp.get('vk_platform'); if (vp) localStorage.setItem('dw_vk_platform', vp); } catch (e) {}
+          // Персистим ВЕСЬ launch-набор (vk_user_id, sign, …): при перезагрузке
+          // без параметров иначе терялась identity → профиль «Гость» (§1.1.2)
+          // и телеграмные тексты ошибок. Восстанавливает platform.js/params().
+          try { localStorage.setItem('dw_vk_search', window.location.search); } catch (e) {}
+        } else {
+          var raw = null; try { raw = localStorage.getItem('dw_vk_ctx'); } catch (e) {}
+          if (raw) {
+            var fresh = (Date.now() - (parseInt(raw, 10) || 0)) < 7 * 24 * 3600 * 1000;
+            var ua = (navigator.userAgent || '').toLowerCase();
+            var vkUa = ua.indexOf('vkandroidapp') !== -1 || ua.indexOf('vkclient') !== -1 || ua.indexOf('vkapp') !== -1;
+            if (fresh && vkUa) isVk = true;
+          }
+        }
+      } catch (e) {}
+      window.__DW_IS_VK = isVk;
+      if (isVk) { try { document.documentElement.classList.add('is-vk'); } catch (e) {} }
+    })();
+  </script>
+
+  <!-- 3. Платформо-зависимый бутстрап. В VK НЕ грузим Telegram SDK (в VK
+       бесполезен, а как render-blocking скрипт со стороннего telegram.org
+       подвисает на сети/CSP мобильного VK — из-за этого приложение не
+       запускалось) и СРАЗУ шлём VKWebAppInit нативным мостам VK, чтобы клиент
+       убрал свой чёрный загрузочный экран немедленно. Протокол диспетчеризации
+       сверен с исходником @vkontakte/vk-bridge (dist/index.js). Вне VK —
+       грузим Telegram SDK синхронно (document.write), чтобы window.Telegram.WebApp
+       был готов до монтирования React. -->
+  <script>
+    (function () {
+      if (window.__DW_IS_VK) {
+        try {
+          var m = 'VKWebAppInit', p = {};
+          var android = window.AndroidBridge;
+          var ios = window.webkit && window.webkit.messageHandlers;
+          if (android && typeof android[m] === 'function') android[m](JSON.stringify(p));
+          else if (ios && ios[m] && typeof ios[m].postMessage === 'function') ios[m].postMessage(p);
+          else if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === 'function') window.ReactNativeWebView.postMessage(JSON.stringify({ handler: m, params: p }));
+          else if (window.parent && window.parent !== window) window.parent.postMessage({ handler: m, params: p, type: 'vk-connect' }, '*');
+        } catch (e) {}
+      } else {
+        document.write('<scr' + 'ipt src="https://telegram.org/js/telegram-web-app.js"><\/scr' + 'ipt>');
+      }
+    })();
+  </script>
+
+  <!-- 4. Тема (data-theme) синхронно, до бандла и до брони фона ниже.
+       Приоритет: явный выбор юзера (dw_theme) → тема VK из launch-параметра
+       vk_appearance → тема Telegram → тёмная. Чтение vk_appearance убирает
+       flash «стартовал в тёмной → мигнул в светлую» на первом запуске в VK,
+       до прихода VKWebAppUpdateConfig (принимаем только 'light'/'dark'). -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('dw_theme');
+        var t = (saved === 'light' || saved === 'dark') ? saved : null;
+        if (!t) {
+          try {
+            var vkApp = new URLSearchParams(window.location.search).get('vk_appearance');
+            if (vkApp === 'light' || vkApp === 'dark') t = vkApp;
+          } catch (e) {}
+        }
+        if (!t) {
+          var tg = window.Telegram && window.Telegram.WebApp;
+          t = (tg && (tg.colorScheme === 'light' || tg.colorScheme === 'dark')) ? tg.colorScheme : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+    })();
+  </script>
+
+  <!-- 5. Бронебойный фон (CSS-only, перенято у Музыкального оракула): WebView
+       VK/мобильного клиента НИКОГДА не покажет свой чёрный/серый дефолт, пока
+       грузится бандл с настоящими стилями. data-theme уже выставлен выше —
+       flash'а нет. min-height:100dvh — чтобы цветной фон заполнял весь экран
+       (динамический vh учитывает адресную строку мобильного WebView), а не
+       оставлял непрокрашенную системно-серую полосу. Цвета = --app-bg-color. -->
+  <style>
+    html { background-color: #080d10; min-height: 100vh; min-height: 100dvh; }
+    html[data-theme="light"] { background-color: #efe7d6; }
+
+    /* Статический fallback внутри #root: React при монтировании заменяет
+       содержимое #root, поэтому на нормальной загрузке этот блок НЕ виден
+       (появляется по анимации только через 10с). Если бандл так и не
+       выполнился даже после авто-перезагрузки — юзер видит не пустой экран,
+       а кнопку «Перезагрузить», а не залипший чёрный/пустой (философия
+       Музыкального оракула: никогда не оставлять пустой экран). Без JS-бандла:
+       onclick=location.reload() работает сам по себе. */
+    #dw-boot-fallback {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      gap: 16px; padding: 40px 28px; opacity: 0;
+      animation: dwBootFade 0.4s ease 10s forwards;
+      color: rgba(255,255,255,0.75);
+    }
+    html[data-theme="light"] #dw-boot-fallback { color: rgba(20,13,32,0.75); }
+    #dw-boot-fallback button {
+      font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+      color: #1a0800; border: none; border-radius: 9999px; padding: 13px 28px;
+      background: linear-gradient(135deg, #f5a623, #e8920a 55%, #c97a10);
+    }
+    @keyframes dwBootFade { to { opacity: 1; } }
+  </style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Шрифт грузим НЕ блокируя первый рендер (media=print → onload swap): на
+       ограниченной сети мобильного клиента VK сторонний render-blocking
+       stylesheet задерживал бы первую отрисовку. Есть системный fallback в CSS. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
+</head>
+<body>
+  <div id="root">
+    <div id="dw-boot-fallback">
+      <div style="font-size:44px;line-height:1">🌙</div>
+      <p style="font-size:15px;line-height:1.6;margin:0;max-width:320px">Не удалось загрузить приложение. Проверьте соединение и попробуйте снова.</p>
+      <button type="button" onclick="location.reload()">Перезагрузить</button>
+    </div>
+  </div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

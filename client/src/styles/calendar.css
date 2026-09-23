@@ -1,0 +1,50 @@
+/* ============================================================
+   Лунный календарь v3 — стили экрана (HairCalendarPage.jsx).
+   Цвета берём из v3.css (--v3-*): палитра макета календаря совпадает
+   с фундаментом токен в токен. Здесь только то, чего в фундаменте нет:
+   тень шторки, гашение глобального стиля `button` и лента дней без
+   полосы прокрутки. Ничего из :has() / @container / color-mix().
+   ============================================================ */
+
+:root,
+html[data-theme="dark"] {
+  --cal-sheet-shadow: 0 -20px 60px rgba(0, 0, 0, .5);
+}
+
+html[data-theme="light"] {
+  --cal-sheet-shadow: 0 -20px 60px rgba(0, 0, 0, .28);
+}
+
+/* globals.css красит любую <button> золотым градиентом и вешает ::after-шиммер —
+   инлайн-стилем псевдоэлемент не отключить, поэтому нейтральная база классом. */
+.cal-btn {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  width: auto;
+  box-shadow: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
+  text-align: left;
+  cursor: pointer;
+}
+.cal-btn::after { display: none; }
+.cal-btn:active { transform: none; box-shadow: none; }
+.cal-btn:focus-visible { outline: 2px solid var(--v3-gold); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .cal-btn:hover { filter: brightness(1.06); box-shadow: none; }
+}
+
+/* Лента двух недель: 14 ячеек шире экрана — скроллится сама, страница по
+   горизонтали стоять на месте. Полосу прокрутки прячем, жест остаётся. */
+.cal-strip {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cal-strip::-webkit-scrollbar { display: none; }

@@ -1,0 +1,7 @@
+{
+  "name": "sonnik-ios-build",
+  "private": true,
+  "scripts": {
+    "build:client": "cd client && npm install && npm run build"
+  }
+}
