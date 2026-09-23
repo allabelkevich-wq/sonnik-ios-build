@@ -7,6 +7,10 @@
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const APPLE_BUNDLE_ID = 'com.yupsoul.sonnik';
 const APPLE_SESSION_KEY = 'dw_apple_session';
+// Имя с Apple сервер не хранит (см. signInWithApple) — держим на устройстве.
+const DISPLAY_NAME_KEY = 'dw_display_name';
+// Лунный аватар из профиля (индекс фазы 0..7) — тоже только на устройстве.
+const AVATAR_MOON_KEY = 'dw_avatar_moon';
 
 function params() {
   if (typeof window === 'undefined') return new URLSearchParams();
@@ -166,6 +170,35 @@ function appleSession() {
 
 let appleReady = false;
 
+/** Имя, сохранённое на устройстве (с первого входа через Apple или правки в профиле). */
+export function getDisplayName() {
+  try { return localStorage.getItem(DISPLAY_NAME_KEY) || ''; } catch { return ''; }
+}
+
+/** Сохранить/сбросить отображаемое имя — только на этом устройстве, сервер его не видит. */
+export function setDisplayName(name) {
+  try {
+    const trimmed = (name || '').trim().slice(0, 40);
+    if (trimmed) localStorage.setItem(DISPLAY_NAME_KEY, trimmed);
+    else localStorage.removeItem(DISPLAY_NAME_KEY);
+  } catch { /* приватный режим */ }
+}
+
+/** Индекс выбранного лунного аватара (0..7) или null — тогда кружок с инициалами. */
+export function getAvatarMoon() {
+  try {
+    const v = localStorage.getItem(AVATAR_MOON_KEY);
+    return v === null ? null : Number(v);
+  } catch { return null; }
+}
+
+export function setAvatarMoon(index) {
+  try {
+    if (index === null || index === undefined) localStorage.removeItem(AVATAR_MOON_KEY);
+    else localStorage.setItem(AVATAR_MOON_KEY, String(index));
+  } catch { /* приватный режим */ }
+}
+
 /** Системное окно «Вход с Apple» → сессия нашего сервера. Бросает при отмене и отказе. */
 export async function signInWithApple() {
   // Плагины нативная часть Capacitor сама кладёт в window.Capacitor.Plugins —
@@ -177,10 +210,15 @@ export async function signInWithApple() {
     await plugin.initialize({ apple: { clientId: APPLE_BUNDLE_ID, redirectUrl: '' } });
     appleReady = true;
   }
-  // Имя и почту не просим: сервер узнаёт человека по sub и больше ничего не хранит.
-  const res = await plugin.login({ provider: 'apple', options: { scopes: [] } });
+  // Почту не просим. Имя просим (scope 'name') только чтобы показать его в
+  // профиле — сервер по-прежнему узнаёт человека по sub и имя не хранит.
+  const res = await plugin.login({ provider: 'apple', options: { scopes: ['name'] } });
   const identityToken = res?.result?.idToken;
   if (!identityToken) throw new Error('no_identity_token');
+  // Apple отдаёт givenName только при самом первом согласии на этот scope —
+  // при повторных входах профиль пустой. Сохраняем сразу, пока не потеряли.
+  const givenName = res?.result?.profile?.givenName;
+  if (givenName) setDisplayName(givenName);
   const r = await fetch(`${API_BASE}/api/auth/verify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -196,5 +234,7 @@ export async function signInWithApple() {
 /** Выход на этом устройстве — после удаления аккаунта. */
 export function signOutApple() {
   try { localStorage.removeItem(APPLE_SESSION_KEY); } catch { /* приватный режим */ }
+  try { localStorage.removeItem(DISPLAY_NAME_KEY); } catch { /* приватный режим */ }
+  try { localStorage.removeItem(AVATAR_MOON_KEY); } catch { /* приватный режим */ }
   sessionTokenPromise = null;
 }

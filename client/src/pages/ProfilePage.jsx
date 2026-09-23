@@ -7,7 +7,10 @@ import {
 import axios from 'axios';
 import YupSoulPromo from './YupSoulPromo.jsx';
 import Paywall from './Paywall.jsx';
-import { getUserId, getPlatform, providerCode, authHeader, signOutApple } from '../platform.js';
+import {
+  getUserId, getPlatform, providerCode, authHeader, signOutApple,
+  getDisplayName, setDisplayName, getAvatarMoon, setAvatarMoon,
+} from '../platform.js';
 import { useTheme } from '../theme/useTheme.js';
 import { useToast } from '../components/Toast.jsx';
 import { useConfirm } from '../components/ConfirmModal.jsx';
@@ -21,9 +24,15 @@ import Chip from '../components/Chip.jsx';
 import SectionLabel from '../components/SectionLabel.jsx';
 import Constellation from '../components/Constellation.jsx';
 import Skeleton from '../components/Skeleton.jsx';
+import MoonPhase from '../components/MoonPhase.jsx';
 import { localToday, localNowTime, isFutureBirthMoment, isUnderMinAge } from '../utils/date.js';
 import { tzLabel } from '../utils/timezones.js';
+import { enableMorningReminder, disableMorningReminder, reconcileMorningReminder } from '../utils/reminders.js';
 import '../styles/profile.css';
+
+// 8 фаз Луны как аватары (только приложение App Store) — доля синодического
+// месяца равномерно по кругу, см. MoonPhase/moonPath.
+const AVATAR_MOON_PHASES = [0, 1, 2, 3, 4, 5, 6, 7];
 
 // Официальное сообщество VK / бот Telegram — единственные каналы поддержки.
 // t.me-ссылки внутри VK запрещены правилами VK Mini Apps.
@@ -140,6 +149,13 @@ export default function ProfilePage({ onBack }) {
   const [morningNotify, setMorningNotify] = useState(false);
   const [notifyLoading, setNotifyLoading] = useState(false);
 
+  // Имя и аватар в приложении App Store — сервер их не хранит (см. platform.js),
+  // живут только на устройстве.
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
+  const [avatarMoon, setAvatarMoonState] = useState(() => getAvatarMoon());
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
+
   // Vedic birth data
   const [natalChart, setNatalChart] = useState(null);
   const [birthDate, setBirthDate] = useState('');
@@ -224,6 +240,15 @@ export default function ProfilePage({ onBack }) {
     }));
   }, []);
 
+  // В приложении App Store сервер имя не хранит (вход только по sub, см.
+  // platform.js) — берём его с устройства: то, что дал Apple при первом
+  // входе (scope 'name'), либо то, что человек ввёл сам в профиле.
+  useEffect(() => {
+    if (getPlatform() !== 'ios') return;
+    const name = getDisplayName();
+    if (name) setUserData((prev) => ({ ...prev, first_name: name }));
+  }, []);
+
   useEffect(() => {
     const load = async () => {
       if (!userId) {
@@ -250,7 +275,13 @@ export default function ProfilePage({ onBack }) {
           photo_200: prev?.photo_200 || user.photo_200,
         }));
         setDreamsCount(profileRes.data.dreams_count ?? 0);
-        setMorningNotify(profileRes.data.morning_notify ?? false);
+        const notifyOn = profileRes.data.morning_notify ?? false;
+        setMorningNotify(notifyOn);
+        // Сервер мог хранить morning_notify=true ещё с прошлой сессии, пока
+        // локальный флаг/расписание потеряны (переустановка, очистка
+        // localStorage) — сверяем локальное напоминание с сервером сразу,
+        // не дожидаясь следующего запуска (см. reminders.js).
+        if (platform === 'ios') reconcileMorningReminder(notifyOn, i18n.language);
         setDreams(Array.isArray(dreamsRes.data) ? dreamsRes.data : []);
         setTimezone(user.timezone || getBrowserTimezone() || '');
         setSavedTimezone(user.timezone || ''); // эталон для отката, если PATCH упадёт
@@ -285,10 +316,52 @@ export default function ProfilePage({ onBack }) {
     if (!userId) return;
     setNotifyLoading(true);
     try {
-      const res = await axios.post(`${API_BASE}/api/user/${userId}/notifications`, { morning_notify: !morningNotify }, { headers: await authHeader() });
-      setMorningNotify(res.data.morning_notify);
+      const nextOn = !morningNotify;
+      const res = await axios.post(`${API_BASE}/api/user/${userId}/notifications`, { morning_notify: nextOn }, { headers: await authHeader() });
+      let confirmed = res.data.morning_notify;
+      // На iOS сервер шлёт напоминания только через Telegram-бота, которого
+      // у Apple-пользователя нет (telegram_id всегда null) — рядом со флагом
+      // на сервере планируем/снимаем локальное уведомление на устройстве.
+      if (platform === 'ios') {
+        if (confirmed) {
+          const granted = await enableMorningReminder(i18n.language);
+          if (!granted) {
+            confirmed = false;
+            // Держим серверный флаг в согласии с реальным разрешением на
+            // устройстве — иначе тумблер обещал бы то, что не придёт.
+            axios.post(`${API_BASE}/api/user/${userId}/notifications`, { morning_notify: false }, { headers: await authHeader() }).catch(() => {});
+            showToast(t('profile.notifications.permissionDenied'));
+          }
+        } else {
+          await disableMorningReminder();
+        }
+      }
+      setMorningNotify(confirmed);
     } catch (e) { console.error(e); }
     finally { setNotifyLoading(false); }
+  };
+
+  // ─── Имя и аватар в приложении App Store (только устройство, см. platform.js) ───
+  const startEditName = () => {
+    const current = userData?.first_name;
+    setNameDraft(current && current !== t('common.guest') ? current : '');
+    setEditingName(true);
+  };
+  const saveName = () => {
+    const trimmed = nameDraft.trim();
+    setDisplayName(trimmed);
+    setUserData((prev) => ({ ...prev, first_name: trimmed || t('common.guest') }));
+    setEditingName(false);
+  };
+  const pickAvatar = (index) => {
+    setAvatarMoon(index);
+    setAvatarMoonState(index);
+    setShowAvatarPicker(false);
+  };
+  const resetAvatar = () => {
+    setAvatarMoon(null);
+    setAvatarMoonState(null);
+    setShowAvatarPicker(false);
   };
 
   // Часовой пояс сохраняется сразу по тапу — отдельной кнопки «Сохранить» нет.
@@ -374,8 +447,12 @@ export default function ProfilePage({ onBack }) {
       // в профиль личность у VK больше не запрашивается.
       try { localStorage.setItem(DELETED_KEY, '1'); } catch { /* приватный режим */ }
       // В приложении из App Store аккаунт — это вход через Apple: после удаления
-      // выходим, и следующий разбор снова попросит войти.
-      if (platform === 'ios') signOutApple();
+      // выходим, и следующий разбор снова попросит войти. Локальное утреннее
+      // напоминание (reminders.js) живёт на устройстве отдельно от Apple-сессии —
+      // без явной отмены оно продолжало бы приходить после удаления аккаунта и
+      // ensureMorningReminder переставляло бы его на каждом запуске (флаг
+      // dw_morning_notify signOutApple не трогает).
+      if (platform === 'ios') { signOutApple(); await disableMorningReminder(); }
       setUserData({ first_name: t('common.guest'), photo_200: null });
       setDreams([]); setDreamsCount(0); setNatalChart(null); setSubInfo(null);
       setTimeout(() => { onBack?.(); }, 1500);
@@ -479,38 +556,92 @@ export default function ProfilePage({ onBack }) {
           <EdgeCard padding="20px 18px">
             <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
               {userData ? (
-                <div style={{
-                  width: 62, height: 62, borderRadius: 999, flexShrink: 0, overflow: 'hidden',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 26, fontWeight: 800, color: '#1a0800',
-                  background: userData.photo_200 ? 'transparent' : 'linear-gradient(135deg,#f5a623,#c97a10)',
-                  boxShadow: userData.photo_200 ? 'none' : '0 6px 18px rgba(201,122,16,.32)',
-                }}>
-                  {userData.photo_200
-                    ? <img src={userData.photo_200} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : initials}
-                </div>
+                platform === 'ios' ? (
+                  // В приложении App Store кружок — вход в выбор лунного аватара
+                  // (набор MoonPhase, хранится на устройстве). По умолчанию инициалы.
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setShowAvatarPicker((v) => !v)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setShowAvatarPicker((v) => !v); } }}
+                    aria-label={t('profile.avatarPicker.title')}
+                    style={{
+                      width: 62, height: 62, borderRadius: 999, flexShrink: 0, overflow: 'hidden',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+                      fontSize: 26, fontWeight: 800, color: '#1a0800',
+                      background: avatarMoon != null ? 'var(--v3-inset)' : 'linear-gradient(135deg,#f5a623,#c97a10)',
+                      boxShadow: avatarMoon != null ? 'none' : '0 6px 18px rgba(201,122,16,.32)',
+                    }}
+                  >
+                    {avatarMoon != null ? <MoonPhase frac={avatarMoon / 8} size={62} /> : initials}
+                  </div>
+                ) : (
+                  <div style={{
+                    width: 62, height: 62, borderRadius: 999, flexShrink: 0, overflow: 'hidden',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 26, fontWeight: 800, color: '#1a0800',
+                    background: userData.photo_200 ? 'transparent' : 'linear-gradient(135deg,#f5a623,#c97a10)',
+                    boxShadow: userData.photo_200 ? 'none' : '0 6px 18px rgba(201,122,16,.32)',
+                  }}>
+                    {userData.photo_200
+                      ? <img src={userData.photo_200} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      : initials}
+                  </div>
+                )
               ) : (
                 <Skeleton width={62} height={62} radius={999} style={{ flexShrink: 0 }} />
               )}
               <div style={{ minWidth: 0, flex: 1 }}>
                 {userData ? (
-                  <>
-                    <div style={{
-                      fontSize: 18, fontWeight: 800, color: 'var(--v3-fg)', letterSpacing: '-.015em',
-                      // Длинное ФИО (по лимитам ВК) переносим, а не ломаем вёрстку (репорт Дарьи).
-                      overflowWrap: 'anywhere', wordBreak: 'break-word',
-                    }}>
-                      {userData.first_name || t('common.guest')}
+                  editingName ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      <input
+                        className="pf-input"
+                        style={{ height: 40, fontSize: 15 }}
+                        value={nameDraft}
+                        maxLength={40}
+                        autoFocus
+                        placeholder={t('profile.nameForm.placeholder')}
+                        onChange={(e) => setNameDraft(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') saveName(); if (e.key === 'Escape') setEditingName(false); }}
+                      />
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <PillButton size="sm" tone="gold" onClick={saveName} style={{ width: 'auto', padding: '0 16px' }}>
+                          {t('profile.nameForm.save')}
+                        </PillButton>
+                        <PillButton size="sm" onClick={() => setEditingName(false)} style={{ width: 'auto', padding: '0 16px' }}>
+                          {t('common.cancel')}
+                        </PillButton>
+                      </div>
                     </div>
-                    {userData.username && (
-                      <div style={{ fontSize: 12, color: 'var(--v3-fg-4)', marginTop: 2 }}>@{userData.username}</div>
-                    )}
-                    <div style={{ display: 'flex', gap: 6, marginTop: 9, flexWrap: 'wrap' }}>
-                      <Chip tone="gold">{dreamsLabel}</Chip>
-                      {streak >= 2 && <Chip tone="violet">{t('profile.streak', { count: streak })}</Chip>}
-                    </div>
-                  </>
+                  ) : (
+                    <>
+                      <div style={{
+                        fontSize: 18, fontWeight: 800, color: 'var(--v3-fg)', letterSpacing: '-.015em',
+                        // Длинное ФИО (по лимитам ВК) переносим, а не ломаем вёрстку (репорт Дарьи).
+                        overflowWrap: 'anywhere', wordBreak: 'break-word',
+                      }}>
+                        {userData.first_name || t('common.guest')}
+                      </div>
+                      {userData.username && (
+                        <div style={{ fontSize: 12, color: 'var(--v3-fg-4)', marginTop: 2 }}>@{userData.username}</div>
+                      )}
+                      <div style={{ display: 'flex', gap: 6, marginTop: 9, flexWrap: 'wrap', alignItems: 'center' }}>
+                        <Chip tone="gold">{dreamsLabel}</Chip>
+                        {streak >= 2 && <Chip tone="violet">{t('profile.streak', { count: streak })}</Chip>}
+                        {platform === 'ios' && (
+                          <button
+                            type="button"
+                            className="pf-ghost"
+                            style={{ width: 'auto', height: 26, padding: '0 11px', fontSize: 11 }}
+                            onClick={startEditName}
+                          >
+                            {t('profile.editName')}
+                          </button>
+                        )}
+                      </div>
+                    </>
+                  )
                 ) : (
                   <>
                     <Skeleton width={120} height={18} />
@@ -520,6 +651,39 @@ export default function ProfilePage({ onBack }) {
               </div>
             </div>
           </EdgeCard>
+
+          {/* ── Выбор лунного аватара (только приложение App Store) ── */}
+          {platform === 'ios' && showAvatarPicker && (
+            <div style={{
+              borderRadius: 20, border: '1px solid var(--v3-chip-g-br)', background: 'var(--v3-tile)',
+              padding: 16, display: 'flex', flexDirection: 'column', gap: 13,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--v3-fg)' }}>{t('profile.avatarPicker.title')}</div>
+                <button type="button" className="pf-x" onClick={() => setShowAvatarPicker(false)} aria-label={t('common.cancel')}>
+                  <span className="pf-x__in"><XMarkIcon style={{ width: 13, height: 13 }} /></span>
+                </button>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {AVATAR_MOON_PHASES.map((i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className="pf-moon"
+                    onClick={() => pickAvatar(i)}
+                    aria-label={t('profile.avatarPicker.phase', { n: i + 1 })}
+                  >
+                    <span className={avatarMoon === i ? 'pf-moon__in pf-moon__in--on' : 'pf-moon__in'}>
+                      <MoonPhase frac={i / 8} size={40} />
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <PillButton size="sm" onClick={resetAvatar} style={{ width: 'auto', padding: '0 16px' }}>
+                {t('profile.avatarPicker.reset')}
+              </PillButton>
+            </div>
+          )}
 
           {/* ── Подписка ── */}
           {subInfo && (subInfo.active ? (

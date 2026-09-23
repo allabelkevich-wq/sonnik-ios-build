@@ -588,6 +588,16 @@
   },
   "profile": {
     "title": "Profile",
+    "editName": "Edit",
+    "nameForm": {
+      "placeholder": "Your name",
+      "save": "Save"
+    },
+    "avatarPicker": {
+      "title": "Choose an avatar",
+      "phase": "Moon phase {{n}}",
+      "reset": "Default"
+    },
     "dreams_one": "{{count}} dream decoded",
     "dreams_other": "{{count}} dreams decoded",
     "headerFree": "Free plan",
@@ -655,7 +665,8 @@
       "desc": "At 8:00 your time — while the dream is still fresh",
       "offHint": "Off — dreams are easily forgotten by noon",
       "on": "Enabled — tap to disable",
-      "off": "Enable notifications"
+      "off": "Enable notifications",
+      "permissionDenied": "Notifications permission was not granted. Enable it in iPhone Settings → Notifications → Lunar Dream Journal."
     },
     "support": {
       "title": "Support",

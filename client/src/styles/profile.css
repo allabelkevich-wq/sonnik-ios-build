@@ -201,6 +201,35 @@ button.pf-row:focus-visible { outline: 2px solid var(--v3-gold); outline-offset:
   .pf-ghost:hover { filter: brightness(1.06); box-shadow: none; }
 }
 
+/* Выбор лунного аватара (приложение App Store): кнопка-обёртка сбрасывает
+   базовые стили button, круг с рамкой рисует внутренний span. */
+.pf-moon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.pf-moon::after { display: none; }
+.pf-moon:active { transform: scale(.94); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pf-moon:hover { filter: none; box-shadow: none; }
+}
+.pf-moon__in {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--v3-inset);
+  border: 1px solid var(--v3-tile-br);
+}
+.pf-moon__in--on { border: 2px solid var(--v3-gold-txt); }
+
 /* ---------- Форма рождения ---------- */
 .pf-input {
   height: 46px;

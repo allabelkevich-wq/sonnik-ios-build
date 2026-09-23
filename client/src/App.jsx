@@ -20,6 +20,7 @@ import { useTheme } from './theme/useTheme.js';
 import { getPlatform, isVkMobileNative, getVkParams } from './platform.js';
 import { useHideToast } from './components/Toast.jsx';
 import { pulse } from './utils/pulse.js';
+import { ensureMorningReminder } from './utils/reminders.js';
 
 export default function App() {
   useTheme();
@@ -135,6 +136,14 @@ export default function App() {
   // сообщества, сниппет, поиск). Без него падение входов с 1800 до 110 в день
   // (11.09) нечем объяснить: в базе видно только «пришёл из ВК».
   useEffect(() => { pulse('старт', getVkParams().ref.slice(0, 24) || undefined); }, []);
+
+  // На iOS локальное напоминание — не серверная рассылка (Telegram-бот
+  // Apple-пользователей не видит, см. utils/reminders.js). На каждом запуске
+  // переставляем его заново (идемпотентно), если оно было включено и
+  // разрешение всё ещё есть — иначе оно могло бы потеряться молча.
+  useEffect(() => {
+    if (getPlatform() === 'ios') ensureMorningReminder(i18n.language);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const navigateTo = (page) => {
     setPageStack((s) => (s[s.length - 1] === page ? s : [...s, page]));

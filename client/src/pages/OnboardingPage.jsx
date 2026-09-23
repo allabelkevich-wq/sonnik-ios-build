@@ -11,6 +11,7 @@ import { usePremiumPurchase } from '../hooks/usePremiumPurchase.js';
 import GoldButton from '../components/GoldButton.jsx';
 import PillButton from '../components/PillButton.jsx';
 import { moonPath } from '../utils/moon.js';
+import { enableMorningReminder } from '../utils/reminders.js';
 import { isFutureBirthMoment, isUnderMinAge, localToday, localNowTime, signPrepositional } from '../utils/date.js';
 import '../styles/onboarding.css';
 import { pulse } from '../utils/pulse.js';
@@ -334,6 +335,21 @@ export default function OnboardingPage({ onNext }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.morning_notify) return;
+      // На iOS сервер доставляет напоминания только через Telegram-бота, а у
+      // Apple-пользователя telegram_id нет — рядом планируем локальное на
+      // устройстве. Не дали разрешение — молча не показываем «включено» и
+      // откатываем серверный флаг, чтобы он не обещал того, что не придёт.
+      if (getPlatform() === 'ios') {
+        const granted = await enableMorningReminder(serverLang());
+        if (!granted) {
+          fetch(`${API_BASE}/api/user/${uid}/notifications`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...headers },
+            body: JSON.stringify({ morning_notify: false }),
+          }).catch(() => {});
+          return;
+        }
+      }
       setReminderSaved(true);
       // Без пояса рассылка ушла бы в 8:00 по Москве, а не по месту человека.
       if (!profileTz) {
