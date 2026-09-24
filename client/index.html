@@ -198,10 +198,25 @@
   <div id="root">
     <div id="dw-boot-fallback">
       <div style="font-size:44px;line-height:1">🌙</div>
-      <p style="font-size:15px;line-height:1.6;margin:0;max-width:320px">Не удалось загрузить приложение. Проверьте соединение и попробуйте снова.</p>
-      <button type="button" onclick="location.reload()">Перезагрузить</button>
+      <p id="dw-boot-fallback-text" style="font-size:15px;line-height:1.6;margin:0;max-width:320px">Приложение споткнулось. Перезапусти его, пожалуйста.</p>
+      <button type="button" id="dw-boot-fallback-btn" onclick="location.reload()">Перезагрузить</button>
     </div>
   </div>
+  <!-- Текст fallback-экрана — по языку устройства. Обычный (не module) скрипт:
+       React/бандл тут как раз мог и не выполниться, поэтому язык не спросить
+       у самого приложения (аудит iPhone 24.09: текст был захардкожен русским
+       на любом языке устройства). -->
+  <script>
+    (function () {
+      try {
+        var lang = (navigator.language || '').toLowerCase();
+        if (!/^ru|^uk/.test(lang)) {
+          document.getElementById('dw-boot-fallback-text').textContent = 'The app hit a snag. Please restart it.';
+          document.getElementById('dw-boot-fallback-btn').textContent = 'Restart';
+        }
+      } catch (e) {}
+    })();
+  </script>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

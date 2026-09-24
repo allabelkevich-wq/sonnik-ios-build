@@ -1,4 +1,5 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from 'react-i18next';
 
 // Единая шапка всех внутренних экранов — по принципу эталона Музыкального оракула
 // (#heroesPage .topbar + .header-back-btn): кнопка «Назад» — компактный круг 40×40
@@ -6,13 +7,15 @@ import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 // Круг никогда не налезает на заголовок (в отличие от прежних absolute-раскладок,
 // где длинный заголовок уходил под кнопки — bug7438513/7438495 и новые на календаре/чате).
 export default function PageHeader({ onBack, title, subtitle, action, style }) {
+  // (аудит iPhone 24.09: aria-label «Назад» был захардкожен на русском на любом языке)
+  const { t } = useTranslation();
   return (
     // paddingX = 20 совпадает с горизонтальным padding у `.page-scroll`, поэтому
     // кнопка «Назад», заголовок и все карточки контента стоят на одной сетке
     // (эталон Оракула: шапка не прижата к краю экрана — bug: «никакого отступа нет»).
     <header style={{ textAlign: 'left', paddingLeft: 20, paddingRight: 20, ...style }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, minHeight: 44 }}>
-        <button type="button" onClick={onBack} aria-label="Назад" className="page-back-btn">
+        <button type="button" onClick={onBack} aria-label={t('common.back')} className="page-back-btn">
           <ArrowLeftIcon style={{ width: 20, height: 20 }} />
         </button>
         <h1 style={{ flex: 1, minWidth: 0, margin: 0, textAlign: 'left', fontSize: 'var(--fluid-xl)' }}>{title}</h1>

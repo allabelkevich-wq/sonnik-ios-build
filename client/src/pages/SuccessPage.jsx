@@ -88,7 +88,10 @@ export default function SuccessPage({ analysis, onNewDream, onHome, onJournal, o
     // Всю цепочку попыток и обратную связь держит shareText: раньше при отказе
     // бриджа и закрытом буфере обмена кнопка не делала ровно ничего (7449177).
     const platform = getPlatform();
-    const key = platform === 'vk' ? 'success.shareTextVk' : 'success.shareText';
+    // На iOS/web ссылка на телеграм-бота ни к чему — там его не открыть
+    // (аудит iPhone 24.09: t.me/tot_sonnic_bot попадал в navigator.share() на iOS).
+    const key = platform === 'vk' ? 'success.shareTextVk'
+      : platform === 'telegram' ? 'success.shareText' : 'success.shareTextGeneric';
     const text = t(key, {
       brief: analysis.brief_analysis || '',
       lunar: lunarText ? `\n\n🌙 ${lunarText}` : '',

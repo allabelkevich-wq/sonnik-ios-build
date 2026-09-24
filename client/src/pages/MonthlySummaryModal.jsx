@@ -152,13 +152,17 @@ export default function MonthlySummaryModal({ onClose, onAnalyze }) {
     // ложное «Скопировано» поверх успешной отправки — отчёт 7448082) и без
     // молчаливого провала, когда бридж отказал, а буфер закрыт (7449177).
     const s = data.ai_summary;
+    const platform = getPlatform();
     // В VK текст уходит на стену — ссылки на Telegram в нём быть не должно.
-    const key = getPlatform() === 'vk' ? 'monthly.shareTextVk' : 'monthly.shareText';
+    // На iOS/web ссылка на телеграм-бота тоже ни к чему — там его не открыть
+    // (аудит iPhone 24.09: t.me/tot_sonnic_bot попадал в navigator.share() на iOS).
+    const key = platform === 'vk' ? 'monthly.shareTextVk'
+      : platform === 'telegram' ? 'monthly.shareText' : 'monthly.shareTextGeneric';
     const text = t(key, {
       insight: s.monthly_insight,
       transformation: s.key_transformation,
     });
-    await shareText({ platform: getPlatform(), text, tgLink: 'https://t.me/tot_sonnic_bot', showToast, t });
+    await shareText({ platform, text, tgLink: 'https://t.me/tot_sonnic_bot', showToast, t });
   };
 
   const stats = data?.stats;

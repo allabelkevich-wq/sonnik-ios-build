@@ -726,6 +726,7 @@
     "shareText": "🌙 My dream was decoded in Dream Analyzer\n\n{{brief}}{{lunar}}{{patterns}}\n\n✨ Get your analysis: https://t.me/tot_sonnic_bot",
     "shareLunarDay": "Lunar day {{n}}",
     "shareTextVk": "🌙 My dream was decoded in Lunar Dream Book. {{brief}}{{lunar}}{{patterns}}",
+    "shareTextGeneric": "🌙 My dream was decoded in Dream Analyzer\n\n{{brief}}{{lunar}}{{patterns}}",
     "sharePatterns": "\n⚠️ Patterns detected: {{count}}",
     "copied": "Copied to clipboard!",
     "shareFailed": "Couldn't share. Please try again.",
@@ -849,7 +850,8 @@
     "share": "Share summary",
     "nextSummary": "Next summary — {{date}}, in {{days}}",
     "shareText": "🌙 Lunar month summary\n\n{{insight}}\n\n✨ Key transformation:\n{{transformation}}\n\n🔮 Get your analysis: https://t.me/tot_sonnic_bot",
-    "shareTextVk": "🌙 My lunar month summary from Lunar Dream Book\n\n{{insight}}\n\n✨ Key transformation:\n{{transformation}}"
+    "shareTextVk": "🌙 My lunar month summary from Lunar Dream Book\n\n{{insight}}\n\n✨ Key transformation:\n{{transformation}}",
+    "shareTextGeneric": "🌙 Lunar month summary\n\n{{insight}}\n\n✨ Key transformation:\n{{transformation}}"
   },
   "calendar": {
     "title": "Lunar calendar",

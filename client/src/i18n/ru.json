@@ -429,7 +429,7 @@
     "journalCount_few": "{{count}} записи",
     "journalCount_many": "{{count}} записей",
     "hairTileHint": "Волосы",
-    "planFree": "Free",
+    "planFree": "Базовый",
     "planPaid": "Доступ",
     "howItWorks": "Как это работает",
     "appName": "Лунный сонник",
@@ -747,6 +747,7 @@
     "shareText": "🌙 Мой сон расшифрован в Dream Analyzer\n\n{{brief}}{{lunar}}{{patterns}}\n\n✨ Получи свой анализ: https://t.me/tot_sonnic_bot",
     "shareLunarDay": "{{n}}-й лунный день",
     "shareTextVk": "🌙 Мой сон расшифрован в Лунном соннике. {{brief}}{{lunar}}{{patterns}}",
+    "shareTextGeneric": "🌙 Мой сон расшифрован в Dream Analyzer\n\n{{brief}}{{lunar}}{{patterns}}",
     "sharePatterns": "\n⚠️ Выявлено программ: {{count}}",
     "copied": "Скопировано в буфер обмена!",
     "shareFailed": "Не удалось поделиться. Попробуйте ещё раз.",
@@ -886,7 +887,8 @@
     "share": "Поделиться итогами",
     "nextSummary": "Следующие итоги — {{date}}, через {{days}}",
     "shareText": "🌙 Итоги лунного месяца\n\n{{insight}}\n\n✨ Ключевая трансформация:\n{{transformation}}\n\n🔮 Получи свой анализ: https://t.me/tot_sonnic_bot",
-    "shareTextVk": "🌙 Итоги лунного месяца в Лунном соннике\n\n{{insight}}\n\n✨ Главная трансформация:\n{{transformation}}"
+    "shareTextVk": "🌙 Итоги лунного месяца в Лунном соннике\n\n{{insight}}\n\n✨ Главная трансформация:\n{{transformation}}",
+    "shareTextGeneric": "🌙 Итоги лунного месяца\n\n{{insight}}\n\n✨ Ключевая трансформация:\n{{transformation}}"
   },
   "calendar": {
     "title": "Лунный календарь",
