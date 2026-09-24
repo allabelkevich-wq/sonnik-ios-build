@@ -26,9 +26,11 @@ function detectLanguage() {
     if (vkLang.startsWith('ru') || vkLang.startsWith('uk')) return 'ru';
     return 'en';
   }
+  // iOS и веб: язык устройства/браузера. Раньше здесь при любом языке возвращался 'ru' —
+  // на английском айфоне приложение оставалось русским (Алла, TestFlight 24.09; ревью Apple 2.1).
   const browserLang = typeof navigator !== 'undefined' ? navigator.language || '' : '';
   if (browserLang.startsWith('ru') || browserLang.startsWith('uk')) return 'ru';
-  return 'ru'; // default
+  return 'en'; // всё остальное — английский (перевод есть только ru/en)
 }
 
 i18n
