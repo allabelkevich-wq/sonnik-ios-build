@@ -17,6 +17,7 @@ import { useScrollLock } from '../hooks/useScrollLock.js';
 import { getUserId, providerCode, authHeader } from '../platform.js';
 import { formatDayMonth, signPrepositional } from '../utils/date.js';
 import { EPOCH } from '../utils/moon.js';
+import { serverLang } from '../i18n/index.js';
 import '../styles/calendar.css';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
@@ -114,7 +115,8 @@ export default function HairCalendarPage({ onBack, onProfile }) {
       setLoading(true);
       try {
         const tz = typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : '';
-        let url = `${API_BASE}/api/lunar/hair-calendar?days=14`;
+        // (Алла 24.09: язык интерфейса / без ведических терминов)
+        let url = `${API_BASE}/api/lunar/hair-calendar?days=14&lang=${serverLang()}`;
         if (tz) url += `&timezone=${encodeURIComponent(tz)}`;
         // Персональный слой сервер отдаёт по сессии из Authorization,
         // user_id в query больше не принимается (чужую персонализацию
@@ -135,7 +137,7 @@ export default function HairCalendarPage({ onBack, onProfile }) {
 
       if (userId) {
         try {
-          const natalRes = await fetch(`${API_BASE}/api/user/${userId}/natal?provider=${providerCode()}`, {
+          const natalRes = await fetch(`${API_BASE}/api/user/${userId}/natal?provider=${providerCode()}&lang=${serverLang()}`, {
             headers: await authHeader(),
           });
           if (natalRes.ok) {

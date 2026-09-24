@@ -28,6 +28,7 @@ import MoonPhase from '../components/MoonPhase.jsx';
 import { localToday, localNowTime, isFutureBirthMoment, isUnderMinAge } from '../utils/date.js';
 import { tzLabel } from '../utils/timezones.js';
 import { enableMorningReminder, disableMorningReminder, reconcileMorningReminder } from '../utils/reminders.js';
+import { serverLang } from '../i18n/index.js';
 import '../styles/profile.css';
 
 // 8 фаз Луны как аватары (только приложение App Store) — доля синодического
@@ -158,6 +159,10 @@ export default function ProfilePage({ onBack, onAccountDeletedIos }) {
 
   // Vedic birth data
   const [natalChart, setNatalChart] = useState(null);
+  // Знак Луны и «почерк снов» — готовые тексты с бэка по языку интерфейса
+  // (Алла 24.09: язык интерфейса / без ведических терминов)
+  const [natalMoonSignLabel, setNatalMoonSignLabel] = useState('');
+  const [natalDreamWord, setNatalDreamWord] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [birthTime, setBirthTime] = useState('');
   const [noTime, setNoTime] = useState(false);
@@ -287,9 +292,12 @@ export default function ProfilePage({ onBack, onAccountDeletedIos }) {
         setSavedTimezone(user.timezone || ''); // эталон для отката, если PATCH упадёт
         // Natal chart
         try {
-          const natalRes = await axios.get(`${API_BASE}/api/user/${userId}/natal?provider=${providerCode()}`, { headers });
+          // (Алла 24.09: язык интерфейса / без ведических терминов)
+          const natalRes = await axios.get(`${API_BASE}/api/user/${userId}/natal?provider=${providerCode()}&lang=${serverLang()}`, { headers });
           if (natalRes.data.natal_chart) {
             setNatalChart(natalRes.data.natal_chart);
+            setNatalMoonSignLabel(natalRes.data.moonSignLabel || '');
+            setNatalDreamWord(natalRes.data.dreamWord || '');
             // Для предзаполнения формы редактирования — иначе "Изменить дату
             // рождения" открывала бы пустую форму, будто данные потерялись.
             if (natalRes.data.birth_date) setBirthDate(natalRes.data.birth_date);
@@ -418,9 +426,13 @@ export default function ProfilePage({ onBack, onAccountDeletedIos }) {
         provider: providerCode(),
         // Пояс устройства — см. комментарий в HomePage (отчёт 7438498).
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || undefined,
+        // (Алла 24.09: язык интерфейса / без ведических терминов)
+        lang: serverLang(),
       }, { headers: await authHeader() });
       if (res.data.natal_chart) {
         setNatalChart(res.data.natal_chart);
+        setNatalMoonSignLabel(res.data.moonSignLabel || '');
+        setNatalDreamWord(res.data.dreamWord || '');
         setShowBirthForm(false);
       } else {
         showToast(res.data?.error || t('home.birthModal.error'));
@@ -536,7 +548,10 @@ export default function ProfilePage({ onBack, onAccountDeletedIos }) {
   // «Мина (Рыбы)» — для русского берём привычное название из скобок,
   // для английского показываем строку целиком: перевода у бэка нет.
   const moonSign = natalChart?.planets?.moon?.sign || '';
-  const moonSignLabel = i18n.language === 'ru' ? (moonSign.match(/\(([^)]+)\)/)?.[1] || moonSign) : moonSign;
+  // Готовый перевод с бэка (Алла 24.09: язык интерфейса / без ведических
+  // терминов); фолбэк — старый разбор скобок, верный только для ru.
+  const moonSignLabel = natalMoonSignLabel
+    || (i18n.language === 'ru' ? (moonSign.match(/\(([^)]+)\)/)?.[1] || moonSign) : moonSign);
   const tzList = timezone && !COMMON_TIMEZONES.includes(timezone) ? [...COMMON_TIMEZONES, timezone] : COMMON_TIMEZONES;
   const showCards = platform !== 'vk' && supportCards.length > 0;
 
@@ -906,15 +921,16 @@ export default function ProfilePage({ onBack, onAccountDeletedIos }) {
                       </div>
                       <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--v3-purple-txt)', marginTop: 4 }}>{moonSignLabel}</div>
                     </div>
-                    {natalChart.planets?.moon?.dreamWord ? (
+                    {natalDreamWord ? (
                       <div style={{ padding: '11px 13px', borderRadius: 13, background: 'var(--v3-inset)' }}>
                       <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--v3-fg-4)' }}>
                         {t('profile.dreamSignature')}
                       </div>
                       {/* Санскритское имя (Рохини) человеку ничего не говорит —
-                          показываем «почерк снов» словами. */}
+                          показываем «почерк снов» словами по языку интерфейса
+                          (Алла 24.09: язык интерфейса / без ведических терминов). */}
                       <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--v3-gold-txt)', marginTop: 4 }}>
-                        {natalChart.planets?.moon?.dreamWord || ''}
+                        {natalDreamWord}
                       </div>
                     </div>
                     ) : null}

@@ -149,13 +149,14 @@ export default function HomePage({ onAnalyze, onProfile, onJournal, onHairCalend
 
     if (userId) {
       authHeader().then(headers => {
-        fetch(`${API_BASE}/api/user/${userId}/natal?provider=${providerCode()}`, { headers })
+        // (Алла 24.09: язык интерфейса / без ведических терминов)
+        fetch(`${API_BASE}/api/user/${userId}/natal?provider=${providerCode()}&lang=${serverLang()}`, { headers })
           .then(r => r.json())
           .then(d => {
             if (cancelled) return;
             setHasBirthData(!!d.natal_chart);
             if (d.natal_chart) {
-              fetch(`${API_BASE}/api/user/${userId}/vedic-today?provider=${providerCode()}`, { headers })
+              fetch(`${API_BASE}/api/user/${userId}/vedic-today?provider=${providerCode()}&lang=${serverLang()}`, { headers })
                 .then(r => r.json())
                 .then(v => { if (v.personal && !cancelled) setPersonal(v.personal); })
                 .catch(() => {});
@@ -229,6 +230,8 @@ export default function HomePage({ onAnalyze, onProfile, onJournal, onHairCalend
           // Пояс устройства — чтобы сервер сравнивал момент рождения с «сейчас»
           // именно у пользователя, а не в UTC (отчёт 7438498).
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || undefined,
+          // (Алла 24.09: язык интерфейса / без ведических терминов)
+          lang: serverLang(),
         }),
       });
       const data = await res.json();
@@ -237,7 +240,7 @@ export default function HomePage({ onAnalyze, onProfile, onJournal, onHairCalend
         setHasBirthData(true);
         // Загрузить персональный прогноз
         authHeader().then(headers => {
-          fetch(`${API_BASE}/api/user/${userId}/vedic-today?provider=${providerCode()}`, { headers })
+          fetch(`${API_BASE}/api/user/${userId}/vedic-today?provider=${providerCode()}&lang=${serverLang()}`, { headers })
             .then(r => r.json())
             .then(v => { if (v.personal) setPersonal(v.personal); })
             .catch(() => {});

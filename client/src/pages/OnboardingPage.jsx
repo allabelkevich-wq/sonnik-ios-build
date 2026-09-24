@@ -246,7 +246,8 @@ export default function OnboardingPage({ onNext }) {
     if (uid) {
       authHeader().then((headers) => {
         if (cancelled) return;
-        fetch(`${API_BASE}/api/user/${uid}/natal?provider=${providerCode()}`, { headers })
+        // (Алла 24.09: язык интерфейса / без ведических терминов)
+        fetch(`${API_BASE}/api/user/${uid}/natal?provider=${providerCode()}&lang=${serverLang()}`, { headers })
           .then((r) => r.json())
           .then((d) => {
             if (cancelled || !d?.has_birth_data) return;
@@ -257,7 +258,7 @@ export default function OnboardingPage({ onNext }) {
             setBirthCity(d.birth_place_name || '');
             if (d.birth_place_lat != null) setBirthCoords({ lat: d.birth_place_lat, lon: d.birth_place_lon });
             const moon = d.natal_chart?.planets?.moon;
-            if (moon) setNatal({ state: 'done', sign: pickSign(moon.sign), nakshatra: moon.dreamWord || '' });
+            if (moon) setNatal({ state: 'done', sign: d.moonSignLabel || pickSign(moon.sign), nakshatra: d.dreamWord || moon.dreamWord || '' });
           })
           .catch(() => {});
         if (platform === 'telegram') {
@@ -295,6 +296,8 @@ export default function OnboardingPage({ onNext }) {
           birth_place_name: birthCity || null,
           provider: providerCode(),
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || undefined,
+          // (Алла 24.09: язык интерфейса / без ведических терминов)
+          lang: serverLang(),
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -304,7 +307,7 @@ export default function OnboardingPage({ onNext }) {
         setNatal({ state: 'error', error: data?.error || t('onboarding.birthError') });
         return;
       }
-      setNatal({ state: 'done', sign: pickSign(moon.sign), nakshatra: moon.dreamWord || '' });
+      setNatal({ state: 'done', sign: data.moonSignLabel || pickSign(moon.sign), nakshatra: data.dreamWord || moon.dreamWord || '' });
     } catch {
       if (id === calcIdRef.current) setNatal({ state: 'error', error: t('onboarding.birthError') });
     }

@@ -21,6 +21,7 @@ import { formatDayMonth } from '../utils/date.js';
 import { getUserId, providerCode, getPlatform, authHeader } from '../platform.js';
 import { useToast } from '../components/Toast.jsx';
 import { shareText } from '../utils/share.js';
+import { serverLang } from '../i18n/index.js';
 import '../styles/monthly.css';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
@@ -107,7 +108,8 @@ export default function MonthlySummaryModal({ onClose, onAnalyze }) {
     try {
       const res = await axios.post(
         `${API_BASE}/api/user/${userId}/monthly-summary?provider=${providerCode()}`,
-        confirmed ? { confirm: true } : null,
+        // (Алла 24.09: язык интерфейса / без ведических терминов)
+        confirmed ? { confirm: true, lang: serverLang() } : { lang: serverLang() },
         { headers: await authHeader() },
       );
       setData(res.data);
