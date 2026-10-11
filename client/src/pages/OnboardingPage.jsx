@@ -17,7 +17,7 @@ import '../styles/onboarding.css';
 import { pulse } from '../utils/pulse.js';
 import { serverLang } from '../i18n/index.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 // Поиск городов — тот же эндпоинт, что в модалке рождения на главной.
 let _placesTimer = null;

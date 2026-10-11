@@ -4,7 +4,7 @@
 // iOS (приложение из App Store): личность — вход через Apple; токен сессии,
 // выданный сервером после проверки, хранится в самом приложении.
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from './apiBase.js';
 const APPLE_BUNDLE_ID = 'com.yupsoul.sonnik';
 const APPLE_SESSION_KEY = 'dw_apple_session';
 // Имя с Apple сервер не хранит (см. signInWithApple) — держим на устройстве.

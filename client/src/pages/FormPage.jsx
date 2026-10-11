@@ -11,8 +11,9 @@ import GoldButton from '../components/GoldButton.jsx';
 import '../styles/form.css';
 import { pulse, mark } from '../utils/pulse.js';
 import { serverLang } from '../i18n/index.js';
+import { useVoiceInput } from '../hooks/useVoiceInput.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -159,7 +160,9 @@ export default function FormPage({ onSuccess, onBack, onAnalysis }) {
       formData.append('file', blob, 'dream.webm');
       const res = await axios.post(`${API_BASE}/api/transcribe`, formData, {
         headers: { 'Content-Type': 'multipart/form-data', ...(await authHeader()) },
-        timeout: 60000,
+        // Свой распознаватель в Москве медленнее Groq: минута речи — около минуты.
+        // Ждём дольше сервера (300 с), чтобы ответ не потерялся на пороге.
+        timeout: 310000,
       });
       const text = res.data?.text?.trim();
       if (text) {
@@ -235,7 +238,8 @@ export default function FormPage({ onSuccess, onBack, onAnalysis }) {
   const isRecording = recState === 'recording';
   const isTranscribing = recState === 'transcribing';
   const isDone = recState === 'done';
-  const micAvailable = !!(navigator.mediaDevices?.getUserMedia);
+  // Голос включает сервер (свой распознаватель в Москве), см. useVoiceInput.
+  const micAvailable = useVoiceInput();
 
   // Веб-гость (прямой заход на сайт вне VK/Telegram) не имеет личности — платная
   // расшифровка ему недоступна. Ведём в приложение VK, чтобы не абузили бесплатным
@@ -411,7 +415,8 @@ export default function FormPage({ onSuccess, onBack, onAnalysis }) {
             </div>
           </div>
 
-          {/* ── Табы: Текст / Голос ── */}
+          {/* ── Табы: Текст / Голос ── без голоса вкладка одна, переключатель не нужен */}
+          {micAvailable && (
           <div className="f-tabs" style={{ opacity: loading ? 0.5 : 1 }}>
             <button
               type="button"
@@ -422,18 +427,17 @@ export default function FormPage({ onSuccess, onBack, onAnalysis }) {
               <PencilSquareIcon className="f-tab__ico" />
               {t('form.tabText')}
             </button>
-            {micAvailable && (
-              <button
-                type="button"
-                className={`f-tab${activeTab === 'voice' ? ' f-tab--on' : ''}`}
-                onClick={() => setActiveTab('voice')}
-                disabled={loading}
-              >
-                <MicrophoneIcon className="f-tab__ico" />
-                {t('form.tabVoice')}
-              </button>
-            )}
+            <button
+              type="button"
+              className={`f-tab${activeTab === 'voice' ? ' f-tab--on' : ''}`}
+              onClick={() => setActiveTab('voice')}
+              disabled={loading}
+            >
+              <MicrophoneIcon className="f-tab__ico" />
+              {t('form.tabVoice')}
+            </button>
           </div>
+          )}
 
           {/* ── Текстовый ввод ── */}
           {activeTab === 'text' && (

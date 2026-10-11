@@ -1,6 +1,6 @@
 import { getPlatform } from '../platform.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 const sent = new Set();
 // Новый человек или вернувшийся — решается один раз при загрузке, до того как
 // онбординг поставит флаг: иначе «главная» и «форма» у новых и старых смешаны.

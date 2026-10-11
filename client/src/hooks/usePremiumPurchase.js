@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { authHeader } from '../platform.js';
-
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE, isStoreConfigured } from '../apiBase.js';
 
 // ─── App Store (приложение iOS) ───
 // Product ID в App Store Connect для наших SKU. Обратная карта — на сервере
@@ -17,13 +16,14 @@ const REVENUECAT_IOS_KEY = import.meta.env.VITE_REVENUECAT_IOS_KEY || '';
 
 // Плагин RevenueCat нативная часть Capacitor кладёт в window.Capacitor.Plugins.
 // Настраиваем один раз за запуск и сразу под нашим пользователем: вебхук узнаёт
-// покупателя по app_user_id 'apple:<sub>'.
+// покупателя по app_user_id 'apple:<sub>'. Если RevenueCat уже настроен при запуске
+// (apiBase.js спрашивал страну магазина) — входим под пользователем через logIn.
 let revenueCatUser = null;
 async function revenueCat(uid) {
   const plugin = window.Capacitor?.Plugins?.Purchases;
   if (!plugin || !REVENUECAT_IOS_KEY || !uid) throw new Error('store_unavailable');
   const appUserID = `apple:${uid}`;
-  if (!revenueCatUser) await plugin.configure({ apiKey: REVENUECAT_IOS_KEY, appUserID });
+  if (!revenueCatUser && !isStoreConfigured()) await plugin.configure({ apiKey: REVENUECAT_IOS_KEY, appUserID });
   else if (revenueCatUser !== appUserID) await plugin.logIn({ appUserID });
   revenueCatUser = appUserID;
   return plugin;

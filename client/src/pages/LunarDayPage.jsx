@@ -21,7 +21,7 @@ import { getUserId, providerCode, authHeader } from '../platform.js';
 import '../styles/lunarday.css';
 import { serverLang } from '../i18n/index.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 const PAGE = 50; // максимум, который отдаёт GET /api/user/:id/dreams
 
 

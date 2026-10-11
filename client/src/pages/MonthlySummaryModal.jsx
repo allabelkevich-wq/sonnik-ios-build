@@ -24,7 +24,7 @@ import { shareText } from '../utils/share.js';
 import { serverLang } from '../i18n/index.js';
 import '../styles/monthly.css';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 const DAY_MS = 86400000;
 // Порог, о котором говорит экран «мало снов». Сервер отдаёт ai_summary: null
 // пока снов нет вовсе; когда он начнёт отдавать null и при 1–2 снах, экран

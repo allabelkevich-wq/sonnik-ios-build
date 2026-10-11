@@ -21,6 +21,7 @@ import { getPlatform, isVkMobileNative, getVkParams } from './platform.js';
 import { useHideToast } from './components/Toast.jsx';
 import { pulse } from './utils/pulse.js';
 import { ensureMorningReminder } from './utils/reminders.js';
+import { API_BASE } from './apiBase.js';
 
 export default function App() {
   useTheme();
@@ -66,7 +67,7 @@ export default function App() {
       try {
         const ctrl = new AbortController();
         const kill = setTimeout(() => ctrl.abort(), 4000);
-        await fetch(`${import.meta.env.VITE_API_URL || ''}/health?t=${Date.now()}`,
+        await fetch(`${API_BASE}/health?t=${Date.now()}`,
           { cache: 'no-store', signal: ctrl.signal });
         clearTimeout(kill);
         return true;

@@ -22,7 +22,7 @@ import { getUserId, providerCode, authHeader } from '../platform.js';
 import '../styles/journal.css';
 import { serverLang } from '../i18n/index.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 const PAGE_SIZE = 10;
 // README: итоги лунного месяца собираются от трёх снов. 15 в макете — демо-данные.
 const GOAL = 3;

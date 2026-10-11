@@ -10,7 +10,7 @@ import '../styles/home.css';
 import { pulse } from '../utils/pulse.js';
 import { serverLang } from '../i18n/index.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 // Поиск городов через Photon API (все города мира)
 let _placesTimer = null;

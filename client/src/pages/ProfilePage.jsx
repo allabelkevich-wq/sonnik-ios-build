@@ -42,7 +42,7 @@ const AVATAR_MOON_PHASES = [0, 1, 2, 3, 4, 5, 6, 7];
 const SUPPORT_URL_VK = 'https://vk.me/club240008741';
 const SUPPORT_URL_TG = 'https://t.me/tot_sonnic_bot';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 // Признак «аккаунт удалён»: свои данные обезличены на сервере, но VK продолжает
 // отдавать имя и аватар в каждом запуске. Пока флаг стоит — не показываем их,

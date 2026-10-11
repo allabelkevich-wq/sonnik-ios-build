@@ -6,6 +6,7 @@ import {
   ExclamationTriangleIcon, MicrophoneIcon, PaperAirplaneIcon,
 } from '@heroicons/react/24/solid';
 import { getUserId, providerCode, getPlatform, authHeader, ORACLE_CHAT_KEY_PREFIX } from '../platform.js';
+import { useVoiceInput } from '../hooks/useVoiceInput.js';
 import Paywall from './Paywall.jsx';
 import { formatDayMonth } from '../utils/date.js';
 import RoundButton from '../components/RoundButton.jsx';
@@ -13,7 +14,7 @@ import Constellation from '../components/Constellation.jsx';
 import '../styles/oracle.css';
 import { serverLang } from '../i18n/index.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 // Лёгкий рендер Markdown: **жирный** → <strong>, чтобы в ответе оракула не
 // торчали звёздочки (отчёт Тамары). Остальной текст — как есть (pre-wrap).
@@ -232,7 +233,8 @@ export default function ChatPage({ dreamData, onBack }) {
             // Токен обязателен: транскрибация закрыта авторизацией (отчёт 7443497).
             // Без него оракул отвечал «не удалось записать голос» (отчёт 7444330).
             headers: { 'Content-Type': 'multipart/form-data', ...(await authHeader()) },
-            timeout: 60000,
+            // Свой распознаватель в Москве: минута речи — около минуты (см. FormPage).
+            timeout: 310000,
           });
           const text = res.data?.text?.trim();
           if (text) {
@@ -269,7 +271,8 @@ export default function ChatPage({ dreamData, onBack }) {
 
   const isRecording = recState === 'recording';
   const isTranscribing = recState === 'transcribing';
-  const micAvailable = !!(navigator.mediaDevices?.getUserMedia);
+  // Голос включает сервер (свой распознаватель в Москве), см. useVoiceInput.
+  const micAvailable = useVoiceInput();
 
   const dreamDate = dreamData?.created_at
     ? formatDayMonth(dreamData.created_at, i18n.language)

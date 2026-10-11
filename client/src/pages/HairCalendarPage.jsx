@@ -20,7 +20,7 @@ import { EPOCH } from '../utils/moon.js';
 import { serverLang } from '../i18n/index.js';
 import '../styles/calendar.css';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 // Фазы приходят строками бэкенда (MOON_PHASE_HAIR в server.js) — переводим их
 // через уже существующие ключи lunar.phases.{0..7} (индексы utils/moon.js).

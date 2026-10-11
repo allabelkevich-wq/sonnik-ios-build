@@ -18,7 +18,7 @@ import { useToast } from '../components/Toast.jsx';
 import { shareText } from '../utils/share.js';
 import '../styles/result.css';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 // Итоги лунного месяца собираются от трёх снов (README) — единственная
 // константа для фразы «Ещё N снов». Бэкенд числа снов за лунный месяц не
 // отдаёт, считаем от общего счётчика: для первых трёх это точно.

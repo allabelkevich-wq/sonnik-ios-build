@@ -6,7 +6,7 @@ import { useScrollLock } from '../hooks/useScrollLock.js';
 import { usePremiumPurchase } from '../hooks/usePremiumPurchase.js';
 import { pulsePay } from '../utils/pulse.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 // Порядок отображения пакетов Искр (выгодный — по центру, выделен).
 const ISKRY_PACK_ORDER = ['iskry_pack_80', 'iskry_pack_240', 'iskry_pack_600', 'iskry_pack_1200'];

@@ -64,6 +64,7 @@ jobs:
         # /api/... ушли бы в никуда. Направляем запросы на живой сервер.
         env:
           VITE_API_URL: https://sonnik-app.yupsoul.ru
+          VITE_API_URL_INTL: https://sonnik-intl.yupsoul.ru
           # Публичный ключ SDK RevenueCat для iOS (appl_…). Без него шторка скажет
           # «покупки недоступны»: собрать можно, выпускать в стор — нет.
           VITE_REVENUECAT_IOS_KEY: ${{ secrets.REVENUECAT_IOS_KEY }}
@@ -151,6 +152,7 @@ jobs:
       - name: Собрать клиент
         env:
           VITE_API_URL: https://sonnik-app.yupsoul.ru
+          VITE_API_URL_INTL: https://sonnik-intl.yupsoul.ru
           VITE_REVENUECAT_IOS_KEY: ${{ secrets.REVENUECAT_IOS_KEY }}
         run: npm run build:client
 

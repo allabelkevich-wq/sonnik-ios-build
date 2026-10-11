@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { BellAlertIcon } from '@heroicons/react/24/solid';
 import { getUserId, authHeader } from '../platform.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE } from '../apiBase.js';
 
 export default function VkNotifyAsk({ onDone }) {
   const { t } = useTranslation();
