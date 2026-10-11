@@ -38,7 +38,7 @@ concurrency:
 env:
   BUNDLE_ID: com.yupsoul.sonnik
   SCHEME: App
-  MARKETING_VERSION: 1.0.0
+  MARKETING_VERSION: 1.0.1
 
 jobs:
   validate:
